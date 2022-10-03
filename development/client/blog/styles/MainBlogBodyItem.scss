@@ -1,0 +1,30 @@
+.mainBlog_body__item {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media screen and ( max-width: 750px ) {
+        align-items: center;
+        min-width: 90%;
+        max-width: 90%;
+    }
+
+    .mainBlog_body__item___img {
+        @media screen and ( max-width: 750px ) {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        @media screen and ( min-width: 1025px ) and ( max-width: 1180px ) {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+}

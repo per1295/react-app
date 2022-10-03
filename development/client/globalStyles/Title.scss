@@ -1,0 +1,31 @@
+@import "../mixins.scss";
+
+.title {
+    position: relative;
+
+    .title_name {
+        display: block;
+        position: relative;
+        font-family: Montserrat, sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #60606e;
+        z-index: 2;
+
+        @media screen and ( max-width: 750px ) {
+            text-align: center;
+        }
+    }
+
+    .title_greenBlock {
+        @include greenBlock(67px, 21px) {
+            position: absolute;
+            z-index: 1;
+        };
+
+        @media screen and ( max-width: 750px ) {
+            left: calc(50% - 50px) !important;
+        }
+    }
+}

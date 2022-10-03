@@ -1,0 +1,29 @@
+.header_top {
+    margin-top: 43px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1140px;
+    width: 100%;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: none;
+        width: 95%;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        justify-content: space-around;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        justify-content: space-around;
+    }
+
+    .header_top__homelink {
+        font-family: Montserrat, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #60606e;
+        text-decoration: none;
+    }
+}

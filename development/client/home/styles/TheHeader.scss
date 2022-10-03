@@ -1,0 +1,18 @@
+.headerHome {
+    width: 100%;
+    height: 910px;
+    background: url("../images/background_header.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @media screen and ( max-width: 750px ) {
+        height: auto;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        height: auto;
+    }
+}

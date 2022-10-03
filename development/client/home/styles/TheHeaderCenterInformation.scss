@@ -1,0 +1,9 @@
+@import "../../mixins.scss";
+
+.header_center_information {
+    @include information();
+
+    @media screen and ( max-width: 750px ) {
+        width: 95%;
+    }
+}

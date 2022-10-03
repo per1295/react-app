@@ -1,0 +1,16 @@
+.mainAboutUs_thirdGroup__underTeam___text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: #60606e;
+
+    @media screen and ( max-width: 750px ) {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        margin-right: 20px;
+    }
+}

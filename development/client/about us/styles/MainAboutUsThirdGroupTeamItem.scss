@@ -1,0 +1,51 @@
+.mainAboutUs_thirdGroup__team___item {
+    position: relative;
+    cursor: pointer;
+
+    @media screen and ( max-width: 270px ) {
+        max-width: 95%;
+    }
+
+    .mainAboutUs_thirdGroup__team___item____img {
+        z-index: 2;
+        backface-visibility: hidden;
+        transition: transform .25s ease-out;
+
+        @media screen and ( max-width: 270px ) {
+            max-width: 100%;
+        }
+    }
+
+    .mainAboutUs_thirdGroup__team___item____imgActive {
+        transition: transform .25s ease-in;
+        transform: rotateY(180deg);
+    }
+
+    .mainAboutUs_thirdGroup__team___item____back {
+        transition: transform .25s ease-out, filter .25s ease-out;
+        transform: rotateY(-180deg);
+        filter: opacity(0);
+        backface-visibility: hidden;
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #7beec7;
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #ffffff;
+    }
+
+    .mainAboutUs_thirdGroup__team___item____backActive {
+        transition: transform .25s ease-in, filter .25s ease-in;
+        transform: rotateY(0deg);
+        filter: opacity(1);
+    }
+}

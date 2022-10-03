@@ -1,0 +1,16 @@
+.mainServices_firstGroup {
+    margin-top: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mainServices_firstGroup_titleOfGroup_title_greenBlock {
+        top: 16px;
+    }
+
+    .mainServices_firstGroup_titleOfGroup_information {
+        @media screen and ( max-width: 750px ) {
+            width: 80%;
+        }
+    }
+}

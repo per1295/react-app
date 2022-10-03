@@ -1,0 +1,16 @@
+.mainAboutUs_secondGroup {
+    margin-top: 163px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mainAboutUs_secondGroup_titleOfGroup_title_greenBlock {
+        top: 18px;
+    }
+
+    .mainAboutUs_secondGroup_titleOfGroup_information {
+        @media screen and ( max-width: 750px ) {
+            width: 95%;
+        }
+    }
+}

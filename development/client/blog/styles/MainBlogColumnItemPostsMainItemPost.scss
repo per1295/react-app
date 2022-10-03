@@ -1,0 +1,25 @@
+@import "../../mixins.scss";
+
+.item_post {
+    display: flex;
+    align-items: center;
+
+    .item_post__data {
+        margin-left: 15px;
+        display: flex;
+        flex-direction: column;
+        max-width: 114px;
+
+        .item_post__data___title {
+            @include title();
+        }
+
+        .item_post__data___dateCreation {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 12px;
+            line-height: 18px;
+            font-weight: 400;
+            color: #9a9a9a;
+        }
+    }
+}

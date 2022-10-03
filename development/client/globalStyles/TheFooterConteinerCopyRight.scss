@@ -1,0 +1,21 @@
+.footer_conteiner__copyRight {
+    margin-left: 224px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #9a9a9a;
+
+    @media screen and ( max-width: 750px ) {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        margin-left: 0;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        margin-left: 82px;
+    }
+}

@@ -1,0 +1,27 @@
+.mainBlog_column__item___posts____main_____item {
+    min-width: 100%;
+    max-height: 263px;
+    overflow-y: scroll;
+    display: flex;
+    row-gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    transition: transform .25s linear;
+    scrollbar-width: 0;
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+    }
+}

@@ -1,0 +1,25 @@
+.footer_conteiner__hrefs {
+    display: flex;
+    justify-content: space-between;
+    width: 573px;
+
+    @media screen and ( max-width: 750px ) {
+        width: auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .footer_conteiner__hrefs___dash, .footer_conteiner__hrefs___href {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #9a9a9a;
+    }
+    
+    .footer_conteiner__hrefs___href {
+        cursor: pointer;
+        text-decoration: none;
+    }
+}

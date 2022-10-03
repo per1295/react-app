@@ -1,0 +1,28 @@
+.mainBlog_body__item___comments____comment {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    padding: 10px 20px;
+    max-width: calc(100% - 46px);
+    opacity: 0;
+    border: 3px solid #7beec7;
+    transform: translateX(-20px);
+    transition: transform .25s ease-out, opacity .25s ease-out;
+
+    .mainBlog_body__item___comments____comment_____email, .mainBlog_body__item___comments____comment_____comment {
+        font-family: Montserrat, sans-serif;
+        word-wrap: break-word;
+        font-size: 12px;
+        line-height: 24px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #999999;
+    }
+}
+
+.mainBlog_body__item___comments____commentActive {
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform .25s ease-in, opacity .25s ease-in;
+}

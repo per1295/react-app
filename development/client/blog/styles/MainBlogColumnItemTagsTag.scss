@@ -1,0 +1,48 @@
+.mainBlog_column__item___tags____tag {
+    transition: color .25s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    background-color: #e5e5e5;
+    cursor: pointer;
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #999999;
+}
+
+.mainBlog_column__item___tags____tagActive {
+    transition: color .25s ease-in;
+    color: #7beec7;
+}
+
+.mainBlog_column__item___tags____tagCss {
+    min-width: 67px;
+}
+
+.mainBlog_column__item___tags____tagJavascript {
+    min-width: 99px;
+}
+
+.mainBlog_column__item___tags____tagJquery {
+    min-width: 88px;
+}
+
+.mainBlog_column__item___tags____tagHtml5 {
+    min-width: 77px;
+}
+
+.mainBlog_column__item___tags____tagBootstrap {
+    min-width: 103px;
+}
+
+.mainBlog_column__item___tags____tagGap {
+    flex-basis: 20%;
+
+    @media screen and ( max-width: 750px ) {
+        display: none;
+    }
+}

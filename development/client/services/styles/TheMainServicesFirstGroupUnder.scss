@@ -1,0 +1,23 @@
+.mainServices_firstGroup__under {
+    margin-top: 155px;
+    display: flex;
+    column-gap: 70px;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: 80%;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: space-around;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        column-gap: 20px;
+        row-gap: 20px;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1150px ) {
+        column-gap: 30px;
+    }
+}

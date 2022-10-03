@@ -1,0 +1,17 @@
+.mainAboutUs_thirdGroup {
+    margin-top: 151px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .mainAboutUs_thirdGroup_titleOfGroup_title_greenBlock {
+        top: 18px;
+        left: 3px;
+    }
+
+    .mainAboutUs_thirdGroup_titleOfGroup_information {
+        @media screen and ( max-width: 750px ) {
+            width: 95%;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+.category_item {
+    transition: transform .25s ease-in, opacity .25s ease-in;
+    will-change: opacity, transform;
+
+    @media screen and ( max-width: 750px ) {
+        width: 95%;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        width: 30%;
+    }
+}
+
+.category_itemVanish {
+    transition: transform .25s ease-out, opacity .25s ease-out;
+    transform: scale(0);
+    opacity: 0;
+}
+
+.category_itemVanishComplete {
+    display: none;
+}

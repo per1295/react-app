@@ -1,0 +1,39 @@
+@import "../../mixins.scss";
+
+.mainServices_firstGroup__main___left {
+    max-width: 550px;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: 80%;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1150px ) {
+        width: 40%;
+    }
+
+    .mainServices_firstGroup__main___left_information {
+        @include information(
+            $line-height: 30px,
+            $width: auto,
+            $margin: 0,
+            $text-align: left,
+            $font-size: 14px
+        );
+
+        @media screen and ( max-width: 750px ) {
+            text-align: center;
+        }
+    }
+}
+
+.wrapCheckboxes {
+    margin-top: 48px;
+    display: flex;
+    column-gap: 122px;
+
+    @media screen and ( max-width: 750px ) {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 30px;
+    }
+}

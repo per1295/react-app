@@ -1,0 +1,21 @@
+.mainAboutUs_thirdGroup__bottom___images {
+    margin-left: 32px;
+    max-width: 561px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+
+    @media screen and ( max-width: 750px ) {
+        margin-left: 0;
+        max-width: 95%;
+        gap: 30px 0;
+        flex-wrap: nowrap;
+        flex-direction: column;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        margin-left: 0;
+    }
+}

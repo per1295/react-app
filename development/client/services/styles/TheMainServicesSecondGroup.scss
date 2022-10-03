@@ -1,0 +1,14 @@
+.mainServices_secondGroup {
+    margin-top: 151px;
+
+    .mainServices_secondGroup_titleOfGroup_title_greenBlock {
+        top: 19px;
+        left: 3px;
+    }
+
+    .mainServices_secondGroup_titleOfGroup_information {
+        @media screen and ( max-width: 750px ) {
+            width: 80%;
+        }
+    }
+}

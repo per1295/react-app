@@ -1,0 +1,20 @@
+.checkboxLine {
+    display: flex;
+    align-items: center;
+
+    .checkboxLine_icon {
+        font-size: 14px;
+        font-weight: 400;
+        background-color: #7beec7;
+        color: #fff;
+
+    }
+
+    .checkboxLine_title {
+        margin-left: 9px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        color: #60606e;
+    }
+}

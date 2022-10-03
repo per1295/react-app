@@ -1,0 +1,52 @@
+@import "../../mixins.scss";
+
+.mainAboutUs_firstGroup__item {
+    max-width: 553px;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: 95%;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        flex-basis: 45%;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        flex-basis: 45%;
+    }
+
+    &:nth-child(2) {
+        margin-left: 34px;
+
+        @media screen and ( max-width: 750px ) {
+            margin-left: 0;
+        }
+
+        @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+            margin-left: 0;
+        }
+    }
+
+    .mainAboutUs_firstGroup__item_title_name {
+        line-height: 48px;
+    }
+
+    .mainAboutUs_firstGroup__item_title_greenBlock {
+        top: 23px;
+        left: -2px;
+    }
+
+    .mainAboutUs_firstGroup__item_information {
+        @include information(
+            $font-size: 14px,
+            $line-height: 30px,
+            $text-align: left,
+            $width: auto,
+            $margin: 25px 0 0 0
+        );
+
+        @media screen and ( max-width: 750px ) {
+            text-align: center;
+        }
+    }
+}

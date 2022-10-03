@@ -1,0 +1,27 @@
+@import "../../mixins.scss";
+
+.mainAboutUs_secondGroup__options___item {
+    max-width: 357px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        flex-basis: 45%;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        flex-basis: 30%;
+    }
+
+    .mainAboutUs_secondGroup__options___item_information {
+        @include information(
+            $font-size: 14px,
+            $line-height: 30px,
+            $text-align: left,
+            $width: auto,
+            $margin: 20px 0 0 0
+        )
+    }
+}

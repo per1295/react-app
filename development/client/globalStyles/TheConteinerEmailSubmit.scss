@@ -1,0 +1,15 @@
+@import "../mixins.scss";
+
+.conteiner_email__submit {
+    @include button(
+        $width: 135px,
+        $height: 50px,
+        $background-color: #7beec7,
+        $color: #ffffff,
+        $margin: 0
+    );
+
+    @media screen and ( max-width: 750px ) {
+        width: 30%;
+    }
+}

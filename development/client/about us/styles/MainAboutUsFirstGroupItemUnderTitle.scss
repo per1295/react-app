@@ -1,0 +1,14 @@
+.mainAboutUs_firstGroup__item___underTitle {
+    margin-top: 15px;
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #60606e;
+
+    @media screen and ( max-width: 750px ) {
+        text-align: center;
+    }
+}

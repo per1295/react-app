@@ -1,0 +1,16 @@
+.conteiner_title {
+    margin-left: 5px;
+    width: 340px;
+    font-family: Montserrat, sans-serif;
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #60606e;
+
+    @media screen and ( max-width: 750px ) {
+        margin-left: 0;
+        text-align: center;
+        width: 95%;
+    }
+}

@@ -1,0 +1,42 @@
+.mobileChanger {
+    display: none;
+
+    @media screen and ( max-width: 750px ) {
+        position: fixed;
+        bottom: calc(-100% - 80px);
+        left: 0;
+        right: 0;
+        padding: 40px 0;
+        transition: bottom .5s ease-out;
+        background-color: rgba(123, 238, 199, .5);;
+        display: flex;
+        justify-content: space-between;
+
+        .mobileChanger_blogArrow, .mobileChanger_columnArrow {
+            transition: color .25s ease-out;
+            font-size: 50px;
+            line-height: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #60606e;
+        }
+
+        .mobileChanger_blogArrow {
+            margin-left: 20px;
+        }
+
+        .mobileChanger_columnArrow {
+            margin-right: 20px;
+        }
+    
+        .mobileChanger_activeArrow {
+            transition: color .25s ease-in;
+            color: #ffffff;
+        }
+    }
+}
+
+.mobileChangerActive {
+    transition: bottom .5s ease-in;
+    bottom: 0;
+}

@@ -1,0 +1,12 @@
+.mainBlog_column__item___posts____line {
+    min-width: 100%;
+    height: 2px;
+    background-color: #e7e7e7;
+
+    .mainBlog_column__item___posts____line_____greenLine {
+        transition: transform .25s linear;
+        width: 33%;
+        height: 100%;
+        background-color: #7beec7;
+    }
+}

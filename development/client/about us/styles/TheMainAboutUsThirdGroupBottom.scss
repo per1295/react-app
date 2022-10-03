@@ -1,0 +1,24 @@
+.mainAboutUs_thirdGroup__bottom {
+    margin-top: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    @media screen and ( max-width: 750px ) {
+        flex-direction: column;
+        align-items: center;
+        row-gap: 30px;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: 40px;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 40px;
+    }
+}

@@ -1,0 +1,10 @@
+.mainAboutUs_thirdGroup__bottom___slider {
+    max-width: 551px;
+    overflow-x: hidden;
+    display: flex;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: 250px;
+        width: 95%;
+    }
+}

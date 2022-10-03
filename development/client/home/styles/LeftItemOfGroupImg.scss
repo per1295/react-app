@@ -1,0 +1,19 @@
+@for $id from 0 through 4 {
+    .itemOfGroup_icon_#{$id} {
+        @if $id == 0 {
+            margin-top: 7px;
+        } @else if $id == 3 {
+            margin-top: 2px;
+        }
+    }
+
+    .itemOfGroup_title_#{$id} {
+        @if $id == 0 {
+            margin: 26px 0 0 1px;
+        } @else if $id == 1 or $id == 2 {
+            margin: 19px 0 0 2px;
+        } @else if $id == 3 {
+            margin: 21px 0 0 6px;
+        }
+    }
+}

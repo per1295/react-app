@@ -1,0 +1,27 @@
+.message {
+    width: 471px;
+    margin: 35px 0 0 6px;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #999999;
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+
+    @media screen and ( max-width: 750px ) {
+        text-align: center;
+        width: 80%;
+    }
+}
+
+.messageActive {
+    display: block;
+}
+
+.messageStart {
+    transition: transform .25s ease-in, opacity .25s ease-in;
+    opacity: 1;
+    transform: translateX(0);
+}

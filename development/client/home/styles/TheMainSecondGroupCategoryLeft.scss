@@ -1,0 +1,17 @@
+.main_secondGroup__category___left {
+    width: 167px;
+
+    .main_secondGroup__category___left____title {
+        font-family: Montserrat, sans-serif;
+        font-size: 30px;
+        line-height: 48px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #60606e;
+
+        @media screen and ( max-width: 750px ) {
+            display: block;
+            text-align: center;
+        }
+    }
+}

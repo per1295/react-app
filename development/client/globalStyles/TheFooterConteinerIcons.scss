@@ -1,0 +1,37 @@
+$logos: "logo_facebook", "logo_twitter", "logo_youtube", "logo_linkedin", "logo_pinterest", "logo_instagram";
+
+.footer_conteiner__icons {
+    display: flex;
+    justify-content: space-between;
+    width: 175px;
+
+    .footer_conteiner__icons___icon {
+        display: flex !important;
+        font-size: 18px;
+        line-height: 48px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #999999;
+        cursor: pointer;
+        transition: color .25s ease-out;
+    }
+
+    @each $logo in $logos {
+        .#{$logo}Active {
+            transition: color .25s ease-in;
+            @if $logo == "logo_facebook" {
+                color: #4267b2;
+            } @else if $logo == "logo_twitter" {
+                color: #1da1f2;
+            } @else if $logo == "logo_youtube" {
+                color: #ff0000;
+            } @else if $logo == "logo_linkedin" {
+                color: #0a66c2;
+            } @else if $logo == "logo_pinterest" {
+                color: #e60023;
+            } @else if $logo == "logo_instagram" {
+                color: #c13584;
+            }
+        }
+    }
+}

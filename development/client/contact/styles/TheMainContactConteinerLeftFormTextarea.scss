@@ -1,0 +1,28 @@
+.mainContact_conteiner__left___form____textarea {
+    width: 534px;
+    height: 200px;
+    padding-left: 21px;
+    background-color: #fefcf9;
+    border: 1px solid rgba(0,0,0,0.09);
+    outline: none;
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cdcdcd;
+    resize: none;
+
+    @media screen and ( max-width: 750px ) {
+        width: calc(100% - 21px);
+    }
+
+    &::placeholder {
+        font-family: Montserrat, sans-serif;
+        font-size: 12px;
+        line-height: 48px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+}

@@ -1,0 +1,17 @@
+@import "../../mixins.scss";
+
+.header_down__button {
+    @include button() {
+        transform: translateX(15px);
+    }
+
+    @media screen and ( max-width: 750px ) {
+        transform: none;
+        align-self: auto;
+        margin: 27px 0 27px 0;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        margin: 0;
+    }
+}

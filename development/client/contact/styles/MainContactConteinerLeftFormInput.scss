@@ -1,0 +1,36 @@
+.mainContact_conteiner__left___input {
+    padding-left: 19px;
+    width: 244px;
+    height: 49px;
+    background-color: #fefcf9;
+    border: 1px solid rgba(0,0,0,0.09);
+    outline: none;
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cdcdcd;
+
+    @media screen and ( max-width: 750px ) {
+        width: calc(100% - 19px);
+    }
+
+    &::placeholder {
+        font-family: Montserrat, sans-serif;
+        font-size: 12px;
+        line-height: 48px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+}
+
+.mainContact_conteiner__left___inputLarge {
+    width: 535px;
+    padding-left: 20px;
+
+    @media screen and ( max-width: 750px ) {
+        width: calc(100% - 20px);
+    }
+}

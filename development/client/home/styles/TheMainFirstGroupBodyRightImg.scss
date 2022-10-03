@@ -1,0 +1,16 @@
+.main_firstGroup__body___rightImg {
+    margin: 25px 0 0 122px;
+
+    @media screen and ( max-width: 750px ) {
+        margin: 25px 0 0 0;
+        width: 95%;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        margin: 25px 0 0 0;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        margin: 25px 0 0 30px;
+    }
+}

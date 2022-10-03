@@ -1,0 +1,12 @@
+@import "../mixins.scss";
+
+.titleOfGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .information {
+        @include information(719px, 29px 0 0 0, $font-size: 14px)
+    }
+}

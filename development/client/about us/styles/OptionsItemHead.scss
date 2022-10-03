@@ -1,0 +1,31 @@
+.options_item__head {
+    display: flex;
+    align-items: center;
+
+    .options_item__head___icon {
+        width: 40px;
+        height: 40px;
+        background-color: #7beec7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .options_item__head___icon____content {
+            display: flex !important;
+            font-size: 30px;
+            line-height: 48px;
+            font-weight: 400;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+    }
+
+    .options_item__head___title {
+        margin-left: 20px;
+        font-family: Montserrat, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #60606e;
+    }
+}

@@ -1,0 +1,9 @@
+.conteiner_email {
+    display: flex;
+    margin-top: 21px;
+    transition: transform .25s ease-out, opacity .25s ease-out;
+
+    @media screen and ( max-width: 750px ) {
+        width: 95%;
+    }
+}

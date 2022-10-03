@@ -1,0 +1,12 @@
+.itemOfGroup_title {
+    font-family: Montserrat, sans-serif;
+    font-size: 18px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #60606e;
+
+    @media screen and ( max-width: 750px ) {
+        text-align: center;
+    }
+}

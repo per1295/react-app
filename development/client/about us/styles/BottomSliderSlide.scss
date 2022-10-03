@@ -1,0 +1,29 @@
+@import "../../mixins.scss";
+
+.bottom_slider__slide {
+    min-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: transform .25s linear;
+    user-select: none;
+
+    .bottom_slider__slide_information {
+        @include information(
+            $width: auto,
+            $margin: 23px 0 0 0,
+            $line-height: 30px,
+            $font-size: 14px
+        )
+    }
+
+    .bottom_slider__slide___button {
+        @include button(
+            $width: 99px,
+            $height: 29px,
+            $margin: 26px 0 0 0,
+            $align-self: auto
+        )
+    }
+}

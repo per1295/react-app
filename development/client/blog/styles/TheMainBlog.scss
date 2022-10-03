@@ -1,0 +1,21 @@
+.mainBlog {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    column-gap: 128px;
+
+    @media screen and ( max-width: 750px ) {
+        max-width: 100%;
+        overflow-x: hidden;
+        column-gap: 0;
+        justify-content: flex-start;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        column-gap: 30px;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1180px ) {
+        column-gap: 50px;
+    }
+}

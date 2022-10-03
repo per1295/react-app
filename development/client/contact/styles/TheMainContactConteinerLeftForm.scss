@@ -1,0 +1,33 @@
+@import "../../mixins.scss";
+
+.mainContact_conteiner__left___form {
+    max-width: 563px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 31px 29px;
+
+    @media screen and ( max-width: 750px ) {
+        width: 80%;
+        gap: 31px 0;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .mainContact_conteiner__left___form____button {
+        @include button(
+            $width: 165px,
+            $height: 50px,
+            $margin: 0,
+            $align-self: auto
+        );
+    }
+}
+
+.message_contact {
+    margin: 35px 0 0 0;
+    font-size: 36px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+}

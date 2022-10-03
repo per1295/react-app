@@ -1,0 +1,15 @@
+.conteiner_description {
+    width: 471px;
+    margin: 10px 0 0 6px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: #999999;
+
+    @media screen and ( max-width: 750px ) {
+        width: 95%;
+        margin: 10px 0 0 0;
+        text-align: center;
+    }
+}

@@ -1,0 +1,16 @@
+.mainBlog_column__item {
+    margin-top: 50px;
+
+    @media screen and ( max-width: 750px ) {
+        min-width: 90%;
+        max-width: 90%;
+    }
+
+    .mainBlog_column__item___title {
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #60606e;
+    }
+}

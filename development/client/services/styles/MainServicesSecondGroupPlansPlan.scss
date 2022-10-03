@@ -1,0 +1,93 @@
+@import "../../mixins.scss";
+
+.mainServices_secondGroup__plans___plan {
+    position: relative;
+    width: 360px;
+    transition: box-shadow .25s ease-out;
+    box-shadow: none;
+
+    @media screen and ( max-width: 750px ) {
+        width: 80%;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1150px ) {
+        width: auto;
+    }
+
+    .mainServices_secondGroup__plans___plan____greenLine {
+        min-width: 360px;
+        height: 5px;
+        background-color: #7beec7;
+
+        @media screen and ( max-width: 750px ) {
+            min-width: 100%;
+        }
+
+        @media screen and ( min-width: 1025px ) and ( max-width: 1150px ) {
+            min-width: 100%;
+        }
+    }
+
+    .mainServices_secondGroup__plans___plan____corner {
+        background: rgb(249,249,249);
+        background: linear-gradient(45deg, transparent 50%, rgba(137,239,204,1) 50%);
+        width: 15px;
+        height: 15px;
+        float: right;
+    }
+
+    .mainServices_secondGroup__plans___plan____conteiner {
+        margin: 20px 0 0 30px;
+
+        @media screen and ( max-width: 750px ) {
+            margin: 20px 0 0 15px;
+        }
+
+        .mainServices_secondGroup__plans___plan____conteiner_____title {
+            margin-left: 2px;
+            font-family: Montserrat, sans-serif;
+            font-size: 30px;
+            line-height: 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #60606e;
+        }
+
+        .mainServices_secondGroup__plans___plan____conteiner_____price {
+            margin-top: 17px;
+            width: 165px;
+            height: 30px;
+            background-color: #7beec7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Montserrat, sans-serif;
+            font-size: 14px;
+            line-height: 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        .mainServices_secondGroup__plans___plan____conteiner_____checkboxes {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            row-gap: 30px;
+        }
+
+        .mainServices_secondGroup__plans___plan____conteiner_____button {
+            @include button(
+                $height: 50px,
+                $width: 135px,
+                $margin: 52px 0 40px 0,
+                $align-self: auto
+            )
+        }
+    }
+}
+
+.mainServices_secondGroup__plans___planActive {
+    transition: box-shadow .25s ease-in;
+    box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.25);
+}

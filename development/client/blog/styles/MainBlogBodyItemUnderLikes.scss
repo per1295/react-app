@@ -1,0 +1,28 @@
+.mainBlog_body__item___under____likes {
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .mainBlog_body__item___under____likes_____like {
+        transition: color .25s ease-out;
+        font-size: 18px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+
+    .mainBlog_body__item___under____likes_____likeActive {
+        transform: color .25s ease-in;
+        color: red;
+    }
+
+    .mainBlog_body__item___under____likes_____countLikes {
+        margin-left: 8px;
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+}

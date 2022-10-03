@@ -1,0 +1,28 @@
+.conteiner_email__input {
+    padding: 0 0 0 19px;
+    margin: 0;
+    outline: none;
+    width: 356px;
+    height: 46px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0,0,0,0.09);
+    font-family: Montserrat, sans-serif;
+    font-size: 12px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #cdcdcd;
+
+    @media screen and ( max-width: 750px ) {
+        width: calc(70% - 19px);
+    }
+
+    &::placeholder {
+        font-family: Montserrat, sans-serif;
+        font-size: 12px;
+        line-height: 48px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #cdcdcd;
+    }
+}

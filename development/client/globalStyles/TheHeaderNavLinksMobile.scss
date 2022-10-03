@@ -1,0 +1,47 @@
+.header_navLinksMobile {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 25px 0 0 0;
+    width: 95%;
+    transform-origin: center top;
+    will-change: height, transform;
+
+    .header_navLinksMobile__item {
+        display: flex;
+        justify-content: center;
+        background-color: #7beec7;
+        transform: translateX(-20px);
+        opacity: 0;
+
+        &:not(:first-child) {
+            margin-top: 10px;
+        }
+
+        .header_navLinksMobile__item___href {
+            transition: color .25s ease-out;
+            width: 100%;
+            text-align: center;
+            font-family: Montserrat, sans-serif;
+            font-size: 18px;
+            line-height: 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #cdcdcd;
+            text-decoration: none;
+
+            &:active {
+                transition: color .25s ease-in;
+                color: #ffffff;
+            }
+        }
+    
+        .header_navLinksMobile__item___hrefActive {
+            color: #60606e;
+        }
+    }
+}
+
+.header_navLinksMobileStart {
+    display: block;
+}

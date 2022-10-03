@@ -1,0 +1,14 @@
+.bottom_slideButtons__button {
+    width: 16px;
+    height: 5px;
+    background-color: #60606e;
+    cursor: pointer;
+    transition: width .25s ease-out, background-color .25s ease-out;
+    will-change: background-color;
+}
+
+.bottom_slideButtons__buttonAcvive {
+    width: 31px;
+    background-color: #7beec7;
+    transition: width .25s ease-in, background-color .25s ease-in;
+}

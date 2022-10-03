@@ -1,0 +1,23 @@
+.main_firstGroup {
+    margin-top: 149px;
+
+    .main_firstGroup_titleOfGroup_information {
+        @media screen and ( max-width: 750px ) {
+            width: 95%;
+        }
+
+        @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+            width: 95%;
+            max-width: 719px;
+        }
+
+        @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+            width: 100%;
+        }
+    }
+
+    .main_firstGroup_titleOfGroup_title_greenBlock {
+        top: 18px;
+        left: 2px;
+    }
+}

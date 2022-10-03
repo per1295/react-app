@@ -1,0 +1,17 @@
+.mainAboutUs_thirdGroup__bottom___images____conteinerImage {
+    width: 165px;
+    height: 100px;
+    background-color: rgba(96,96,110,0.0);
+    border: 1px solid rgba(0,0,0,0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color .25s ease-out;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.mainAboutUs_thirdGroup__bottom___images____conteinerImageActive {
+    transition: background-color .25s ease-in;
+    background-color: #7beec7;
+}

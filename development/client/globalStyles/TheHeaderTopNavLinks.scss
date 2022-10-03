@@ -1,0 +1,45 @@
+.header_top__navLinks {
+    display: flex;
+    transition: transform .25s ease-out;
+    transform: scaleX(0);
+    transform-origin: left center;
+
+    .header_top__navLinks___link {
+        transition: color .25s ease-out, opacity .25s ease-out, transform .25s ease-out;
+        opacity: 0;
+        transform: translateX(20px);
+        font-family: Montserrat, sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #9a9a9a;
+        cursor: pointer;
+        text-decoration: none;
+
+        &:not(:first-child) {
+            margin-left: 20px;
+        }
+
+        &:last-child {
+            margin-right: 20px;
+        }
+    }
+
+    .header_top__navLinks___linkActive {
+        color: #60606e;
+    }
+
+    .header_top__navLinks___linkEnter {
+        color: #7beec7;
+    }
+
+    .header_top__navLinks___linkAppear {
+        opacity: 1;
+        transform: translateX(0); 
+    }
+}
+
+.header_top__navLinksActive {
+    transition: transform .25s ease-in;
+    transform: scaleX(1);
+}

@@ -1,0 +1,26 @@
+.mainBlog_body__item___readMore {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #60606e;
+    cursor: pointer;
+
+    .mainBlog_body__item___readMore____text {
+        line-height: 24px;
+    }
+
+    .mainBlog_body__item___readMore____arrow {
+        margin-left: 5px;
+        transition: transform .25s ease-out;
+        font-weight: 400;
+    }
+
+    .mainBlog_body__item___readMore____arrowActive {
+        transition: transform .25s ease-in;
+        transform: rotateZ(90deg);
+    }
+}

@@ -1,0 +1,28 @@
+.mainBlog_body__item___writeComment {
+    display: none;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: transform .25s ease-out, opacity .25s ease-out;
+    margin-top: 20px;
+    justify-content: flex-start;
+    align-items: center;
+
+    .mainBlog_body__item___writeComment____submit {
+        cursor: pointer;
+        margin-left: 20px;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        font-size: 32px;
+    }
+}
+
+.mainBlog_body__item___writeCommentVisible {
+    display: flex;
+}
+
+.mainBlog_body__item___writeCommentActive {
+    transition: transform .25s ease-in, opacity .25s ease-in;
+    transform: translateX(0);
+    opacity: 1;
+}

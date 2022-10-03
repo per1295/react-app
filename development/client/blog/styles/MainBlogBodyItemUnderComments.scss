@@ -1,0 +1,23 @@
+.mainBlog_body__item___under____comments {
+    margin-left: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .mainBlog_body__item___under____comments_____comment {
+        transform: rotateY(180deg);
+        font-size: 18px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+
+    .mainBlog_body__item___under____comments_____countComments {
+        margin-left: 8px;
+        font-family: Montserrat, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+        color: #cccccc;
+    }
+}

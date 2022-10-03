@@ -1,0 +1,13 @@
+.greenActive, .whiteActive {
+    transition: color .25s ease-in, background-color .25s ease-in !important;
+}
+
+.greenActive {
+    color: #7beec7 !important;
+    background-color: #ffffff !important;
+}
+
+.whiteActive {
+    color: #ffffff !important;
+    background-color: #7beec7 !important;
+}

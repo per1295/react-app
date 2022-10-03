@@ -1,0 +1,13 @@
+.mainBlog_body__item___under {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    @media screen and ( max-width: 310px ) {
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 10px 20px;
+        justify-content: center;
+    }
+}
