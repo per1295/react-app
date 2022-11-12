@@ -1,0 +1,6 @@
+node_modules
+.gitignore
+.git
+package-lock.json
+docs
+coverage

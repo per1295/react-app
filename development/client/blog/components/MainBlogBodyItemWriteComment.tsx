@@ -4,7 +4,6 @@ import MainBlogBodyItemWriteCommentCommentInput from "./MainBlogBodyItemWriteCom
 import IonIcon from "@reacticons/ionicons";
 import { useCommentVisible, useNowUser, useBlogData, useIdOfBlog, useFetch } from "../../customHooks";
 import { Response } from "../../../server/constructors";
-import { getBaseURL } from "../../functions";
 
 export default function MainBlogBodyItemWriteComment() {
     const { isCommentVisible } = useCommentVisible();
@@ -14,22 +13,19 @@ export default function MainBlogBodyItemWriteComment() {
     const { blogData, setBlogData } = useBlogData(id);
     const { comments, countComments } = blogData;
 
-    const writeCommentURL = `${getBaseURL()}/blog/blogs?idOfBlog=${id}&typeUpdate=comments`
+    const writeCommentURL = `/blog/blogs?id=${id}&typeUpdate=comments`
     const fetch = useFetch<Response>(writeCommentURL, "json", {
-        method: "PUT",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ comments, countComments })
     });
 
-    async function putComments() {
-        const response = await fetch();
-        if ( response ) console.log(response.message);
-    }
+    const patchComments = async () => await fetch();
 
     useEffect(() => {
-        putComments();
+        patchComments();
     }, [ comments, countComments ]);
 
     const writeCommentDisappear = ( event: TransitionEvent ) => {

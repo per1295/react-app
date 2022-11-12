@@ -27,6 +27,10 @@
         &::placeholder {
             @extend .mainBlog_column__search___input;
         }
+
+        &::-webkit-calendar-picker-indicator {
+            display: none;
+        }
     }
 
     .mainBlog_column__search___icon {

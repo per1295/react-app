@@ -2,15 +2,14 @@ import React, { useRef, FormEventHandler, EventHandler, MouseEvent } from "react
 import IonIcon from "@reacticons/ionicons";
 import "../styles/TheMainBlogColumnSearch.scss";
 import { useDatalist, useFetch, useInputValidation } from "../../customHooks";
-import { getBaseURL } from "../../functions";
 
 export default function TheMainBlogColumnSearch() {
 	const inputRef = useRef<HTMLInputElement>(null);
-	const datalist = useDatalist("searchInput");
+	const datalist = useDatalist("search-input");
 
-	const baseURL = getBaseURL(), path = encodeURI("/blog/searchInput");
 	const { value, error } = useInputValidation(inputRef);
-	const fetch = useFetch<Response>(`${baseURL}${path}`, "json", {
+
+	const fetch = useFetch<Response>("/blog/searchInput", "json", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
@@ -24,25 +23,21 @@ export default function TheMainBlogColumnSearch() {
 	};
 
 	const clickIcon: EventHandler<MouseEvent> = async (event) => {
-		const input = inputRef.current as HTMLInputElement;
-		const form = input.parentElement as HTMLFormElement;
 		event.stopPropagation();
-		const response = await fetch();
-		if ( response ) console.log(response);
+		await fetch();
 	};
 
 	const submitForm: FormEventHandler<HTMLFormElement> = async event => {
 		event.preventDefault();
-		if ( error ) return;
-		const response = await fetch();
-		if ( response ) console.log(response);
+		if ( error && !value ) return;
+		await fetch();
 	};
 
 	return (
 		<form method="post" className="mainBlog_column__search" onClick={clickForm} onSubmit={submitForm}>
 			<input
 			ref={inputRef}
-			list="searchInput"
+			list="search-input"
 			type="text"
 			name="searchInput"
 			id="searchInput"

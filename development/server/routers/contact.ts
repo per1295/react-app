@@ -2,8 +2,7 @@ import { Router, json } from "express";
 import { IContactData } from "../types/contact";
 import { IAppLocals } from "../types/home";
 import { ContactData } from "../mongoose/contact";
-import { Response } from "../constructors";
-import { optionsCookie } from "../functions";
+import { createResponse } from "../functions";
 
 const jsonParser = json();
 const contact = Router();
@@ -12,23 +11,21 @@ const BASIC_PATH = encodeURI("/contact us");
 contact.post("/user", jsonParser, async (req, res) => {
     try {
         const { name, email, object, message } = req.body as IContactData;
-        const { transport, PORT, emailResponser } = req.app.locals as IAppLocals;
+        const { transport, PORT, emailResponser, cookieOptions } = req.app.locals as IAppLocals;
         let existUser = await ContactData.findOne({ email });
 
         if ( existUser ) {
             return res
-                    .cookie("id", existUser.id, optionsCookie())
-                    .cookie("name", existUser.name, optionsCookie())
-                    .cookie("email", existUser.email, optionsCookie())
-                    .cookie("object", existUser.object, optionsCookie())
-                    .cookie("message", existUser.message, optionsCookie())
-                    .cookie("isVerified", existUser.isVerified, optionsCookie())
-                    .json(
-                        new Response({
-                            status: "success",
-                            message: existUser.isVerified ? "This user already exist" : "This user needs verification"
-                        })
-                    );
+            .cookie("id", existUser.id, cookieOptions)
+            .cookie("name", existUser.name, cookieOptions)
+            .cookie("email", existUser.email, cookieOptions)
+            .cookie("object", existUser.object, cookieOptions)
+            .cookie("message", existUser.message, cookieOptions)
+            .cookie("isVerified", existUser.isVerified, cookieOptions)
+            .json(createResponse({
+                status: "success",
+                message: existUser.isVerified ? "This user already exist" : "This user needs verification"
+            }));
         }
 
         const randomId = Math.floor(Math.random() * 1e6);
@@ -57,34 +54,33 @@ contact.post("/user", jsonParser, async (req, res) => {
         });
 
         res
-            .cookie("id", user.id, optionsCookie())
-            .cookie("name", user.name, optionsCookie())
-            .cookie("email", user.email, optionsCookie())
-            .cookie("object", user.object, optionsCookie())
-            .cookie("message", user.message, optionsCookie())
-            .cookie("isVerified", false, optionsCookie())
-            .json(
-                new Response({
-                    status: "success",
-                    message: "Confirm your data by email"
-                })
-            );
+        .cookie("id", user.id, cookieOptions)
+        .cookie("name", user.name, cookieOptions)
+        .cookie("email", user.email, cookieOptions)
+        .cookie("object", user.object, cookieOptions)
+        .cookie("message", user.message, cookieOptions)
+        .cookie("isVerified", false, cookieOptions)
+        .json(createResponse({
+            status: "success",
+            message: "Confirm your data by email"
+        }));
     } catch (error) {
         const err = error as Error;
         console.error(`${err.name}: ${err.message}`);
-        res.status(404).json(
-            new Response({
-                status: "fail",
-                message: "Unknown error"
-            })
-        );
+        res.status(404).json(createResponse({
+            status: "fail",
+            message: "Unknown error"
+        }));
     }
 
 });
 
 contact.get("/confirmUser/:idUser", async (req, res) => {
     const { idUser } = req.params;
+    const { cookieOptions } = req.app.locals as IAppLocals;
+
     let user = await ContactData.findOne({ id: idUser });
+
     if ( !user ) {
         return res.send(`
             <h1>
@@ -96,8 +92,8 @@ contact.get("/confirmUser/:idUser", async (req, res) => {
     user = await user.save();
 
     res
-        .clearCookie("isVerified", optionsCookie())
-        .cookie("isVerified", true, optionsCookie())
+        .clearCookie("isVerified", cookieOptions)
+        .cookie("isVerified", true, cookieOptions)
         .send(`
             <h1>
                 Your email has been successfully verified

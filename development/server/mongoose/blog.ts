@@ -3,26 +3,34 @@ import { IEmailData } from "../types/home";
 import { ISearchInputSchema, IColumnPostSchema, IBlog, IEmailDataComment } from "../types/blog";
 
 const searchInputSchema = new Schema<ISearchInputSchema>({
+    id: {
+        type: Number,
+        reuired: true
+    },
     values: {
         type: [ String ],
         required: true
     }
 }, {
-    collection: "searchValue"
+    collection: "searchValues"
 });
 
 export const SearchInput = model("searchValue", searchInputSchema);
 
 const columnPostSchema = new Schema<IColumnPostSchema>({
+    id: {
+        type: Number,
+        required: true
+    },
     title: {
         type: String,
         required: true
     },
-    dateCreation: {
+    dateOfCreation: {
         type: String,
         required: true
     },
-    imgURL: {
+    img: {
         type: String,
         required: true
     }
@@ -63,11 +71,11 @@ const emailDataCommentSchema = new Schema<IEmailDataComment>({
 });
 
 const blogsSchema = new Schema<IBlog>({
-    idOfBlog: {
+    id: {
         type: Number,
         requred: true
     },
-    imgURL: {
+    img: {
         type: String,
         required: true
     },
@@ -79,7 +87,7 @@ const blogsSchema = new Schema<IBlog>({
         type: Number,
         required: true
     },
-    dateCreation: {
+    dateOfCreation: {
         type: String,
         required: true
     },

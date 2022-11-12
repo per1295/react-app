@@ -44,6 +44,17 @@ const setOnDocument = () => store.dispatch( setIsOnDocumentTrue() );
 
 window.addEventListener("pointerdown", setOnDocument);
 
+async function registerServiceWorker() {
+    if ( "serviceWorker" in navigator ) {
+        if ( !/^https/.test(location.protocol) && location.hostname !== "localhost" ) return;
+        const registration = await navigator.serviceWorker.getRegistration("/");
+        if ( registration ) await registration.update();
+        else await navigator.serviceWorker.register("/sw.js", { scope: "/" });
+    }
+}
+
+registerServiceWorker();
+
 const root = document.getElementById("root") as HTMLDivElement;
 
 hydrateRoot(

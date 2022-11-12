@@ -4,7 +4,6 @@ import "../styles/MainBlogColumnItemPostsMainItem.scss";
 import MainBlogColumnItemPostsMainItemPost from "./MainBlogColumnItemPostsMainItemPost";
 import MainBlogColumnItemPostsMainItemComments from "./MainBlogColumnItemPostsMainItemComments";
 import { useFetch } from "../../customHooks";
-import { getBaseURL } from "../../functions";
 import { Response } from "../../../server/constructors";
 
 export interface MainBlogColumnItemPostsMainItemProps {
@@ -13,17 +12,16 @@ export interface MainBlogColumnItemPostsMainItemProps {
 }
 
 export interface PostData {
-    _id: string;
+    id: number;
     title: string;
     dateCreation: string;
-    imgURL: string;
+    img: string;
 }
 
 const MainBlogColumnItemPostsMainItem: FunctionComponent<MainBlogColumnItemPostsMainItemProps> = ({ category, ownCategory }) => {
-    const baseURL = getBaseURL(), path = encodeURI("/blog/columnPosts");
-    const columnPostsURL = `${baseURL}${path}`;
+    const path = encodeURI("/blog/columnPosts");
 
-    const fetch = useFetch<Response>(columnPostsURL, "json");
+    const fetch = useFetch<Response>(path, "json");
     const [ columnPosts, setColumnPosts ] = useState<PostData[]>([]);
     const postsItemRef = useRef<HTMLDivElement>(null);
 
@@ -48,7 +46,7 @@ const MainBlogColumnItemPostsMainItem: FunctionComponent<MainBlogColumnItemPosts
         if ( ownCategory !== "comments" && category === ownCategory ) {
             const response = await fetch();
             if ( response ) {
-                const newColumnPosts = JSON.parse(response.message) as PostData[];
+                const newColumnPosts = response.message as PostData[];
                 setColumnPosts(newColumnPosts.concat(newColumnPosts));
             }
         }

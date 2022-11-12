@@ -11,7 +11,7 @@ export default function TheHeaderTopMenuNavLinks() {
     const timeoutsRef = useRef<Set<NodeJS.Timeout>>(new Set());
     const location = useLocation();
 
-    const navLinksArray = [ "Home", "about us", "services", "portfolio", "blog", "contact us" ];
+    const navLinksArray = [ "Home", "about us", "services", "blog", "contact us" ];
 
     useEffect(() => {
         return () => {

@@ -8,16 +8,16 @@ export interface IEmailData {
 
 export interface IResponse {
     status: "success" | "fail";
-    message: string;
+    message: any;
+}
+
+interface ICookieOptions {
+    expires: Date;
 }
 
 export interface IAppLocals {
     transport: Transporter<any>;
     emailResponser: string;
     PORT: string | number;
-}
-
-export interface IOptionsCookie {
-    maxAge: number;
-    path: string;
+    cookieOptions: ICookieOptions;
 }

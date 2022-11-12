@@ -18,6 +18,12 @@ const App = () => {
     useEffect(() => {
         const { pathname } = location;
         if ( pathname === "/" ) navigate("/home");
+
+        if ( pathname !== "/" ) {
+            let titleArray = pathname.replace(/^\//, "").split("");
+            titleArray[0] = titleArray[0].toUpperCase();
+            document.title = decodeURIComponent(titleArray.join(""));
+        }
     }, [ location ]);
 
     const paths = [ "home", "about us", "services", "contact us", "blog" ];

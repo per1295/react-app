@@ -8,11 +8,11 @@ interface MainBlogColumnItemPostsMainItemPostProps {
 }
 
 const MainBlogColumnItemPostsMainItemPost: FunctionComponent<MainBlogColumnItemPostsMainItemPostProps> = ({ postData }) => {
-    const { title, dateCreation, imgURL } = postData;
+    const { title, dateCreation, img } = postData;
 
     return(
         <div className="item_post">
-            <Img src={imgURL} alt="columnPost_img" className="item_post__img"/>
+            <Img src={img} alt="columnPost_img" className="item_post__img"/>
             <div className="item_post__data">
                 <span className="item_post__data___title">
                     { title }

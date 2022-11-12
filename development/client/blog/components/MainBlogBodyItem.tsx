@@ -35,7 +35,7 @@ export const CommentVisibleContext = createContext<ICommentVisibileContext>(comm
 
 const MainBlogBodyItem: FunctionComponent<IBlogItems> = ({ id }) => {
     const { blogData } = useBlogData(id);
-    const { imgURL } = blogData;
+    const { img } = blogData;
     const [ isReadMore, setIsReadMore ] = useState(false);
 
     const [ comment, setComment ] = useState("");
@@ -49,7 +49,7 @@ const MainBlogBodyItem: FunctionComponent<IBlogItems> = ({ id }) => {
             <CommentContext.Provider value={commentContext}>
                 <CommentVisibleContext.Provider value={commentVisibleContext}>
                     <div className="mainBlog_body__item">
-                        <Img src={imgURL} alt="img_Blog" className="mainBlog_body__item___img"/>
+                        <Img src={img} alt="img_Blog" className="mainBlog_body__item___img"/>
                         <MainBlogBodyItemUnder/>
                         <MainBlogBodyItemWriteComment/>
                         <MainBlogBodyItemTitle/>

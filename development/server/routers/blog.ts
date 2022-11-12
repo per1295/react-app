@@ -1,8 +1,9 @@
 import { Router, json } from "express";
 import { IBlog, ISearchInput, ISearchInputSchema, IGetBlogsQuery, IPutBlogsQuery } from '../types/blog';
 import { SearchInput, ColumnPost, Blogs } from "../mongoose/blog";
-import { Response } from "../constructors";
-import { Document, Types } from "mongoose";
+import type { Document, Types } from "mongoose";
+import type { IAppLocals } from "../types/home";
+import { createResponse } from "../functions";
 
 const jsonParser = json();
 const blog = Router();
@@ -10,6 +11,8 @@ const blog = Router();
 blog.post("/searchInput", jsonParser, async (req, res) => {
     try {
         const { value } = req.body as ISearchInput;
+        const { cookieOptions } = req.app.locals as IAppLocals;
+
         const searchInput = await SearchInput.findOne({});
         let newSearchInput: (Document<unknown, any, ISearchInputSchema> & ISearchInputSchema & {
             _id: Types.ObjectId;
@@ -24,13 +27,11 @@ blog.post("/searchInput", jsonParser, async (req, res) => {
         };
         
         res
-            .cookie("searchInput", newSearchInput.values.join(" "), { maxAge: 3.6e6, path: "/" })
-            .json(
-                new Response({
-                    status: "success",
-                    message: "Your search is saved"
-                })
-            );
+            .cookie("search-input", newSearchInput.values.join("_"), cookieOptions)
+            .json(createResponse({
+                status: "success",
+                message: "Your search is saved"
+            }));
     } catch (error) {
         const err = error as Error;
         console.log(`${err.name}: ${err.message}`);
@@ -40,12 +41,10 @@ blog.post("/searchInput", jsonParser, async (req, res) => {
 blog.get("/columnPosts", async (_req, res) => {
     try {
         const columnPosts = await ColumnPost.find({}, { _id: 0 });
-        res.json(
-            new Response({
-                status: "success",
-                message: JSON.stringify(columnPosts)
-            })
-        );
+        res.json(createResponse({
+            status: "success",
+            message: columnPosts
+        }));
     } catch (error) {
         const err = error as Error;
         console.log(`${err.name}: ${err.message}`);
@@ -55,48 +54,60 @@ blog.get("/columnPosts", async (_req, res) => {
 blog.route("/blogs")
     .get(async (req, res) => {
         try {
-            const { startId, endId } = req.query as unknown as IGetBlogsQuery;
-            const blogs = await Blogs
-            .find({}, { _id: 0 })
-            .where("idOfBlog").gte(+startId).lte(+endId)
-            .limit(3)
-            .sort({ idOfBlog: "asc" });
+            let { lastId } = req.query as unknown as IGetBlogsQuery;
+            let blogs: Document<unknown, any, IBlog>[];
 
-            if ( blogs.length === 0 ) return res.json(
-                new Response({
-                    status: "success",
-                    message: "No blogs for now"
+            if ( lastId ) {
+                blogs = await Blogs
+                .find({}, { _id: false })
+                .where("id")
+                .lt(+lastId)
+                .sort({
+                    id: -1
                 })
-            );
+                .limit(3);
 
-            res.json(
-                new Response({
-                    status: "success",
-                    message: JSON.stringify(blogs)
+                if ( blogs.length === 0 ) {
+                    return res.json(createResponse({
+                        status: "success",
+                        message: "No more blogs for now"
+                    }));
+                }
+            } else {
+                blogs = await Blogs
+                .find({}, { _id: false })
+                .sort({
+                    id: -1
                 })
-            );
+                .limit(3);
+            }
+
+            lastId = blogs.at(-1)?.get("id");
+
+            res.json(createResponse({
+                status: "success",
+                message: { blogs, lastId }
+            }));
         } catch (error) {
             const err = error as Error;
             console.log(`${err.name}: ${err.message}`);
         }
     })
-    .put(jsonParser, async (req, res) => {
+    .patch(jsonParser, async (req, res) => {
         try {
-            let { idOfBlog, typeUpdate } = req.query as unknown as IPutBlogsQuery;
+            let { id, typeUpdate } = req.query as unknown as IPutBlogsQuery;
             const {
                 comments,
                 countComments,
                 countLikes,
                 usersWhoLiked
             } = req.body as Pick<IBlog, "comments" | "countComments" | "countLikes" | "usersWhoLiked">;
-            const blog = await Blogs.findOne({ idOfBlog: +idOfBlog });
+            const blog = await Blogs.findOne({ id: +id });
             if ( !blog ) {
-                return res.status(404).json(
-                    new Response({
-                        status: "fail",
-                        message: "Wrong idOfBlog"
-                    })
-                );
+                return res.status(404).json(createResponse({
+                    status: "fail",
+                    message: "Wrong idOfBlog"
+                }));
             }
 
             switch(typeUpdate) {
@@ -104,42 +115,34 @@ blog.route("/blogs")
                     blog.comments = comments;
                     blog.countComments = countComments;
                     await blog.save();
-                    res.json(
-                        new Response({
-                            status: "success",
-                            message: "Comments were saved"
-                        })
-                    );
+                    res.json(createResponse({
+                        status: "success",
+                        message: "Comments were saved"
+                    }));
                     break;
                 case "likes":
                     blog.countLikes = +countLikes;
                     blog.usersWhoLiked = usersWhoLiked;
                     await blog.save();
-                    res.json(
-                        new Response({
-                            status: "success",
-                            message: "Likes were saved"
-                        })
-                    )
+                    res.json(createResponse({
+                        status: "success",
+                        message: "Likes were saved"
+                    }));
                     break;
                 default:
-                    res.status(404).json(
-                        new Response({
-                            status: "fail",
-                            message: "Wrong update type"
-                        })
-                    )
+                    res.status(404).json(createResponse({
+                        status: "fail",
+                        message: "Wrong update type"
+                    }));
                     break;
             }
         } catch (error) {
             const errorTyped = error as Error;
             console.error(`${errorTyped.name}: ${errorTyped.message}`);
-            res.status(404).json(
-                new Response({
-                    status: "fail",
-                    message: "Unknown error"
-                })
-            );
+            res.status(404).json(createResponse({
+                status: "fail",
+                message: "Unknown error"
+            }));
         }
     });
 

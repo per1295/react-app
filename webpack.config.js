@@ -3,12 +3,12 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { resolve } = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 
-const config = (env, type = "client") => ({
+const frontendConfig = (env) => ({
     entry: {
-        index: `./development/${type}/index.tsx`
+        index: "./development/client/index.tsx"
     },
     output: {
-        path: resolve(__dirname, `dist/${type}`),
+        path: resolve(__dirname, "dist/client"),
         publicPath: "/",
         filename: "[name].js"
     },
@@ -50,6 +50,112 @@ const config = (env, type = "client") => ({
                 generator: {
                     filename: "images/[name][ext]"
                 }
+            },
+            {
+                test: /\.json$/,
+                type: "asset/source",
+                generator: {
+                    filename: "mongodb/[name][ext]"
+                },
+                exclude: /[\\/]node_modules[\\/]/
+            }
+        ]
+    },
+    optimization: {
+        runtimeChunk: true,
+        splitChunks: {
+            chunks: "all",
+            cacheGroups: {
+                react: {
+                    name: "react",
+                    filename: "[name].bundle.js",
+                    test: /[\\/]node_modules[\\/]react[\\/]/
+                },
+                redux_toolkit: {
+                    name: "redux_toolkit",
+                    filename: "[name].bundle.js",
+                    test: /[\\/]node_modules[\\/]@reduxjs|react-redux|redux|redux-thunk[\\/]/
+                },
+            }
+        }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: "index.css"
+        }),
+        new CleanWebpackPlugin(),
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: "./development/client/icons/icon.png",
+                    to: "."
+                },
+                {
+                    from: "./manifest.json",
+                    to: "."
+                }
+            ]
+        })
+    ],
+    mode: env.NODE_ENV || "development",
+    target: "web"
+});
+
+const serverConfig = (env) => ({
+    entry: {
+        index: "./development/server/index.ts"
+    },
+    output: {
+        path: resolve(__dirname, "dist/server"),
+        publicPath: "/",
+        filename: "[name].js"
+    },
+    resolve: {
+        extensions: [ ".tsx", ".ts", ".js", ".jsm" ]
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                enforce: "pre",
+                use: [ "source-map-loader" ]
+            },
+            {
+                test: /\.tsx?$/,
+                use: [
+                    "babel-loader",
+                    "ts-loader"
+                ]
+            },
+            {
+                test: /\.s[ac]ss$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    "sass-loader"
+                ]
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader"
+                ]
+            },
+            {
+                test: /\.(gif|png|jpeg)$/,
+                type: "asset/resource",
+                generator: {
+                    filename: "images/[name][ext]"
+                }
+            },
+            {
+                test: /\.json$/,
+                type: "asset/source",
+                generator: {
+                    filename: "mongodb/[name][ext]"
+                },
+                exclude: /[\\/]node_modules[\\/]/
             }
         ]
     },
@@ -87,7 +193,9 @@ const config = (env, type = "client") => ({
         }
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "index.css"
+        }),
         new CleanWebpackPlugin(),
         new CopyPlugin({
             patterns: [
@@ -99,7 +207,49 @@ const config = (env, type = "client") => ({
         })
     ],
     mode: env.NODE_ENV || "development",
-    target: type === "client" ? "web" : "node"
+    target: "node"
 });
 
-module.exports = (env) => [ config(env), config(env, "server") ];
+const serviceWorkerConfig = (env) => ({
+    entry: {
+        sw: "./development/service-worker/index.ts"
+    },
+    output: {
+        path: resolve(__dirname, "dist/service-worker"),
+        publicPath: "/",
+        filename: "[name].js"
+    },
+    resolve: {
+        extensions: [ ".tsx", ".ts", ".js", ".jsm" ]
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                enforce: "pre",
+                use: [ "source-map-loader" ]
+            },
+            {
+                test: /\.tsx?$/,
+                use: [
+                    "babel-loader",
+                    "ts-loader"
+                ]
+            },
+            {
+                test: /\.(gif|png|jpeg)$/,
+                type: "asset/resource",
+                generator: {
+                    filename: "images/[name][ext]"
+                }
+            }
+        ]
+    },
+    plugins: [
+        new CleanWebpackPlugin()
+    ],
+    mode: env.NODE_ENV || "development",
+    target: "webworker"
+})
+
+module.exports = (env) => [ frontendConfig(env), serverConfig(env), serviceWorkerConfig(env) ];

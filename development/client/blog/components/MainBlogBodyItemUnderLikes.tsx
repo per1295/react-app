@@ -2,7 +2,6 @@ import React, { MouseEventHandler, useEffect, useRef } from "react";
 import { useBlogData, useIdOfBlog, useNowUser, useFetch } from "../../customHooks";
 import IonIcon from "@reacticons/ionicons";
 import "../styles/MainBlogBodyItemUnderLikes.scss";
-import { getBaseURL } from "../../functions";
 import { Response } from "../../../server/constructors";
 
 export default function MainBlogBodyItemUnderLikes() {
@@ -12,22 +11,18 @@ export default function MainBlogBodyItemUnderLikes() {
     const userData = useNowUser();
     const likeRef = useRef<HTMLDivElement>(null);
 
-    const likeURL = `${getBaseURL()}/blog/blogs?idOfBlog=${id}&typeUpdate=likes`;
-    const fetch = useFetch<Response>(likeURL, "json", {
-        method: "PUT",
+    const fetch = useFetch<Response>(`/blog/blogs?id=${id}&typeUpdate=likes`, "json", {
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ countLikes, usersWhoLiked })
     });
 
-    async function putLikes() {
-        const response = await fetch();
-        if ( response ) console.log(response.message);
-    }
+    const patchLikes = async () => await fetch();
 
     useEffect(() => {
-        putLikes();
+        patchLikes();
     }, [ countLikes, usersWhoLiked ]);
 
     useEffect(() => {

@@ -21,13 +21,14 @@
     }
 
     @media screen and ( max-width: 750px ) {
-        position: static;
+        position: static !important;
         transition: transform .25s linear;
         margin-left: 40px;
-        position: static;
         min-width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        max-height: none;
+        overflow-y: auto;
     }
 }

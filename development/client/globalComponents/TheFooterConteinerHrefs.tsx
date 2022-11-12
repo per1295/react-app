@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../globalStyles/TheFooterConteinerHrefs.scss";
 
 const TheFooterConteinerHrefs = () => {
-    const hrefs = [ "Home", "-", "about us", "-", "services", "-", "portfolio", "-", "blog", "-", "contact us" ];
+    const hrefs = [ "Home", "-", "about us", "-", "services", "-", "blog", "-", "contact us" ];
 
     return(
         <div className="footer_conteiner__hrefs">

@@ -4,7 +4,6 @@ import "../styles/TheMainContactConteinerLeftForm.scss";
 import TheMainContactConteinerLeftFormTextarea from "./TheMainContactConteinerLeftFormTextarea";
 import Button from "../../globalComponents/Button";
 import { useFormValidation, useFetch } from "../../customHooks";
-import { getBaseURL } from "../../functions";
 import { Response } from "../../../server/constructors";
 import EmailMessage from "../../globalComponents/EmailMessage";
 
@@ -14,8 +13,8 @@ export default function TheMainContactConteinerLeftForm() {
     const { formData, formElements } = useFormValidation(formRef);
     const [ message, setMessage ] = useState<string | null>(null);
 
-    const baseURL = getBaseURL(), path = encodeURI("/contact us/user");
-    const fetch = useFetch<Response>(baseURL + path, "json", {
+    const path = encodeURI("/contact us/user");
+    const fetch = useFetch<Response>(path, "json", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -5,11 +5,11 @@ import "../styles/MainBlogBodyItemUnderDate.scss";
 export default function MainBlogBodyItemUnderDate() {
     const id = useIdOfBlog();
     const { blogData } = useBlogData(id);
-    const { dateCreation } = blogData;
+    const { dateOfCreation } = blogData;
 
     return(
         <div className="mainBlog_body__item___under____date">
-            { dateCreation }
+            { dateOfCreation }
         </div>
     )
 }

@@ -1,8 +1,7 @@
 import { Router, json } from "express";
 import { IEmailData, IAppLocals } from "../types/home";
 import { Email } from "../mongoose/home";
-import { Response } from "../constructors";
-import { optionsCookie } from "../functions";
+import { createResponse } from "../functions";
 
 const jsonParser = json();
 const home = Router();
@@ -11,17 +10,15 @@ const BASIC_PATH = "/home";
 home.post("/email", jsonParser, async (req, res) => {
     try {
         const { email } = req.body as Pick<IEmailData, "email">;
-        const { transport, emailResponser, PORT } = req.app.locals as IAppLocals;
+        const { transport, emailResponser, PORT, cookieOptions } = req.app.locals as IAppLocals;
         const emailDocument = await Email.findOne({ email });
         if ( emailDocument ) {
             const { isVerified } = emailDocument;
             return res
-                .json(
-                    new Response({
-                        status: "success",
-                        message: isVerified ? "This email already exist" : "This email needs verification"
-                    })
-                );
+                .json(createResponse({
+                    status: "success",
+                    message: isVerified ? "This email already exist" : "This email needs verification"
+                }));
         }
 
         const randomId = Math.floor(Math.random() * 1e6);
@@ -50,31 +47,30 @@ home.post("/email", jsonParser, async (req, res) => {
         });
 
         res
-            .cookie("id", newEmail.id, optionsCookie({ path: BASIC_PATH }))
-            .cookie("email", newEmail.email, optionsCookie({ path: BASIC_PATH }))
-            .cookie("isVerified", newEmail.isVerified, optionsCookie({ path: BASIC_PATH }))
-            .json(
-                new Response({
-                    status: "success",
-                    message: "Follow the link sent to you to confirm your email"
-                })
-            );
+            .cookie("id", newEmail.id, cookieOptions)
+            .cookie("email", newEmail.email, cookieOptions)
+            .cookie("isVerified", newEmail.isVerified, cookieOptions)
+            .json(createResponse({
+                status: "success",
+                message: "Follow the link sent to you to confirm your email"
+            }));
     } catch (error) {
         const errorTyped = error as Error;
         console.error(`${errorTyped.name}: ${errorTyped.message}`);
-        res.status(404).json(
-            new Response({
-                status: "fail",
-                message: "Unknown error"
-            })
-        );
+        res.status(404).json(createResponse({
+            status: "fail",
+            message: "Unknown error"
+        }));
     }
 });
 
 home.get("/confirmEmail/:idOfEmail", async (req, res) => {
     try {
         const { idOfEmail } = req.params;
+        const { cookieOptions } = req.app.locals as IAppLocals;
+
         let email = await Email.findOne({ id: idOfEmail });
+
         if ( !email ) {
             return res.send(`
                 <h1>
@@ -86,8 +82,8 @@ home.get("/confirmEmail/:idOfEmail", async (req, res) => {
         email = await email.save();
 
         res
-            .clearCookie("isVerified", optionsCookie({ path: BASIC_PATH }))
-            .cookie("isVerified", true, optionsCookie({ path: BASIC_PATH }))
+            .clearCookie("isVerified", cookieOptions)
+            .cookie("isVerified", true, cookieOptions)
             .send(`
                 <h1>
                     Your email has been successfully verified

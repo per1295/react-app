@@ -22,7 +22,7 @@ export default function TheHeaderNavLinksMobile() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const navLinksArray = [ "Home", "about us", "services", "portfolio", "blog", "contact us" ];
+    const navLinksArray = [ "Home", "about us", "services", "blog", "contact us" ];
     const ulHeight = 338;
     const ulAnimationFrames = [
         {

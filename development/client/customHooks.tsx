@@ -4,7 +4,7 @@ import React, { useState, useEffect, RefObject, useMemo, useContext } from "reac
 import cookie from "cookiejs";
 import { BlogsContext } from "./blog/components/TheMainBlogBody";
 import { IBlog } from "../server/types/blog";
-import { CommentContext, CommentVisibleContext, IdContext } from "./blog/components/MainBlogBodyItem";
+import { CommentVisibleContext, IdContext } from "./blog/components/MainBlogBodyItem";
 
 export function useTypedSelector<Key extends keyof State>(func: (state: State) => State[Key]) {
     return useSelector(func);
@@ -60,21 +60,18 @@ export function useInputValidation(inputRef: RefObject<HTMLInputElement>) {
 
 type ResponseType = "text" | "json";
 
-export function useFetch<Response>(url: string | URL, resType: ResponseType, options?: RequestInit): () => Promise<Response | undefined>
-{
-    if ( URL instanceof URL ) url = url.toString();
-
-    return async function(body?: string) {
+export function useFetch<Response>(path?: string, resType?: ResponseType, options?: RequestInit) {
+    return async function(additionalPath?: string) {
         let response: globalThis.Response | null = null;
         try {
-            response = await fetch(url, options);
+            response = await fetch(additionalPath ?? path ?? "/", options);
             if ( !response.ok ) throw new Error("Request error, try again.");
 
-            return await response[resType]() as Response;
+            return await response[resType ?? "text"]() as Response;
         } catch (error) {
             const errorTyped = error as Error;
             console.error(`${errorTyped.name}: ${errorTyped.message}`);
-            if ( response ) return await response[resType]() as Response;
+            if ( response ) return await response[resType ?? "text"]() as Response;
         }
     }
 }
@@ -198,11 +195,11 @@ export function useDatalist(name: string) {
     const [ options, setOptions ] = useState<string[]>([]);
 
     useEffect(() => {
-        const inputCookie = cookie.get(name) as string;
-        if ( inputCookie ) {
-            const arrayInputCookie = inputCookie.split(" ");
-            setOptions(arrayInputCookie);
-        }
+        const cookieName = cookie.get(name);
+        if ( typeof cookieName === "boolean" ) return;
+        const inputCookie = decodeURIComponent(cookieName);
+        const arrayInputCookie = inputCookie.split(/\_/g);
+        setOptions(arrayInputCookie);
     }, []);
 
     const datalistElement = useMemo(() => (
@@ -217,19 +214,19 @@ export function useDatalist(name: string) {
                 ))
             }
         </datalist>
-    ), [options]);
+    ), [ options ]);
 
     return datalistElement;
 }
 
 export function useBlogData(id: number) {
     const { blogs, setBlogs } = useContext(BlogsContext);
-    const blogData = useMemo(() => blogs.find(item => item.idOfBlog === id), [ blogs ]);
+    const blogData = useMemo(() => blogs.find(item => item.id === id), [ blogs ]);
     if ( !blogData ) throw new Error("This id doesn`t exist");
 
     function setBlogData(data: IBlog) {
         setBlogs(state => state.map(item => {
-            if ( item.idOfBlog === data.idOfBlog ) return data;
+            if ( item.id === data.id ) return data;
             else return item;
         }));
     }

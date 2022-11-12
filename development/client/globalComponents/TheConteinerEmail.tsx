@@ -5,7 +5,6 @@ import TheConteinerEmailInput from "./TheConteinerEmailInput";
 import Button from "./Button";
 import { useInputValidation, useFetch } from "../customHooks";
 import { Response } from "../../server/constructors";
-import { getBaseURL } from "../functions";
 import EmailMessage from "./EmailMessage";
 
 export default function TheConteinerEmail() {
@@ -15,7 +14,7 @@ export default function TheConteinerEmail() {
 
     const [ message, setMessage ] = useState<string | null>(null);
     const { value, error } = useInputValidation(emailElem);
-    const fetch = useFetch<Response>(`${getBaseURL()}/home/email`, "json", {
+    const fetch = useFetch<Response>("/home/email", "json", {
         method: "post",
         headers: {
             "Content-Type": "application/json"

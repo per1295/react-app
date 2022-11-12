@@ -5,13 +5,15 @@ export interface ISearchInput{
 }
 
 export interface ISearchInputSchema {
+    id: number;
     values: string[];
 }
 
 export interface IColumnPostSchema {
+    id: number;
     title: string;
-    dateCreation: string;
-    imgURL: string;
+    dateOfCreation: string;
+    img: string;
 }
 
 export interface IEmailDataComment {
@@ -20,11 +22,11 @@ export interface IEmailDataComment {
 }
 
 export interface IBlog {
-    idOfBlog: number;
-    imgURL: string;
+    id: number;
+    img: string;
     countComments: number;
     countLikes: number;
-    dateCreation: string;
+    dateOfCreation: string;
     description: string;
     title: string;
     usersWhoLiked: IEmailData[];
@@ -32,11 +34,10 @@ export interface IBlog {
 }
 
 export interface IGetBlogsQuery {
-    startId: string;
-    endId: string;
+    lastId: string;
 }
 
 export interface IPutBlogsQuery {
-    idOfBlog: string;
+    id: string;
     typeUpdate: "comments" | "likes";
 }

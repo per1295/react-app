@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, createContext, Dispatch, SetStateA
 import "../styles/TheMainBlogBody.scss";
 import MainBlogBodyItem from "./MainBlogBodyItem";
 import { useFetch } from "../../customHooks";
-import { getBaseURL } from "../../functions";
 import { IBlog } from "../../../server/types/blog";
 import { Response } from "../../../server/constructors";
 import TheMainBlogBodyAllBlogs from "../components/TheMainBlogBodyAllBlogs";
@@ -19,63 +18,62 @@ const defaultValue = {
 
 export const BlogsContext = createContext<IBlogsContext>(defaultValue);
 
-interface IRangeBlogs {
-    startId: number;
-    endId: number;
+interface IBlogsResponse {
+    blogs: IBlog[];
+    lastId: number;
 }
 
-const rangeBlogsInit = { startId: 0, endId: 2 };
-
 export default function TheMainBlogBody() {
-    const [ rangeBlogs, setRangeBlogs ] = useState<IRangeBlogs>(rangeBlogsInit);
     const [ isAllBlogsState, setIsAllBlogsState ] = useState(false);
-    const calmDown = useRef(0);
-    const isAllBlogs = useRef<boolean>(false);
-    const baseURL = getBaseURL(), path = encodeURI(`/blog/blogs?startId=${rangeBlogs.startId}&endId=${rangeBlogs.endId}`);
-    const fetch = useFetch<Response>(`${baseURL}${path}`, "json");
     const [ blogs, setBlogs ] = useState<IBlog[]>([]);
     const blogsContextValue = { blogs, setBlogs };
 
-    async function getBlogs() {
-        const response = await fetch();
+    const calmDown = useRef(0);
+    const isAllBlogs = useRef<boolean>(false);
+    const fetchPath = useRef("/blog/blogs");
+
+    const fetch = useFetch<Response>(fetchPath.current, "json");
+
+    async function getBlogs(path?: string) {
+        const response = await fetch(path);
+
         if ( response ) {
-            try {
-                let newBlogs = JSON.parse(response.message) as IBlog[];
-                setBlogs(state => {
-                    if ( state.length !== 0 ) {
-                        newBlogs = newBlogs.filter((blog, index) => blog.idOfBlog !== state[index].idOfBlog);
-                    }
-                    return [ ...state, ...newBlogs ];
-                });
-            } catch (error) {
+            if ( typeof response.message === "string" ) {
                 isAllBlogs.current = true;
                 setIsAllBlogsState(true);
+                return;
+            }
+
+            try {
+                let { blogs, lastId } = response.message as IBlogsResponse;
+
+                setBlogs(state => {
+                    if ( state.length !== 0 ) blogs = blogs.filter((blog, index) => blog.id !== state[index].id);
+                    return [ ...state, ...blogs ];
+                });
+                
+                fetchPath.current = `/blog/blogs?lastId=${lastId}`;
+            } catch (error) {
+                console.log(error);
             }
         }
     }
 
-    useEffect(() => {
-        getBlogs();
-    }, [ rangeBlogs ]);
-
-    const scrollingBlogs = () => {
+    const scrollingBlogs = async () => {
         if ( isAllBlogs.current ) return;
 
         const nowTime = performance.now();
-        if ( nowTime - calmDown.current < 2000 && calmDown.current !== 0) return;
 
+        if ( nowTime - calmDown.current < 2000 && calmDown.current !== 0) return;
         if ( document.documentElement.scrollHeight - scrollY > 1200 ) return;
+
         calmDown.current = Math.floor(nowTime);
-        setRangeBlogs(state => {
-            const { startId, endId } = state;
-            return {
-                startId: startId + 3,
-                endId: endId + 3
-            }
-        });
+        await getBlogs(fetchPath.current);
     }
 
     useEffect(() => {
+        if ( blogs.length === 0 ) getBlogs();
+
         document.addEventListener("scroll", scrollingBlogs);
 
         return () => {
@@ -88,7 +86,7 @@ export default function TheMainBlogBody() {
             <div className="mainBlog_body">
                 {
                     blogs.map((blog, index) => (
-                        <MainBlogBodyItem key={index} id={blog.idOfBlog}/>
+                        <MainBlogBodyItem key={index} id={blog.id}/>
                     ))
                 }
                 { isAllBlogsState ? <TheMainBlogBodyAllBlogs/> : null }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 interface ImgProps {
     src: string | URL;

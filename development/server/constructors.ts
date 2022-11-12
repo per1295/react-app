@@ -1,21 +1,11 @@
-import { IResponse, IOptionsCookie } from "./types/home";
+import { IResponse } from "./types/home";
 
 export class Response implements IResponse {
     status: "success" | "fail";
-    message: string;
+    message: any;
 
-    constructor({ status = "success", message = "" }: IResponse) {
+    constructor({ status = "success", message }: IResponse) {
         this.status = status;
         this.message = message;
-    }
-}
-
-export class OptionsCookie implements IOptionsCookie {
-    maxAge: number;
-    path: string;
-
-    constructor({ maxAge = 3.6e6, path = "/" }) {
-        this.maxAge = maxAge;
-        this.path = path;
     }
 }
