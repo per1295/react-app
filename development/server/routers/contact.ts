@@ -72,7 +72,6 @@ contact.post("/user", jsonParser, async (req, res) => {
             message: "Unknown error"
         }));
     }
-
 });
 
 contact.get("/confirmUser/:idUser", async (req, res) => {
@@ -92,13 +91,13 @@ contact.get("/confirmUser/:idUser", async (req, res) => {
     user = await user.save();
 
     res
-        .clearCookie("isVerified", cookieOptions)
-        .cookie("isVerified", true, cookieOptions)
-        .send(`
-            <h1>
-                Your email has been successfully verified
-            </h1>
-        `);
+    .clearCookie("isVerified", cookieOptions)
+    .cookie("isVerified", true, cookieOptions)
+    .send(`
+        <h1>
+            Your email has been successfully verified
+        </h1>
+    `);
 });
 
 export default contact;

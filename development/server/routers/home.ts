@@ -47,13 +47,13 @@ home.post("/email", jsonParser, async (req, res) => {
         });
 
         res
-            .cookie("id", newEmail.id, cookieOptions)
-            .cookie("email", newEmail.email, cookieOptions)
-            .cookie("isVerified", newEmail.isVerified, cookieOptions)
-            .json(createResponse({
-                status: "success",
-                message: "Follow the link sent to you to confirm your email"
-            }));
+        .cookie("id", newEmail.id, cookieOptions)
+        .cookie("email", newEmail.email, cookieOptions)
+        .cookie("isVerified", newEmail.isVerified, cookieOptions)
+        .json(createResponse({
+            status: "success",
+            message: "Follow the link sent to you to confirm your email"
+        }));
     } catch (error) {
         const errorTyped = error as Error;
         console.error(`${errorTyped.name}: ${errorTyped.message}`);
@@ -82,13 +82,13 @@ home.get("/confirmEmail/:idOfEmail", async (req, res) => {
         email = await email.save();
 
         res
-            .clearCookie("isVerified", cookieOptions)
-            .cookie("isVerified", true, cookieOptions)
-            .send(`
-                <h1>
-                    Your email has been successfully verified
-                </h1>
-            `);
+        .clearCookie("isVerified", cookieOptions)
+        .cookie("isVerified", true, cookieOptions)
+        .send(`
+            <h1>
+                Your email has been successfully verified
+            </h1>
+        `);
     } catch (error) {
         const errorTyped = error as Error;
         console.error(`${errorTyped.name}: ${errorTyped.message}`);
