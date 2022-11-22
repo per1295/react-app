@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import TheHeader from "../globalComponents/TheHeader";
 import TheMainBlog from "./components/TheMainBlog";
 import TheMainThirdGroup from "../globalComponents/TheMainThirdGroup";
-import TheFooter from "../globalComponents/TheFooter";
 import { useTypedSelector } from "../customHooks";
 import TheMobileChanger from "./components/TheMobileChanger";
 
@@ -35,7 +34,6 @@ export default function Contact() {
 			<TheHeader title="blog posts" underTitle="home / blog" />
 			<TheMainBlog/>
 			<TheMainThirdGroup/>
-			<TheFooter/>
 			{ isMobile ? <TheMobileChanger isShow={isShowChanger}/> : null }
 		</>	
 	)
