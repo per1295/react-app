@@ -6,13 +6,15 @@ import app from "./app";
 
 dotenv.config();
 
-const MONGOBD_URL = process.env?.DOCKER_MONGODB_URL || process.env?.LOCAL_MONGO_URL as string;
+const { DOCKER_MONGODB_URL, LOCAL_MONGO_URL, PRODUCTION_MONGO_URL } = process.env;
+
+const MONGOBD_URL = DOCKER_MONGODB_URL || PRODUCTION_MONGO_URL || LOCAL_MONGO_URL as string;
 const APP_EMAIL = process.env?.APP_EMAIL;
 const APP_PASS = process.env?.APP_PASS;
 const PORT = process.env?.PORT;
 
 async function startApp() {
-    await connect(MONGOBD_URL);
+    await connect(MONGOBD_URL, { dbName: "react-app" });
     await initMongoDB();
 
     app.locals.transport = createTransport({
