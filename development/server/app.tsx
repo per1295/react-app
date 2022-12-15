@@ -58,7 +58,7 @@ app.get(/\//, (req, res) => {
             <script src="/redux_toolkit.bundle.js"></script>
             ${env === 'development' ? '<script src="/react.bundle.js"></script>' : ''}
             <script src="/runtime~index.js"></script>
-            <script src="/${env === 'development' ? 'vendors-node_modules_fontsource_montserrat_index_css-node_modules_fontsource_open-sans_index_-fe1f59' : '486'}.js"></script>
+            <script src="/${env === 'development' ? 'vendors-node_modules_fontsource_montserrat_index_css-node_modules_fontsource_open-sans_index_-633421' : '355'}.js"></script>
             <script defer src="/index.js"></script>
         </head>
         <body>

@@ -1,6 +1,7 @@
 import { ColumnPost, Blogs } from "./mongoose/blog";
 import type { IColumnPostSchema, IBlog } from "./types/blog";
 import { Response } from "./constructors";
+import type { Model } from "mongoose";
 
 export async function initMongoDB() {
     const columnPostsLength = (await ColumnPost.find({})).length;
@@ -18,4 +19,15 @@ export async function initMongoDB() {
 
 export function createResponse(res: Response): Response {
     return new Response(res);
+}
+
+export async function createRandomId(Model: Model<any>) {
+    const randomId = Math.floor(Math.random() * 1e6);
+    const document = await Model.findOne({ id: randomId });
+
+    if ( document ) {
+        await createRandomId(Model);
+    } else {
+        return randomId;
+    }
 }

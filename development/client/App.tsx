@@ -37,7 +37,7 @@ const App = () => {
             <Routes>
                 {
                     components.map((item, index) => (
-                        <Route key={index} path={encodeURIComponent(paths[index])} element={item}/>
+                        <Route key={index} path={paths[index]} element={item}/>
                     ))
                 }
             </Routes>

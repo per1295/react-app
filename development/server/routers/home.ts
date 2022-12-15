@@ -1,7 +1,7 @@
 import { Router, json } from "express";
 import { IEmailData, IAppLocals } from "../types/home";
 import { Email } from "../mongoose/home";
-import { createResponse } from "../functions";
+import { createResponse, createRandomId } from "../functions";
 
 const jsonParser = json();
 const home = Router();
@@ -21,15 +21,15 @@ home.post("/email", jsonParser, async (req, res) => {
                 }));
         }
 
-        const randomId = Math.floor(Math.random() * 1e6);
+        const randomId = await createRandomId(Email);
         let newEmail = new Email({ id: randomId, email });
         newEmail = await newEmail.save();
 
         let confirmURLAdress: string;
         if ( PORT ) {
-            confirmURLAdress = `${req.protocol}://${req.hostname}:${PORT}${BASIC_PATH}/confirmEmail`;
+            confirmURLAdress = `${req.protocol}://${req.hostname}:${PORT}${BASIC_PATH}/confirmEmail/${randomId}`;
         } else {
-            confirmURLAdress = `${req.protocol}://${req.hostname}${BASIC_PATH}/confirmEmail`
+            confirmURLAdress = `${req.protocol}://${req.hostname}${BASIC_PATH}/confirmEmail/${randomId}`
         }
 
         await transport.sendMail({

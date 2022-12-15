@@ -2,7 +2,7 @@ import { Router, json } from "express";
 import { IContactData } from "../types/contact";
 import { IAppLocals } from "../types/home";
 import { ContactData } from "../mongoose/contact";
-import { createResponse } from "../functions";
+import { createResponse, createRandomId } from "../functions";
 
 const jsonParser = json();
 const contact = Router();
@@ -28,7 +28,7 @@ contact.post("/user", jsonParser, async (req, res) => {
             }));
         }
 
-        const randomId = Math.floor(Math.random() * 1e6);
+        const randomId = await createRandomId(ContactData);
         const newUser = new ContactData({ id: randomId, name, email, object, message });
         const user = await newUser.save();
 

@@ -33,7 +33,7 @@ async function startApp() {
     };
 
     app.listen(PORT, () => {
-        console.log("Server is working on:", "\x1b[36m", `http://localhost:${PORT}`);
+        console.log(`Server is working on: http://localhost:${PORT}`);
     });
 }
 
