@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import TheHeader from "../globalComponents/TheHeader";
 import TheMainBlog from "./components/TheMainBlog";
 import TheMainThirdGroup from "../globalComponents/TheMainThirdGroup";
 import { useTypedSelector } from "../customHooks";
 import TheMobileChanger from "./components/TheMobileChanger";
 
-export default function Contact() {
+export default function Blog() {
 	const isMobile = useTypedSelector<"isMobile">(state => state.isMobile);
 	const mobileScrollRef = useRef<number>(0);
 	const [ isShowChanger, setIsShowChanger ] = useState(true);
@@ -31,10 +30,9 @@ export default function Contact() {
 
 	return (
 		<>
-			<TheHeader title="blog posts" underTitle="home / blog" />
 			<TheMainBlog/>
 			<TheMainThirdGroup/>
 			{ isMobile ? <TheMobileChanger isShow={isShowChanger}/> : null }
-		</>	
+		</>
 	)
 }

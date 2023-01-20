@@ -1,0 +1,20 @@
+@use "../mixins.scss" as m;
+
+.header_down_information {
+    @include m.information(542px, 28px 0 0 0, start, 30px);
+
+    @media screen and ( max-width: 750px ) {
+        width: 95%;
+        text-align: center;
+        margin: 28px 0 0 0;
+        line-height: 30px;
+    }
+
+    @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+        width: 460px;
+    }
+
+    @media screen and ( min-width: 1025px ) and ( max-width: 1170px ) {
+        width: 470px;
+    }
+}

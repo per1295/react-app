@@ -1,20 +1,21 @@
 import React, { useEffect, useRef } from "react";
-import "../styles/MainBlogBodyItemWriteComment.scss";
 import MainBlogBodyItemWriteCommentCommentInput from "./MainBlogBodyItemWriteCommentCommentInput";
+import { useCommentVisible, useBlogData, useIdOfBlog, useFetch } from "../../customHooks";
+import { useTypedSelector } from "../../customHooks";
+
 import IonIcon from "@reacticons/ionicons";
-import { useCommentVisible, useNowUser, useBlogData, useIdOfBlog, useFetch } from "../../customHooks";
-import { Response } from "../../../server/constructors";
+
+import "../styles/MainBlogBodyItemWriteComment.scss";
 
 export default function MainBlogBodyItemWriteComment() {
     const { isCommentVisible } = useCommentVisible();
     const writeCommentRef = useRef<HTMLDivElement>(null);
-    const nowUser = useNowUser();
     const id = useIdOfBlog();
     const { blogData, setBlogData } = useBlogData(id);
     const { comments, countComments } = blogData;
+    const userData = useTypedSelector<"userData">(state => state.userData);
 
-    const writeCommentURL = `/blog/blogs?id=${id}&typeUpdate=comments`
-    const fetch = useFetch<Response>(writeCommentURL, "json", {
+    const fetch = useFetch<string>(`/blog/blogs?id=${id}&typeUpdate=comments`, "text", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -35,6 +36,7 @@ export default function MainBlogBodyItemWriteComment() {
 
     useEffect(() => {
         const writeComment = writeCommentRef.current as HTMLDivElement;
+
         if ( isCommentVisible ) {
             writeComment.removeEventListener("transitionend", writeCommentDisappear);
             writeComment.classList.add("mainBlog_body__item___writeCommentVisible");
@@ -50,17 +52,21 @@ export default function MainBlogBodyItemWriteComment() {
     }, [ isCommentVisible ]);
 
     const ckickIcon = async () => {
-        if ( !nowUser ) return;
+        if ( !userData ) return;
+
         const writeComment = writeCommentRef.current as HTMLDivElement;
         const inputComment = writeComment.children[0] as HTMLInputElement;
         const comment = inputComment.value;
-        const { email } = nowUser;
+
+        const { email } = userData;
         const newComment = { email, comment };
+
         setBlogData({
             ...blogData,
             countComments: countComments + 1,
             comments: [ newComment, ...comments ]
         });
+
         inputComment.value = "";
     }
 

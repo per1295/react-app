@@ -1,17 +1,21 @@
 import React, { MouseEventHandler, useEffect, useRef } from "react";
-import { useBlogData, useIdOfBlog, useNowUser, useFetch } from "../../customHooks";
+import { useBlogData, useIdOfBlog, useFetch } from "../../customHooks";
+import { useTypedSelector } from "../../customHooks";
+import { useNavigate } from "react-router-dom";
+
 import IonIcon from "@reacticons/ionicons";
+
 import "../styles/MainBlogBodyItemUnderLikes.scss";
-import { Response } from "../../../server/constructors";
 
 export default function MainBlogBodyItemUnderLikes() {
     const id = useIdOfBlog();
     const { blogData, setBlogData } = useBlogData(id);
     const { countLikes, usersWhoLiked } = blogData;
-    const userData = useNowUser();
+    const userData = useTypedSelector<"userData">(state => state.userData);
     const likeRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
-    const fetch = useFetch<Response>(`/blog/blogs?id=${id}&typeUpdate=likes`, "json", {
+    const fetch = useFetch<string>(`/blog/blogs?id=${id}&typeUpdate=likes`, "text", {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
@@ -37,13 +41,15 @@ export default function MainBlogBodyItemUnderLikes() {
     }, [ usersWhoLiked ]);
 
     const setLike: MouseEventHandler<HTMLDivElement> = () => {
-        if ( !userData ) return alert("Please register in contacts")
-        const { id, email, isVerified } = userData;
-        if ( !isVerified ) return alert("Please verify your email");
+        if ( !userData ) return navigate("/contact us");
+
+        const { id, email } = userData;
         
         const isUserLiked = usersWhoLiked.find(user => user.email === email);
+
         if ( isUserLiked ) {
             const restUsersWhoLiked = usersWhoLiked.filter(user => user.email !== email);
+
             setBlogData({
                 ...blogData,
                 usersWhoLiked: restUsersWhoLiked,
@@ -52,9 +58,9 @@ export default function MainBlogBodyItemUnderLikes() {
         } else {
             const newUser = {
                 id,
-                email,
-                isVerified
+                email
             };
+            
             setBlogData({
                 ...blogData,
                 usersWhoLiked: [ ...usersWhoLiked, newUser ],

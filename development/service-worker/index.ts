@@ -1,34 +1,22 @@
 import "regenerator-runtime/runtime";
+
 import onlineImg from "./images/internet-access.png";
 import offlineImg from "./images/offline-internet.png";
-
-function getPath(url: string): string {
-    let path = url.replace(/https?\:\/\/[\w\d\:]+?\//, "");
-    return path;
-}
-
-function logError<TypeError extends Error>(err: TypeError): TypeError {
-    let errMessage = `${err.name}: ${err.message}`;
-    console.error(errMessage);
-    return err;
-}
 
 async function startWebWorker() {
     const globalScope = self as unknown as ServiceWorkerGlobalScope;
 
     let masOfSourceIcons = [
-        "/manifest.json",
-        "/sw.js",
-        "index.css",
-        "/redux_toolkit.bundle.js",
-        "486.js",
-        "/index.js",
-        "/runtime~index.js"
+        "/icon.png", "/manifest.json", "/runtime~service-worker.js",
+        "/sw-libraries.bundle.js", "/service-worker.js", "/runtime~client.js",
+        "/client-libraries.bundle.js", "/client.js", "/index.css"
     ];
 
     globalScope.addEventListener("online", () => {
         if ( !("Notification" in self) ) return;
+
         if ( Notification.permission !== "granted" ) return;
+
         const goToSiteNotification = new Notification("web-app", {
             body: "It looks like you have a connection, don`t want to visit the web-app",
             lang: "en-US",
@@ -43,23 +31,30 @@ async function startWebWorker() {
         goToSiteNotification.addEventListener("click", async () => {
             try {
                 goToSiteNotification.close();
+
                 const clientList = await globalScope.clients.matchAll({ type: "window" }) as WindowClient[];
+
                 const windowFocus = clientList.some(client => client.url === goToSiteNotification.data.url ? ( client.focus(), true) : false);
+
                 if ( !windowFocus ) {
-                    let windowClient = await globalScope.clients.openWindow(globalScope.origin + "/web-app/Home");
+                    let windowClient = await globalScope.clients.openWindow(`${globalScope.location.origin}/home`);
+
                     if ( !windowClient ) return;
+
                     await windowClient.focus();
                 }
-            } catch (err) {
-                let error = err as Error;
-                logError(error);
+            } catch (error) {
+                let e = error as Error;
+                console.log(e);
             }
         });
     });
 
     globalScope.addEventListener("offline", () => {
         if ( !("Notification" in self) ) return;
+
         if ( Notification.permission !== "granted" ) return;
+
         const offlineNotification = new Notification("web-app", {
             body: "It looks like you have lost your internet connection, please try to connect again.",
             lang: "en-US",
@@ -67,6 +62,7 @@ async function startWebWorker() {
             icon: offlineImg,
             vibrate: [200, 100, 200]
         });
+
         offlineNotification.addEventListener("click", () => {
             offlineNotification.close();
         });
@@ -75,6 +71,7 @@ async function startWebWorker() {
     globalScope.addEventListener("install", (event) => {
         async function addCache() {
             let cache = await caches.open("v1");
+            
             return cache.addAll(masOfSourceIcons);
         }
 
@@ -82,25 +79,32 @@ async function startWebWorker() {
     });
 
     globalScope.addEventListener("fetch", (event) => {
-        let method = event.request.method.toLowerCase(), pathName = getPath(event.request.url);
+        let method = event.request.method.toLowerCase();
 
         async function getResponse() {
             try {
                 let googleMapURL = event.request.url.match(/maps?/), headers = event.request.headers;
+
                 if ( googleMapURL !== null ) return await fetch(event.request, {
                     headers
                 });
+
                 let response = await caches.match(event.request);
+
                 if ( typeof response !== "undefined" ) return response;
+
                 let newResponse = await fetch(event.request, { headers });
+
                 let cloneResponse = newResponse.clone();
+                
                 let cache = await caches.open("v1");
                 cache.put(event.request, cloneResponse);
+
                 return newResponse;
-            } catch (err) {
-                let error = err as Error;
-                let errorMessage = `${error.name}: ${error.message}`;
-                console.log(errorMessage);
+            } catch (error) {
+                let e = error as Error;
+
+                console.log(e);
 
                 return new Response(
                     `
@@ -134,7 +138,7 @@ async function startWebWorker() {
             }
         }
 
-        if ( (method === "get" || method === "head") && !/server/.test(pathName) ) event.respondWith(getResponse());
+        if ( (method === "get" || method === "head") ) event.respondWith(getResponse());
     });
 
     globalScope.addEventListener("activate", (event) => {
@@ -144,6 +148,7 @@ async function startWebWorker() {
             let keyListCleared = keyList.map(key => {
                 if ( !cacheKeepList.includes(key) ) return caches.delete(key);
             });
+
             return Promise.all(keyListCleared);
         }
 

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/index.css">
+    <script fetchpriority="high" src="/runtime~service-worker.js"></script>
+    <script fetchpriority="high" src="/sw-libraries.bundle.js"></script>
+    <script fetchpriority="high" src="/service-worker.js"></script>
+    <!--additional-script-->
+    <script src="/runtime~client.js"></script>
+    <script src="/client-libraries.bundle.js"></script>
+    <script defer src="/client.js"></script>
+    <title>Loading...</title>
+</head>
+<body>
+    <div id="root"><!--ssr-outlet--></div>
+</body>
+</html>

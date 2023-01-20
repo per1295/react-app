@@ -1,27 +1,25 @@
 import { Schema, model } from "mongoose";
-import { IEmailData } from "../types/home";
-import { ISearchInputSchema, IColumnPostSchema, IBlog, IEmailDataComment } from "../types/blog";
+import { methodGetPOJO } from "../functions";
 
-const searchInputSchema = new Schema<ISearchInputSchema>({
-    id: {
-        type: Number,
-        reuired: true
-    },
+import type { IEmailData } from "../../types";
+import type { ISearchInputSchema, IColumnPostSchema, IBlog, IEmailDataComment } from "../../types/blog";
+import type { ExtendedSchema } from "../../types";
+
+const searchInputSchema: ExtendedSchema<ISearchInputSchema> = new Schema({
     values: {
         type: [ String ],
         required: true
     }
 }, {
-    collection: "searchValues"
+    collection: "searchValues",
+    methods: {
+        methodGetPOJO
+    }
 });
 
 export const SearchInput = model("searchValue", searchInputSchema);
 
-const columnPostSchema = new Schema<IColumnPostSchema>({
-    id: {
-        type: Number,
-        required: true
-    },
+const columnPostSchema = new Schema<Omit<IColumnPostSchema, "id">>({
     title: {
         type: String,
         required: true
@@ -40,19 +38,11 @@ const columnPostSchema = new Schema<IColumnPostSchema>({
 
 export const ColumnPost = model("columnPost", columnPostSchema);
 
-const emailDataSchema = new Schema<IEmailData>({
-    id: {
-        type: Number,
-        required: true
-    },
+const emailDataSchema = new Schema<Omit<IEmailData, "id">>({
     email: {
         type: String,
         required: true
     },
-    isVerified: {
-        type: Boolean,
-        required: true
-    }
 }, {
     _id: false
 });
@@ -70,14 +60,11 @@ const emailDataCommentSchema = new Schema<IEmailDataComment>({
     _id: false
 });
 
-const blogsSchema = new Schema<IBlog>({
-    id: {
-        type: Number,
-        requred: true
-    },
+const blogsSchema: ExtendedSchema<IBlog> = new Schema({
     img: {
         type: String,
-        required: true
+        required: true,
+        immutable: true
     },
     countLikes: {
         type: Number,
@@ -89,15 +76,18 @@ const blogsSchema = new Schema<IBlog>({
     },
     dateOfCreation: {
         type: String,
-        required: true
+        required: true,
+        immutable: true
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        immutable: true
     },
     title: {
         type: String,
-        required: true
+        required: true,
+        immutable: true
     },
     usersWhoLiked: {
         type: [ emailDataSchema ],
@@ -108,7 +98,10 @@ const blogsSchema = new Schema<IBlog>({
         required: true
     }
 }, {
-    collection: "blogs"
+    collection: "blogs",
+    methods: {
+        methodGetPOJO
+    }
 });
 
 export const Blogs = model("blog", blogsSchema);

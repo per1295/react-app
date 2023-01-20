@@ -10,4 +10,5 @@ declare module "*.gif" {
 
 declare module globalThis {
     export var initClient;
+    export var __NODE_ENV__: "production" | "development";
 }

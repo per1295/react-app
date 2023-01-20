@@ -1,0 +1,21 @@
+.header_center__title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 555px;
+    height: 100px;
+    background-color: rgba(96,96,110,0.0);
+    border: 10px solid #60606e;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    line-height: 48px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #60606e;
+    text-align: center;
+
+    @media screen and ( max-width: 750px ) {
+        width: calc(95% - 10px);
+        font-size: 30px;
+    }
+}

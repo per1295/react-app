@@ -1,19 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
+import logger from "redux-logger";
 import { State } from "./types";
+
 import isMenuOpen from "./slices/isMenuOpen";
-import categoryOption from "./slices/categoryOption";
 import isMobile from "./slices/isMobile";
 import isOnDocument from "./slices/isOnDocument";
 import isTablet from "./slices/isTablet";
+import userData from "./slices/userData";
 
 const store = configureStore<State>({
     reducer: {
         isMenuOpen,
-        categoryOption,
         isMobile,
         isOnDocument,
-        isTablet
-    }
+        isTablet,
+        userData
+    },
+    // @ts-ignore
+    middleware(getDefaultMiddleware) {
+        return globalThis?.__NODE_ENV__ === "development" ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware();
+    },
 });
 
 export default store;

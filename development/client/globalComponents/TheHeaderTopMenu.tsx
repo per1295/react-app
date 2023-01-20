@@ -1,7 +1,8 @@
 import React from "react";
-import "../globalStyles/TheHeaderTopMenu.scss";
 import { useTypedSelector, useDispatch } from "../customHooks";
 import { setMenuOpen, setMenuClose } from "../store/slices/isMenuOpen";
+
+import "../globalStyles/TheHeaderTopMenu.scss";
 
 const TheHeaderTopMenu = () => {
     const isMenuOpen = useTypedSelector((state) => state.isMenuOpen) as boolean;

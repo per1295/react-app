@@ -1,13 +1,15 @@
 import React, { FunctionComponent, createContext, Dispatch, SetStateAction, useState } from "react";
+import { useBlogData } from "../../customHooks";
+
 import Img from "../../globalComponents/Img";
-import "../styles/MainBlogBodyItem.scss"
 import MainBlogBodyItemUnder from "./MainBlogBodyItemUnder";
 import MainBlogBodyItemTitle from "./MainBlogBodyItemTitle";
 import MainBlogBodyItemDescription from "./MainBlogBodyItemDescription";
 import MainBlogBodyItemReadMore from "./MainBlogBodyItemReadMore";
 import MainBlogBodyItemWriteComment from "./MainBlogBodyItemWriteComment";
 import MainBlogBodyItemComments from "./MainBlogBodyItemComments";
-import { useBlogData } from "../../customHooks";
+
+import "../styles/MainBlogBodyItem.scss"
 
 interface IBlogItems {
     id: number;

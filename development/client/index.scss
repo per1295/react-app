@@ -27,8 +27,17 @@ body::-webkit-scrollbar-thumb {
     color: red !important;
 }
 
+@keyframes isFetched {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(20px);
+        opacity: 0;
+    }
+}
+
 .isFetched {
-    transition: transform .25s ease-in, opacity .25s ease-in;
-    transform: translateX(20px);
-    opacity: 0;
+    animation: .25s ease forwards isFetched;
 }

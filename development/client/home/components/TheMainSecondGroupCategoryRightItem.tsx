@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useRef, useEffect } from "react";
+import React, { FunctionComponent, useRef, useEffect, useContext } from "react";
 import Img from "../../globalComponents/Img";
-import { useTypedSelector } from "../../customHooks"; 
+import { CategoryContext } from "./TheMainSecondGroupCaterory";
+
 import "../styles/TheMainSecondGroupCategoryRightItem.scss";
 
 interface TheMainSecondGroupCategoryRightItemProps {
@@ -14,7 +15,7 @@ const TheMainSecondGroupCategoryRightItem: FunctionComponent<TheMainSecondGroupC
 =
 ({ showForCategories, src, alt, className }) => {
     const itemElement = useRef<HTMLImageElement>(null);
-    const categoryOption = useTypedSelector((state) => state.categoryOption) as string;
+    const { category } = useContext(CategoryContext);
 
     const transitionend = (event: TransitionEvent) => {
         const currentTarget = event.currentTarget as HTMLImageElement;
@@ -25,7 +26,7 @@ const TheMainSecondGroupCategoryRightItem: FunctionComponent<TheMainSecondGroupC
         const item = itemElement.current as HTMLImageElement;
         let timeout: NodeJS.Timeout;
 
-        if ( !showForCategories.includes(categoryOption) ) {
+        if ( !showForCategories.includes(category) ) {
             item.addEventListener("transitionend", transitionend);
             item.classList.add("category_itemVanish");
         } else {
@@ -39,7 +40,7 @@ const TheMainSecondGroupCategoryRightItem: FunctionComponent<TheMainSecondGroupC
             item.removeEventListener("transitionend", transitionend);
             clearTimeout(timeout);
         }
-    }, [ categoryOption ]);
+    }, [ category ]);
 
     return(
         <Img ref={itemElement} src={src} alt={alt} className={className}/>

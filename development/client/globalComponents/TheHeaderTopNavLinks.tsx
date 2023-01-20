@@ -81,16 +81,21 @@ export default function TheHeaderTopMenuNavLinks() {
         <div className="header_top__navLinks" ref={navLinksElem}>
             {
                 navLinksArray.map((item, index) => (
-                    <NavLink key={index} to={`/${item.toLowerCase()}`} className={
-                        ({ isActive }) => (
-                            isActive
-                            ?
-                            "header_top__navLinks___link header_top__navLinks___linkActive"
-                            :
-                            "header_top__navLinks___link"
-                        )
-                    }
-                    onPointerEnter={onEnter} onPointerLeave={onLeave}>
+                    <NavLink
+                        key={index}
+                        to={encodeURI(`/${item.toLowerCase()}`)}
+                        className={
+                            ({ isActive }) => (
+                                isActive
+                                ?
+                                "header_top__navLinks___link header_top__navLinks___linkActive"
+                                :
+                                "header_top__navLinks___link"
+                            )
+                        }
+                        onPointerEnter={onEnter}
+                        onPointerLeave={onLeave}
+                    >
                         { item }
                     </NavLink>
                 ))

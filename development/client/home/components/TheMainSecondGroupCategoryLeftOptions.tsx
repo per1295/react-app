@@ -1,11 +1,10 @@
-import React, { MouseEventHandler, useEffect, useRef } from "react";
-import { useDispatch, useTypedSelector } from "../../customHooks";
-import { setOption } from "../../store/slices/categoryOption";
+import React, { MouseEventHandler, useEffect, useRef, useContext } from "react";
+import { CategoryContext } from "./TheMainSecondGroupCaterory";
+
 import "../styles/TheMainSecondGroupCategoryLeftOptions.scss";
 
 const TheMainSecondGroupCategoryLeftOptions = () => {
-    const categoryOption = useTypedSelector((state) => state.categoryOption) as string;
-    const dispatch = useDispatch();
+    const { category, setCategory } = useContext(CategoryContext);
     const ulElement = useRef<HTMLUListElement>(null);
 
     useEffect(() => {
@@ -14,9 +13,9 @@ const TheMainSecondGroupCategoryLeftOptions = () => {
 
         Array.from(childrenLi).forEach(item => {
             const option = item.dataset.option as string;
-            if ( option !== categoryOption ) item.classList.remove("main_secondGroup__category___left____options_____optionActive"); 
+            if ( option !== category ) item.classList.remove("main_secondGroup__category___left____options_____optionActive"); 
         });
-    }, [ categoryOption ]);
+    }, [ category ]);
 
     const options = [ "All", "webdesign", "graphic design", "fashion", "logo design", "advertising" ];
 
@@ -24,7 +23,7 @@ const TheMainSecondGroupCategoryLeftOptions = () => {
         const liElement = event.currentTarget;
         const option = liElement.dataset.option;
         if ( option ) {
-            dispatch( setOption(option) );
+            setCategory(option);
             liElement.classList.add("main_secondGroup__category___left____options_____optionActive");
         }
     }

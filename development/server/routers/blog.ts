@@ -1,20 +1,18 @@
 import { Router, json } from "express";
-import { IBlog, ISearchInput, ISearchInputSchema, IGetBlogsQuery, IPutBlogsQuery } from '../types/blog';
+import { IBlog, ISearchInput, ISearchInputSchema, IGetBlogsQuery, IPutBlogsQuery } from '../../types/blog';
 import { SearchInput, ColumnPost, Blogs } from "../mongoose/blog";
 import type { Document, Types } from "mongoose";
-import type { IAppLocals } from "../types/home";
-import { createResponse } from "../functions";
+import { setCookies, wrappedHandlers } from "../functions";
 
 const jsonParser = json();
-const blog = Router();
+const blogs = Router();
 
-blog.post("/searchInput", jsonParser, async (req, res) => {
-    try {
+blogs.post("/searchInput", jsonParser, ...wrappedHandlers(
+    async (req, res) => {
         const { value } = req.body as ISearchInput;
-        const { cookieOptions } = req.app.locals as IAppLocals;
 
         const searchInput = await SearchInput.findOne({});
-        let newSearchInput: (Document<unknown, any, ISearchInputSchema> & ISearchInputSchema & {
+        let newSearchInput: (Document<unknown, any, Omit<ISearchInputSchema, "id">> & Omit<ISearchInputSchema, "id"> & {
             _id: Types.ObjectId;
         });
 
@@ -25,126 +23,97 @@ blog.post("/searchInput", jsonParser, async (req, res) => {
             newSearchInput = new SearchInput({ values: [ value ] });
             newSearchInput = await newSearchInput.save();
         };
+
+        setCookies(res, {
+            "search-input": newSearchInput.values.join("_")
+        });
         
-        res
-        .cookie("search-input", newSearchInput.values.join("_"), cookieOptions)
-        .json(createResponse({
-            status: "success",
-            message: "Your search is saved"
-        }));
-    } catch (error) {
-        const err = error as Error;
-        console.log(`${err.name}: ${err.message}`);
+        res.type("plain").send("Your search is saved");
     }
-});
+));
 
-blog.get("/columnPosts", async (_req, res) => {
-    try {
+blogs.get("/columnPosts", ...wrappedHandlers(
+    async (_req, res) => {
         const columnPosts = await ColumnPost.find({}, { _id: 0 });
-        res.json(createResponse({
-            status: "success",
-            message: columnPosts
-        }));
-    } catch (error) {
-        const err = error as Error;
-        console.log(`${err.name}: ${err.message}`);
+        res.json(columnPosts);
     }
-});
+));
 
-blog
-.route("/blogs")
-.get(async (req, res) => {
-    try {
-        let { lastId } = req.query as unknown as IGetBlogsQuery;
-        let blogs: Document<unknown, any, IBlog>[];
+blogs
+    .route("/blogs")
+    .get(...wrappedHandlers(
+        async (req, res) => {
+            let { lastId } = req.query as unknown as IGetBlogsQuery;
+            let blogs: any[];
 
-        if ( lastId ) {
-            blogs = await Blogs
-            .find({}, { _id: false })
-            .where("id")
-            .lt(+lastId)
-            .sort({
-                id: -1
-            })
-            .limit(3);
+            if ( lastId ) {
+                blogs = await Blogs
+                .find({})
+                .where("id")
+                .lt(+lastId)
+                .sort({
+                    _id: -1
+                })
+                .limit(3);
 
-            if ( blogs.length === 0 ) {
-                return res.json(createResponse({
-                    status: "success",
-                    message: "No more blogs for now"
-                }));
+                if ( blogs.length === 0 ) {
+                    return res.type("plain").send("No more blogs for now");
+                }
+            } else {
+                blogs = await Blogs
+                .find({})
+                .sort({
+                    _id: -1
+                })
+                .limit(3);
             }
-        } else {
-            blogs = await Blogs
-            .find({}, { _id: false })
-            .sort({
-                id: -1
-            })
-            .limit(3);
+
+            lastId = blogs.at(-1)?.id;
+
+            blogs = blogs.map(blog => blog.methodGetPOJO());
+
+            res.json({ blogs, lastId });
         }
+    ))
+    .patch(jsonParser, ...wrappedHandlers(
+        async (req, res) => {
+            let { id: _id, typeUpdate } = req.query as unknown as IPutBlogsQuery;
 
-        lastId = blogs.at(-1)?.get("id");
+            const {
+                comments,
+                countComments,
+                countLikes,
+                usersWhoLiked
+            } = req.body as Pick<IBlog, "comments" | "countComments" | "countLikes" | "usersWhoLiked">;
 
-        res.json(createResponse({
-            status: "success",
-            message: { blogs, lastId }
-        }));
-    } catch (error) {
-        const err = error as Error;
-        console.log(`${err.name}: ${err.message}`);
-    }
-})
-.patch(jsonParser, async (req, res) => {
-    try {
-        let { id, typeUpdate } = req.query as unknown as IPutBlogsQuery;
-        const {
-            comments,
-            countComments,
-            countLikes,
-            usersWhoLiked
-        } = req.body as Pick<IBlog, "comments" | "countComments" | "countLikes" | "usersWhoLiked">;
-        const blog = await Blogs.findOne({ id: +id });
-        if ( !blog ) {
-            return res.status(404).json(createResponse({
-                status: "fail",
-                message: "Wrong idOfBlog"
-            }));
+            const blog = await Blogs.findOne({ _id });
+
+            if ( !blog ) {
+                return res.status(404).type("plain").send("Wrong idOfBlog");
+            }
+
+            switch(typeUpdate) {
+                case "comments":
+                    blog.comments = comments;
+                    blog.countComments = countComments;
+
+                    await blog.save();
+
+                    res.type("plain").send("Comments were saved");
+                    break;
+                case "likes":
+                    blog.countLikes = +countLikes;
+                    blog.usersWhoLiked = usersWhoLiked;
+
+                    await blog.save();
+
+                    res.type("plain").send("Likes were saved");
+                    break;
+                default:
+                    res.status(404).type("plain").send("Wrong update type");
+                    break;
+            }
         }
+    ));
 
-        switch(typeUpdate) {
-            case "comments":
-                blog.comments = comments;
-                blog.countComments = countComments;
-                await blog.save();
-                res.json(createResponse({
-                    status: "success",
-                    message: "Comments were saved"
-                }));
-                break;
-            case "likes":
-                blog.countLikes = +countLikes;
-                blog.usersWhoLiked = usersWhoLiked;
-                await blog.save();
-                res.json(createResponse({
-                    status: "success",
-                    message: "Likes were saved"
-                }));
-                break;
-            default:
-                res.status(404).json(createResponse({
-                    status: "fail",
-                    message: "Wrong update type"
-                }));
-                break;
-        }
-    } catch (error) {
-        const errorTyped = error as Error;
-        console.error(`${errorTyped.name}: ${errorTyped.message}`);
-        res.status(404).json(createResponse({
-            status: "fail",
-            message: "Unknown error"
-        }));
-    }
-});
-
-export default blog;
+export default blogs;

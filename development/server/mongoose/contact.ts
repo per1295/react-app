@@ -1,34 +1,42 @@
 import { Schema, model } from "mongoose";
-import { IContactData } from "../types/contact";
+import { methodGetPOJO } from "../functions";
 
-const contactDataSchema = new Schema<IContactData>({
-    id: {
-        type: Number,
-        required: true
-    },
-    isVerified: {
-        type: Boolean,
-        default: false
-    },
+import type { IContactData } from "../../types/contact";
+import type { ExtendedSchema } from "../../types";
+
+const contactDataSchema: ExtendedSchema<IContactData> = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        lowercase: true,
+        minlength: 1,
+        maxlength: 15
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        minlength: 15,
+        maxlength: 40
     },
     object: {
         type: String,
         required: true,
-        lowercase: true
+        lowercase: true,
+        minlength: 10,
+        maxlength: 100
     },
     message: {
         type: String,
-        required: true
+        required: true,
+        lowercase: true,
+        minlength: 10,
+        maxlength: 50
     }
 }, {
-    collection: "contactData"
+    collection: "contactData",
+    methods: {
+        methodGetPOJO
+    }
 });
 
 export const ContactData = model("contactData", contactDataSchema);

@@ -1,8 +1,8 @@
 import supertest from "supertest";
-import * as dotenv from "dotenv";
-import { createResponse } from "../server/functions";
+import { config } from "dotenv";
+import { getArgs } from "../server/functions";
 
-dotenv.config();
+config();
 
 const baseURI = `http://localhost:${process.env.PORT}`;
 
@@ -11,6 +11,18 @@ const getFullPath = (...paths: string[]): string => {
     paths.forEach(item => arrayOfPaths.push(`/${item}`));
     return arrayOfPaths.join("");
 }
+
+const originalArgv = process.argv;
+
+beforeEach(() => {
+    jest.resetModules();
+
+    process.argv = [ "/process", "/process/index.js", "NODE_ENV=development" ];
+});
+
+afterEach(() => {
+    process.argv = originalArgv;
+});
 
 describe("/blog", () => {
     const getPath = getFullPath.bind(null, "blog");
@@ -156,33 +168,17 @@ describe("/home", () => {
 });
 
 describe("functions", () => {
-    const mockCreateResponse = jest.fn(createResponse);
 
-    test("createResponse", async () => {
-        interface ITestDatas {
-            status: "success" | "fail";
-            message: any;
-        }
-
-        const testDatas = [
-            {
-                status: "success",
-                message: "Hello, world"
-            },
-            {
-                status: "fail",
-                message: "Bad request"
-            },
-            {
-                status: "success",
-                message: "<h1>Hello, world</h1>"
-            }
-        ] as ITestDatas[];
-
-        testDatas.forEach(item => mockCreateResponse(item));
-
-        expect(mockCreateResponse.mock.calls.at(0)?.at(0)).toEqual(testDatas.at(0));
-        expect(mockCreateResponse.mock.results[1]?.value).toEqual(testDatas.at(1));
-        expect(mockCreateResponse.mock.calls.at(2)?.at(0)).toEqual(mockCreateResponse.mock.results.at(2)?.value);
+    test("getArgs", () => {
+        const mockGetArgs = jest.fn(getArgs);
+    
+        const result = {
+            NODE_ENV: "development"
+        };
+    
+        mockGetArgs();
+    
+        expect(mockGetArgs).toBeCalled();
+        expect(mockGetArgs.mock.results[0].value).toEqual(result);
     });
 });

@@ -3,7 +3,7 @@ import { State } from "./store/types";
 import React, { useState, useEffect, RefObject, useMemo, useContext } from "react";
 import cookie from "cookiejs";
 import { BlogsContext } from "./blog/components/TheMainBlogBody";
-import { IBlog } from "../server/types/blog";
+import { IBlog } from "../types/blog";
 import { CommentVisibleContext, IdContext } from "./blog/components/MainBlogBodyItem";
 
 export function useTypedSelector<Key extends keyof State>(func: (state: State) => State[Key]) {
@@ -62,16 +62,32 @@ type ResponseType = "text" | "json";
 
 export function useFetch<Response>(path?: string, resType?: ResponseType, options?: RequestInit) {
     return async function(additionalPath?: string) {
+
         let response: globalThis.Response | null = null;
+
+        const normalizePath =
+        additionalPath
+        ?
+        `api/${additionalPath.replace(/^\//, "")}`
+        :
+        path
+        ?
+        `/api/${path.replace(/^\//, "")}`
+        :
+        "/api";
+
         try {
-            response = await fetch(additionalPath ?? path ?? "/", options);
+            response = await fetch(normalizePath, options);
+
             if ( !response.ok ) throw new Error("Request error, try again.");
 
             return await response[resType ?? "text"]() as Response;
         } catch (error) {
-            const errorTyped = error as Error;
-            console.error(`${errorTyped.name}: ${errorTyped.message}`);
-            if ( response ) return await response[resType ?? "text"]() as Response;
+            const e = error as Error;
+
+            console.error(e);
+
+            return e.toString();
         }
     }
 }
@@ -237,28 +253,6 @@ export function useBlogData(id: number) {
 export function useIdOfBlog() {
     const id = useContext(IdContext);
     return id;
-}
-
-interface IUserData {
-    id: number;
-    email: string;
-    isVerified: boolean;
-}
-
-export function useNowUser() {
-    const [ userData, setUserData ] = useState<IUserData | null>(null);
-    
-    useEffect(() => {
-        const id = +cookie.get("id");
-        let email = cookie.get("email") as string;
-        const isVerified = Boolean(cookie.get("isVerified"));
-        if ( email ) {
-            email = decodeURIComponent(email);
-            setUserData({ id, email, isVerified });
-        }
-    }, []);
-
-    return userData;
 }
 
 export function useCommentVisible() {

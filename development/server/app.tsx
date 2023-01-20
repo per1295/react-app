@@ -1,38 +1,75 @@
-import express from "express";
-import * as dotenv from "dotenv";
-import { resolve } from "path";
+import express, { json } from "express";
+import { config } from "dotenv";
+import { join } from "path";
+import { readFile } from "fs/promises";
 import { renderToString } from "react-dom/server";
 import React, { StrictMode } from "react";
 import { StaticRouter } from "react-router-dom/server";
+
+import { getArgs, wrappedHandlers, setCookies, createRandomId, getApiRoute } from "./functions";
+import { Email } from "./mongoose";
+import type { Mode, IEmailData } from "../types";
+
 import UpperApp from "../client/App";
-import home from "./routers/home";
+
 import contact from "./routers/contact";
-import blog from "./routers/blog";
-import { Response } from "./constructors";
+import blogs from "./routers/blog";
 
 const app = express();
 
-dotenv.config();
+app.disable("x-powered-by");
 
-const HOME_PATH = process.env?.HOME_PATH as string;
-const CONTACT_PATH = encodeURI(process.env?.CONTACT_PATH as string);
-const BLOG_PATH = process.env?.BLOG_PATH as string;
+const jsonParser = json();
+
+config();
+
+const dist = join(process.cwd(), "dist");
 
 app.use(
     express.static(
-        resolve(__dirname, "../client")
+        join(dist, "client")
     ),
     express.static(
-        resolve(__dirname, "../service-worker")
+        join(dist, "service-worker")
     )
 );
 
-app.use(HOME_PATH, home);
-app.use(CONTACT_PATH, contact);
-app.use(BLOG_PATH, blog);
+app.use(
+    getApiRoute("/contact us"),
+    contact
+);
+app.use(
+    getApiRoute("/blog"),
+    blogs
+);
 
-app.get(/\//, (req, res) => {
-    try {
+app.post(getApiRoute("/email"), jsonParser, ...wrappedHandlers(
+    async (req, res) => {
+        const { email } = req.body as Pick<IEmailData, "email">;
+
+        const emailDocument = await Email.findOne({ email });
+
+        if ( emailDocument ) {
+            return res.type("plain").send("This email already exist");
+        }
+
+        const randomId = await createRandomId(Email);
+        let newEmail = new Email({ id: randomId, email });
+        newEmail = await newEmail.save();
+
+        setCookies(res, {
+            id: newEmail.id,
+            email: newEmail.email
+        });
+
+        res.type("plain").send("Email was saved");
+    }
+))
+
+app.get(/\//, ...wrappedHandlers(
+    async (req, res) => {
+        if ( req.path === "/") return res.redirect(308, "/home");
+
         const app = renderToString(
             <StrictMode>
                 <StaticRouter location={req.url}>
@@ -41,43 +78,24 @@ app.get(/\//, (req, res) => {
             </StrictMode>
         );
 
-        const env = process.argv[2];
+        const { NODE_ENV } = getArgs() as Record<"NODE_ENV", Mode>;
     
-        const html = `
-        <!DOCTYPE html>
-        <html lang="en" translate="no">
-        <head>
-            <meta charset="UTF-8">
-            <title>Loading...</title>
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="icon" type="image/png" href="/icon.png">
-            <link rel="manifest" href="/manifest.json">
-            <script fetchpriority="high" src="/sw.js"></script>
-            <link rel="stylesheet" href="/index.css">
-            <script src="/redux_toolkit.bundle.js"></script>
-            ${env === 'development' ? '<script src="/react.bundle.js"></script>' : ''}
-            <script src="/runtime~index.js"></script>
-            <script src="/${env === 'development' ? 'vendors-node_modules_fontsource_montserrat_index_css-node_modules_fontsource_open-sans_index_-633421' : '355'}.js"></script>
-            <script defer src="/index.js"></script>
-        </head>
-        <body>
-            <div id="root" translate="no">${app}</div>
-        </body>
-        </html>
-        `;
+        let html = await readFile(
+            join(dist, "server", "index.html"),
+            { encoding: "utf-8" }
+        );
+
+        html = html
+            .replace("<!--ssr-outlet-->", app)
+            .replace(
+                "<!--additional-script-->",
+                `<script>
+                    globalThis.__NODE_ENV__ = "${NODE_ENV}";
+                </script>`
+            )
     
         res.type("html").send(html);
-    } catch (error) {
-        const errorTyped = error as Error;
-        console.error(`${errorTyped.name}: ${errorTyped.message}`);
-        res.status(404).json(
-            new Response({
-                status: "fail",
-                message: "Unknown error"
-            })
-        );
     }
-});
+));
 
 export default app;

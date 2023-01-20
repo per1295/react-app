@@ -2,8 +2,7 @@ import React, { useState, useEffect, useMemo, createContext, Dispatch, SetStateA
 import "../styles/TheMainBlogBody.scss";
 import MainBlogBodyItem from "./MainBlogBodyItem";
 import { useFetch } from "../../customHooks";
-import { IBlog } from "../../../server/types/blog";
-import { Response } from "../../../server/constructors";
+import { IBlog } from "../../../types/blog";
 import TheMainBlogBodyAllBlogs from "../components/TheMainBlogBodyAllBlogs";
 
 interface IBlogsContext {
@@ -32,20 +31,20 @@ export default function TheMainBlogBody() {
     const isAllBlogs = useRef<boolean>(false);
     const fetchPath = useRef("/blog/blogs");
 
-    const fetch = useFetch<Response>(fetchPath.current, "json");
+    const fetch = useFetch<IBlogsResponse | string>(fetchPath.current, "json");
 
     async function getBlogs(path?: string) {
         const response = await fetch(path);
 
         if ( response ) {
-            if ( typeof response.message === "string" ) {
+            if ( typeof response === "string" ) {
                 isAllBlogs.current = true;
                 setIsAllBlogsState(true);
                 return;
             }
 
             try {
-                let { blogs, lastId } = response.message as IBlogsResponse;
+                let { blogs, lastId } = response as IBlogsResponse;
 
                 setBlogs(state => {
                     if ( state.length !== 0 ) blogs = blogs.filter((blog, index) => blog.id !== state[index].id);
@@ -85,8 +84,8 @@ export default function TheMainBlogBody() {
         <BlogsContext.Provider value={blogsContextValue}>
             <div className="mainBlog_body">
                 {
-                    blogs.map((blog, index) => (
-                        <MainBlogBodyItem key={index} id={blog.id}/>
+                    blogs.map(blog => (
+                        <MainBlogBodyItem key={blog.id} id={blog.id}/>
                     ))
                 }
                 { isAllBlogsState ? <TheMainBlogBodyAllBlogs/> : null }

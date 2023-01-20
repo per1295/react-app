@@ -1,20 +1,22 @@
 import React, { MouseEventHandler } from "react";
-import { useBlogData, useIdOfBlog, useNowUser } from "../../customHooks";
+import { useBlogData, useIdOfBlog, useTypedSelector, useCommentVisible } from "../../customHooks";
+import { useNavigate } from "react-router-dom";
+
 import IonIcon from "@reacticons/ionicons";
+
 import "../styles/MainBlogBodyItemUnderComments.scss";
-import { useCommentVisible } from "../../customHooks";
 
 export default function MainBlogBodyItemUnderComments() {
     const id = useIdOfBlog();
     const { blogData } = useBlogData(id);
     const { countComments } = blogData;
-    const userData = useNowUser();
+    const userData = useTypedSelector<"userData">(state => state.userData);
     const { isCommentVisible, setIsCommentVisible } = useCommentVisible();
+    const navigate = useNavigate();
 
     const clickComment: MouseEventHandler<HTMLDivElement> = () => {
-        if ( !userData ) return alert("Please register in contacts")
-        const { isVerified } = userData;
-        if ( !isVerified ) return alert("Please verify your email");
+        if ( !userData ) return navigate("/contact us");
+
         setIsCommentVisible(!isCommentVisible);
     }
 

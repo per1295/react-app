@@ -12,3 +12,7 @@ declare module "*.json"{
     const value: string;
     export default string;
 }
+
+declare module globalThis {
+    export var __NODE_ENV__: "development" | "production";
+}
