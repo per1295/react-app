@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .mainAboutUs_thirdGroup__underTeam {
     margin-top: 29px;
@@ -30,7 +30,7 @@
     }
 
     .mainAboutUs_thirdGroup__underTeam___button {
-        @include button(
+        @include m.button(
             $margin: 0,
             $align-self: auto
         );

@@ -3,14 +3,12 @@ import { config } from "dotenv";
 import { join } from "path";
 import { readFile } from "fs/promises";
 import { renderToString } from "react-dom/server";
-import React, { StrictMode } from "react";
-import { StaticRouter } from "react-router-dom/server";
+import React from "react";
+import createApp from "../client/App";
 
 import { getArgs, wrappedHandlers, setCookies, createRandomId, getApiRoute } from "./functions";
 import { Email } from "./mongoose";
 import type { Mode, IEmailData } from "../types";
-
-import UpperApp from "../client/App";
 
 import contact from "./routers/contact";
 import blogs from "./routers/blog";
@@ -24,7 +22,6 @@ const jsonParser = json();
 config();
 
 const dist = join(process.cwd(), "dist");
-
 app.use(
     express.static(
         join(dist, "client")
@@ -68,15 +65,11 @@ app.post(getApiRoute("/email"), jsonParser, ...wrappedHandlers(
 
 app.get(/\//, ...wrappedHandlers(
     async (req, res) => {
-        if ( req.path === "/") return res.redirect(308, "/home");
+        process.env.__START_PATH__ = req.path;
 
-        const app = renderToString(
-            <StrictMode>
-                <StaticRouter location={req.url}>
-                    <UpperApp/>
-                </StaticRouter>
-            </StrictMode>
-        );
+        const App = createApp();
+
+        const app = renderToString(<App />);
 
         const { NODE_ENV } = getArgs() as Record<"NODE_ENV", Mode>;
     

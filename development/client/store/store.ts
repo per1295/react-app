@@ -18,7 +18,7 @@ const store = configureStore<State>({
     },
     // @ts-ignore
     middleware(getDefaultMiddleware) {
-        return globalThis?.__NODE_ENV__ === "development" ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware();
+        return globalThis.__NODE_ENV__ === "development" ? getDefaultMiddleware().concat(logger) : getDefaultMiddleware();
     },
 });
 

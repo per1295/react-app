@@ -1,84 +1,86 @@
 import React, { PointerEventHandler, useEffect, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useTypedSelector } from "../customHooks";
+
 import "../globalStyles/TheHeaderTopNavLinks.scss";
-import { useTypedSelector, useDispatch } from "../customHooks";
-import { setMenuClose } from "../store/slices/isMenuOpen";
 
 export default function TheHeaderTopMenuNavLinks() {
     const isMenuOpen = useTypedSelector((state) => state.isMenuOpen) as boolean;
-    const dispatch = useDispatch();
-    const navLinksElem = useRef<HTMLDivElement>(null);
-    const timeoutsRef = useRef<Set<NodeJS.Timeout>>(new Set());
-    const location = useLocation();
+    const navLinksRef = useRef<HTMLDivElement>(null);
 
     const navLinksArray = [ "Home", "about us", "services", "blog", "contact us" ];
 
     useEffect(() => {
+        const timeout = setTimeout(() => {
+            const navLinksElem = navLinksRef.current as HTMLDivElement;
+            const navLinksChildren = Array.from(navLinksElem.children) as HTMLAnchorElement[];
+
+            if ( isMenuOpen ) {
+                navLinksChildren.forEach((navLink, index) => {
+                    const navLinkAnimation = navLink.animate([
+                        {
+                            opacity: "0",
+                            transform: "translateX(-20px)"
+                        },
+                        {
+                            opacity: "1",
+                            transform: "translateX(0)"
+                        }
+                    ], {
+                        duration: 300,
+                        delay: 300 * index,
+                        fill: "forwards",
+                        easing: "ease"
+                    });
+
+                    if ( !navLink.getAnimations().length ) navLinkAnimation.persist();
+                });
+            } else {
+                navLinksChildren.reverse().forEach((navLink, index) => {
+                    if ( !navLink.getAnimations().length ) return;
+
+                    navLink.animate([
+                        {
+                            opacity: "1",
+                            transform: "translateX(0)"
+                        },
+                        {
+                            opacity: "0",
+                            transform: "translateX(20px)"
+                        }
+                    ], {
+                        duration: 300,
+                        delay: 300 * index,
+                        fill: "forwards",
+                        easing: "ease"
+                    });
+                });
+            }
+        });
+
         return () => {
-            dispatch( setMenuClose() );
-        }
-    }, [ location ]);
-
-    useEffect(() => {
-        const navLinks = navLinksElem.current as HTMLDivElement;
-        const timeouts = timeoutsRef.current;
-
-        const navLinksChildren = navLinks.children as HTMLCollectionOf<HTMLAnchorElement>;
-        const firstNavLink = Array.from(navLinksChildren)[0];
-
-        const firstNavLinkListener = () => {
-            navLinks.classList.remove("header_top__navLinksActive");
-        }
-
-        if ( isMenuOpen ) {
-            navLinks.classList.add("header_top__navLinksActive");
-            firstNavLink.removeEventListener("transitionend", firstNavLinkListener);
-
-            Array.from(navLinksChildren).forEach((item, index) => {
-                const timeoutLink = setTimeout(() => {
-                    item.classList.add("header_top__navLinks___linkAppear");
-                }, 250 * index);
-                timeouts.add(timeoutLink);
-            });
-        } else {
-            firstNavLink.addEventListener("transitionend", firstNavLinkListener);
-
-            const reverseNavLinksChildren = Array.from(navLinksChildren).reverse(); 
-            reverseNavLinksChildren.forEach((item, index) => {
-                const timeoutLink = setTimeout(() => {
-                    item.classList.remove("header_top__navLinks___linkAppear");
-                }, 250 * index);
-                timeouts.add(timeoutLink);
-            });
-        }
-
-        return () => {
-            timeouts.forEach(item => clearTimeout(item));
-            timeouts.clear();
-            firstNavLink.removeEventListener("transitionend", firstNavLinkListener);
+            clearTimeout(timeout);
         }
     }, [ isMenuOpen ]);
 
-    const onEnter: PointerEventHandler = ( event ) => {
-        const navLink = event.currentTarget as HTMLLinkElement;
-        const isActive = navLink.classList.contains("header_top__navLinks___linkActive");
+    const pointerHandler: PointerEventHandler = event => {
+        const navLink = event.currentTarget;
+        const type = event.type;
 
-        if ( !isActive ) {
-            navLink.classList.add("header_top__navLinks___linkEnter");
-        }
-    }
+        if ( navLink.classList.contains("header_top__navLinks___linkActive") ) return;
 
-    const onLeave: PointerEventHandler = ( event ) => {
-        const navLink = event.currentTarget as HTMLLinkElement;
-        const isActive = navLink.classList.contains("header_top__navLinks___linkActive");
-
-        if ( !isActive ) {
-            navLink.classList.remove("header_top__navLinks___linkEnter");
+        switch(type) {
+            case "pointerenter":
+                navLink.classList.add("header_top__navLinks___linkEnter");
+                break;
+            case "pointerleave":
+                navLink.classList.remove("header_top__navLinks___linkEnter");
+                break;
         }
     }
 
     return(
-        <div className="header_top__navLinks" ref={navLinksElem}>
+        <div className="header_top__navLinks" ref={navLinksRef}>
             {
                 navLinksArray.map((item, index) => (
                     <NavLink
@@ -93,8 +95,8 @@ export default function TheHeaderTopMenuNavLinks() {
                                 "header_top__navLinks___link"
                             )
                         }
-                        onPointerEnter={onEnter}
-                        onPointerLeave={onLeave}
+                        onPointerEnter={pointerHandler}
+                        onPointerLeave={pointerHandler}
                     >
                         { item }
                     </NavLink>

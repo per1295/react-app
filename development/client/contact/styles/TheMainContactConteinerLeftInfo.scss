@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .mainContact_conteiner__left___info {
     margin-top: 100px;
@@ -17,7 +17,7 @@
     }
 
     .mainContact_conteiner__left___info_information {
-        @include information(
+        @include m.information(
             $width: auto,
             $line-height: 30px,
             $font-size: 14px,
@@ -31,7 +31,7 @@
         flex-direction: column;
 
         .mainContact_conteiner__left___info____data_information {
-            @include information(
+            @include m.information(
                 $width: auto,
                 $line-height: 30px,
                 $font-size: 14px,

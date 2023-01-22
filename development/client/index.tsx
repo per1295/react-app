@@ -1,6 +1,5 @@
 import { hydrateRoot } from "react-dom/client";
 import React, { StrictMode } from "react";
-import { BrowserRouter } from "react-router-dom";
 import store from "./store/store";
 import { setIsMobileTrue, setIsMobileFalse } from "./store/slices/isMobile";
 import { setIsOnDocumentTrue } from "./store/slices/isOnDocument";
@@ -9,7 +8,7 @@ import { setIsTabletTrue, setIsTabletFalse } from "./store/slices/isTablet";
 import "@fontsource/montserrat";
 import "@fontsource/open-sans";
 
-import App from "./App";
+import createApp from "./App";
 
 type Agent = "phone" | "tablet";
 
@@ -61,11 +60,16 @@ registerServiceWorker();
 
 const root = document.getElementById("root") as HTMLDivElement;
 
-hydrateRoot(
-    root,
+const App = createApp();
+
+const NormalizedApp = globalThis.__NODE_ENV__ !== "production"
+?
+(
     <StrictMode>
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
+        <App />
     </StrictMode>
 )
+:
+<App />;
+
+hydrateRoot(root, NormalizedApp);

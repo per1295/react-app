@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .mainServices_firstGroup__main___left {
     max-width: 550px;
@@ -12,7 +12,7 @@
     }
 
     .mainServices_firstGroup__main___left_information {
-        @include information(
+        @include m.information(
             $line-height: 30px,
             $width: auto,
             $margin: 0,

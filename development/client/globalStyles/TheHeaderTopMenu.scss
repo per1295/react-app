@@ -1,4 +1,4 @@
-@import "../mixins.scss";
+@use "../mixins.scss" as m;
 
 .header_top__menu {
     cursor: pointer;
@@ -9,11 +9,11 @@
     @for $header_line from 1 through 3 {
         .header_top__menu___line:nth-child(#{$header_line}) {
             @if $header_line == 1 {
-                @include header_top__menu___line()
+                @include m.header_top__menu___line()
             } @else if $header_line == 2 {
-                @include header_top__menu___line($width: 15px, $margin-top: 6px)
+                @include m.header_top__menu___line($width: 15px, $margin-top: 6px)
             } @else {
-                @include header_top__menu___line($width: 23px, $margin-top: 6px)
+                @include m.header_top__menu___line($width: 23px, $margin-top: 6px)
             }
         }
     }

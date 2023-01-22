@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useMemo, useEffect } from "react";
-import { useMatch, useLocation } from "react-router-dom";
+import React, { useMemo, useEffect } from "react";
+import { useMatch, useLocation, Outlet } from "react-router-dom";
 import { setMenuClose } from "../store/slices/isMenuOpen";
 import { useDispatch } from "react-redux";
 
@@ -9,14 +9,14 @@ import ChangeTitle from "./ChangeTitle";
 import TheFooter from "./TheFooter";
 import SetUserData from "./SetUserData";
 
-interface LayoutProps {
-    children: JSX.Element | null | (JSX.Element | null)[]
-}
-
-const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
+export default function Layout() {
     const match = useMatch("/home");
     const location = useLocation();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch( setMenuClose() );
+    }, [ location.pathname ]);
 
     const [ title, underTitle ] = useMemo(() => {
         const result: string[] = [];
@@ -60,19 +60,13 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
         return result;
     }, [ location.pathname ]);
 
-    useEffect(() => {
-        dispatch( setMenuClose() );
-    }, [ location.pathname ]);
-
     return(
         <>
             <SetUserData />
             <ChangeTitle />
             { Boolean(match) ? <TheHomeHeader /> : <TheHeader title={title ?? ""} underTitle={underTitle ?? ""} /> }
-            { children }
+            <Outlet />
             <TheFooter />
         </>
     )
 }
-
-export default Layout;

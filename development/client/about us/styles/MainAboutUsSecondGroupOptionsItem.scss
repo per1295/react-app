@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .mainAboutUs_secondGroup__options___item {
     max-width: 357px;
@@ -16,7 +16,7 @@
     }
 
     .mainAboutUs_secondGroup__options___item_information {
-        @include information(
+        @include m.information(
             $font-size: 14px,
             $line-height: 30px,
             $text-align: left,

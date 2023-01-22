@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useTypedSelector } from "../customHooks";
+
 import TheMainBlog from "./components/TheMainBlog";
 import TheMainThirdGroup from "../globalComponents/TheMainThirdGroup";
-import { useTypedSelector } from "../customHooks";
 import TheMobileChanger from "./components/TheMobileChanger";
 
 export default function Blog() {
@@ -30,9 +31,9 @@ export default function Blog() {
 
 	return (
 		<>
-			<TheMainBlog/>
-			<TheMainThirdGroup/>
-			{ isMobile ? <TheMobileChanger isShow={isShowChanger}/> : null }
+			<TheMainBlog />
+			<TheMainThirdGroup />
+			{ isMobile ? <TheMobileChanger isShow={isShowChanger} /> : null }
 		</>
 	)
 }

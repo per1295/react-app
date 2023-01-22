@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .mainServices_secondGroup__plans___plan {
     position: relative;
@@ -77,7 +77,7 @@
         }
 
         .mainServices_secondGroup__plans___plan____conteiner_____button {
-            @include button(
+            @include m.button(
                 $height: 50px,
                 $width: 135px,
                 $margin: 52px 0 40px 0,

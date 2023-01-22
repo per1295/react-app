@@ -1,4 +1,4 @@
-@import "../mixins.scss";
+@use "../mixins.scss" as m;
 
 .title {
     position: relative;
@@ -19,7 +19,7 @@
     }
 
     .title_greenBlock {
-        @include greenBlock(67px, 21px) {
+        @include m.greenBlock(67px, 21px) {
             position: absolute;
             z-index: 1;
         };

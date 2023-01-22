@@ -1,34 +1,52 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import {
+    RouterProvider,
+    createBrowserRouter,
+    createMemoryRouter,
+    createRoutesFromElements,
+    Route,
+    Navigate
+} from "react-router-dom";
 
-import Layout from "./globalComponents/Layout";
-import Home from "./home";
-import AboutUs from "./about us";
-import Services from "./services";
-import Contact from "./contact";
-import Blog from "./blog";
+import Layout from "../client/globalComponents/Layout";
+import Home from "../client/home";
+import AboutUs from "../client/about us";
+import Services from "../client/services";
+import Contact from "../client/contact";
+import Blog from "../client/blog";
+import ErrorElement from "./globalComponents/ErrorElement";
 
 import "./index.scss";
 
-const App = () => {
-    const paths = [ "home", "about us", "services", "contact us", "blog" ];
-    const components = [ <Home />, <AboutUs />, <Services />, <Contact />, <Blog /> ];
+export default function createApp() {
+    const routes = createRoutesFromElements(
+        <Route path="/" element={<Layout />} errorElement={<ErrorElement />}>
+            <Route path="home" element={<Home />} />
+            <Route path="about us" element={<AboutUs />} />
+            <Route path="services" element={<Services />} />
+            <Route path="contact us" element={<Contact />} />
+            <Route path="blog" element={<Blog />} />
+            <Route index element={<Navigate to="home" replace />} />
+        </Route>
+    );
+    
+    const router = typeof window !== "undefined"
+    ?
+    createBrowserRouter(routes)
+    :
+    createMemoryRouter(routes, {
+        initialEntries: [ process.env.__START_PATH__ as string ]
+    });
+    
+    const App = () => {
+        return(
+            <Provider store={store}>
+                <RouterProvider router={router} />
+            </Provider>
+        )
+    }
 
-    return(
-        <Provider store={store}>
-            <Layout>
-                <Routes>
-                    {
-                        components.map((item, index) => (
-                            <Route key={index} path={`/${paths[index]}`} element={item}/>
-                        ))
-                    }
-                </Routes>
-            </Layout>
-        </Provider>
-    )
+    return App;
 }
-
-export default App;

@@ -1,4 +1,4 @@
-@import "../mixins.scss";
+@use "../mixins.scss" as m;
 
 .titleOfGroup {
     display: flex;
@@ -7,6 +7,6 @@
     justify-content: flex-start;
 
     .information {
-        @include information(719px, 29px 0 0 0, $font-size: 14px)
+        @include m.information(719px, 29px 0 0 0, $font-size: 14px)
     }
 }

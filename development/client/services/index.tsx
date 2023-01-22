@@ -5,8 +5,8 @@ import TheMainThirdGroup from "../globalComponents/TheMainThirdGroup";
 export default function Services() {
     return(
         <>
-            <TheMainServices/>
-            <TheMainThirdGroup/>
+            <TheMainServices />
+            <TheMainThirdGroup />
         </>
     )
 }

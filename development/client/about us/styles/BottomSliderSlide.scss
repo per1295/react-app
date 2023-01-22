@@ -1,4 +1,4 @@
-@import "../../mixins.scss";
+@use "../../mixins.scss" as m;
 
 .bottom_slider__slide {
     min-width: 100%;
@@ -10,7 +10,7 @@
     user-select: none;
 
     .bottom_slider__slide_information {
-        @include information(
+        @include m.information(
             $width: auto,
             $margin: 23px 0 0 0,
             $line-height: 30px,
@@ -19,7 +19,7 @@
     }
 
     .bottom_slider__slide___button {
-        @include button(
+        @include m.button(
             $width: 99px,
             $height: 29px,
             $margin: 26px 0 0 0,

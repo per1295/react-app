@@ -3,6 +3,6 @@ import TheMain from "./components/TheMain";
 
 export default function Home() {
     return(
-        <TheMain/>
+        <TheMain />
     )
 }
