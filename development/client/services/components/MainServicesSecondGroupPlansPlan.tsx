@@ -1,8 +1,10 @@
 import React, { FunctionComponent, PointerEventHandler, useEffect, useRef } from "react";
 import { useTypedSelector } from "../../customHooks";
 import { useNavigate } from "react-router-dom";
+
 import CheckboxLine from "./CheckboxLine";
 import Button from "../../globalComponents/Button";
+
 import "../styles/MainServicesSecondGroupPlansPlan.scss";
 
 interface MainServicesSecondGroupPlansPlanProps {

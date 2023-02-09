@@ -13,6 +13,9 @@
 };
 
 @mixin information($width: 540px, $margin: 30px 0 0 0, $text-align: center, $line-height: 24px, $font-size: 16px) {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 400;
+    color: #60606e;
     width: $width;
     margin: $margin;
     text-align: $text-align;

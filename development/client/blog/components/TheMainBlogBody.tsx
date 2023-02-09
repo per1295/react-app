@@ -1,9 +1,23 @@
-import React, { useState, useEffect, useMemo, createContext, Dispatch, SetStateAction, useRef } from "react";
-import "../styles/TheMainBlogBody.scss";
+import React, {
+    useState,
+    useMemo,
+    createContext,
+    Dispatch,
+    SetStateAction,
+    useRef,
+    useEffect,
+    useContext
+} from "react";
+import { useFetcher } from "react-router-dom";
+import { blogLoaderDataContext } from "./TheMainBlog";
+import type { IBlog, BlogsResponse } from "../../../types/blog";
+
 import MainBlogBodyItem from "./MainBlogBodyItem";
-import { useFetch } from "../../customHooks";
-import { IBlog } from "../../../types/blog";
 import TheMainBlogBodyAllBlogs from "../components/TheMainBlogBodyAllBlogs";
+import TheMainBlogBodyPlaceholders from "./TheMainBlogBodyPlaceholders";
+import TheMainBlogBodyWaiting from "./TheMainBlogBodyWaiting";
+
+import "../styles/TheMainBlogBody.scss";
 
 interface IBlogsContext {
     blogs: IBlog[];
@@ -12,86 +26,78 @@ interface IBlogsContext {
 
 const defaultValue = {
     blogs: [],
-    setBlogs: (blogs: IBlog[]) => blogs
+    setBlogs: () => []
 } as IBlogsContext;
 
 export const BlogsContext = createContext<IBlogsContext>(defaultValue);
 
-interface IBlogsResponse {
-    blogs: IBlog[];
-    lastId: number;
-}
-
 export default function TheMainBlogBody() {
+    const blogLoaderData = useContext(blogLoaderDataContext);
+    const fetcher = useFetcher<BlogsResponse | string>();
+    const [ blogs, setBlogs ] = useState<IBlog[] | null>(null);
     const [ isAllBlogsState, setIsAllBlogsState ] = useState(false);
-    const [ blogs, setBlogs ] = useState<IBlog[]>([]);
-    const blogsContextValue = { blogs, setBlogs };
+    const isAllBlogs = useRef(false);
+    const lastIDRef = useRef<string | null>(null);
+    const blogsContextValue = { blogs: blogs ?? [], setBlogs } as IBlogsContext;
 
-    const calmDown = useRef(0);
-    const isAllBlogs = useRef<boolean>(false);
-    const fetchPath = useRef("/blog/blogs");
+    useEffect(() => {
+        if ( blogLoaderData ) {
+            const { blogs } = blogLoaderData;
+            const { content, lastID } = blogs;
+            setBlogs(content);
+            lastIDRef.current = lastID;
+        }
+    }, [ blogLoaderData ]);
 
-    const fetch = useFetch<IBlogsResponse | string>(fetchPath.current, "json");
+    useEffect(() => {
+        const { data } = fetcher;
 
-    async function getBlogs(path?: string) {
-        const response = await fetch(path);
-
-        if ( response ) {
-            if ( typeof response === "string" ) {
-                isAllBlogs.current = true;
+        if ( data ) {
+            if ( typeof data === "string") {
                 setIsAllBlogsState(true);
-                return;
-            }
-
-            try {
-                let { blogs, lastId } = response as IBlogsResponse;
-
-                setBlogs(state => {
-                    if ( state.length !== 0 ) blogs = blogs.filter((blog, index) => blog.id !== state[index].id);
-                    return [ ...state, ...blogs ];
+                isAllBlogs.current = true;
+            } else {
+                const { content, lastID } = data;
+                setBlogs(oldBlogs => {
+                    return oldBlogs ? [ ...oldBlogs, ...content ] : content
                 });
-                
-                fetchPath.current = `/blog/blogs?lastId=${lastId}`;
-            } catch (error) {
-                console.log(error);
+                lastIDRef.current = lastID;
             }
         }
-    }
+    }, [ fetcher.data ]);
+
+    useEffect(() => {
+        document.addEventListener("scroll", scrollingBlogs);
+
+        return () => document.removeEventListener("scroll", scrollingBlogs);
+    }, []);
 
     const scrollingBlogs = async () => {
         if ( isAllBlogs.current ) return;
-
-        const nowTime = performance.now();
-
-        if ( nowTime - calmDown.current < 2000 && calmDown.current !== 0) return;
-        if ( document.documentElement.scrollHeight - scrollY > 1200 ) return;
-
-        calmDown.current = Math.floor(nowTime);
-        await getBlogs(fetchPath.current);
-    }
-
-    useEffect(() => {
-        if ( blogs.length === 0 ) getBlogs();
-
-        document.addEventListener("scroll", scrollingBlogs);
-
-        return () => {
-            document.removeEventListener("scroll", scrollingBlogs);
+        if ( document.documentElement.scrollHeight - scrollY > 1200 || fetcher.state !== "idle" ) return;
+        
+        if ( lastIDRef.current ) {
+            fetcher.load(`/api/blog/blogs?lastID=${lastIDRef.current}`);
         }
-    }, []);
+    }
 
     const blogsElement = useMemo(() => (
         <BlogsContext.Provider value={blogsContextValue}>
             <div className="mainBlog_body">
                 {
+                    blogs
+                    ?
                     blogs.map(blog => (
                         <MainBlogBodyItem key={blog.id} id={blog.id}/>
                     ))
+                    :
+                    <TheMainBlogBodyPlaceholders />
                 }
-                { isAllBlogsState ? <TheMainBlogBodyAllBlogs/> : null }
+                { isAllBlogsState ? <TheMainBlogBodyAllBlogs /> : null }
+                { fetcher.state !== "idle" ? <TheMainBlogBodyWaiting /> : null }
             </div>
         </BlogsContext.Provider>
-    ), [ blogs, isAllBlogsState ]);
+    ), [ blogs, isAllBlogsState, fetcher.state ]);
 
     return blogsElement;
 }

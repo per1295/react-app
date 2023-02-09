@@ -1,8 +1,10 @@
 import React from "react";
-import "../styles/BottomSliderSlide.scss";
+
 import Img from "../../globalComponents/Img";
 import Information from "../../globalComponents/Information";
 import Button from "../../globalComponents/Button";
+
+import "../styles/BottomSliderSlide.scss";
 
 import slideImage from "../images/slideImage.png";
 

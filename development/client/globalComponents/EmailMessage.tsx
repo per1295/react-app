@@ -1,4 +1,5 @@
 import React, { forwardRef } from "react";
+
 import "../globalStyles/EmailMessage.scss";
 
 interface EmailMessageProps {

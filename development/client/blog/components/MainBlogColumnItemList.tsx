@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
-import "../styles/MainBlogColumnItemList.scss";
+
 import MainBlogColumnItemListItem from "./MainBlogColumnItemListItem";
+
+import "../styles/MainBlogColumnItemList.scss";
 
 interface MainBlogColumnItemListProps {
     titleList: string[];

@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from "react";
+import IconList from "@reacticons/ionicons/lib/components/iconList.json";
+
 import Information from "../../globalComponents/Information";
-import "../styles/MainAboutUsSecondGroupOptionsItem.scss";
 import OptionsItemHead from "./OptionsItemHead";
 
+import "../styles/MainAboutUsSecondGroupOptionsItem.scss";
+
 interface MainAboutUsSecondGroupOptionsItemProps {
-    iconName: string
+    iconName: keyof typeof IconList;
     title: string;
 }
 

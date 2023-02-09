@@ -1,7 +1,9 @@
 import React from "react";
-import "../globalStyles/TheMainThirdGroupConteinerLeft.scss"
-import Button from "./Button";
 import { useNavigate } from "react-router-dom";
+
+import Button from "./Button";
+
+import "../globalStyles/TheMainThirdGroupConteinerLeft.scss"
 
 export default function TheMainThirdGroupConteinerLeft() {
     const navigate = useNavigate();

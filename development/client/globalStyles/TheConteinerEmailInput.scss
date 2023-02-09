@@ -1,8 +1,8 @@
 .conteiner_email__input {
-    padding: 0 0 0 19px;
+    padding: 0 19px;
     margin: 0;
     outline: none;
-    width: 356px;
+    width: 337px;
     height: 46px;
     background-color: #ffffff;
     border: 1px solid rgba(0,0,0,0.09);
@@ -14,7 +14,7 @@
     color: #cdcdcd;
 
     @media screen and ( max-width: 750px ) {
-        width: calc(70% - 19px);
+        width: calc(70% - 38px);
     }
 
     &::placeholder {

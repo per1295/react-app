@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainSecondGroup.scss";
+
 import TitleOfGroup from "../../globalComponents/TitleOfGroup";
 import TheMainSecondGroupCategory from "./TheMainSecondGroupCaterory";
+
+import "../styles/TheMainSecondGroup.scss";
 
 export default function TheMainSecondGroup() {
     return(

@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../globalStyles/TheFooterConteinerCopyRight.scss";
 
 export default function TheFooterConteinerCopyRight() {

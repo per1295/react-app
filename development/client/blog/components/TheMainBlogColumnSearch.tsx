@@ -1,42 +1,59 @@
 import React, { useRef, FormEventHandler, EventHandler, MouseEvent } from "react";
+import { useDatalist, useFormValidation } from "../../customHooks";
+import { useFetcher } from "react-router-dom";
+
 import IonIcon from "@reacticons/ionicons";
+
 import "../styles/TheMainBlogColumnSearch.scss";
-import { useDatalist, useFetch, useInputValidation } from "../../customHooks";
 
 export default function TheMainBlogColumnSearch() {
-	const inputRef = useRef<HTMLInputElement>(null);
 	const datalist = useDatalist("search-input");
-
-	const { value, error } = useInputValidation(inputRef);
-
-	const fetch = useFetch<Response>("/blog/searchInput", "json", {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json"
-		},
-		body: JSON.stringify({ value })
-	});
+	const fetcher = useFetcher();
+	const formRef = useRef<HTMLFormElement>(null);
+	const { formElements } = useFormValidation(formRef);
 
 	const clickForm: FormEventHandler<HTMLFormElement> = () => {
-		const input = inputRef.current as HTMLInputElement;
-		input.focus();
+		const formElem = formRef.current;
+
+		if ( formElem ) {
+			const input = formElem.children[0] as HTMLInputElement;
+			input.focus();
+		}
 	};
 
 	const clickIcon: EventHandler<MouseEvent> = async (event) => {
 		event.stopPropagation();
-		await fetch();
+		submitSearch();
 	};
 
 	const submitForm: FormEventHandler<HTMLFormElement> = async event => {
 		event.preventDefault();
-		if ( error && !value ) return;
-		await fetch();
+		submitSearch();
 	};
 
+	function submitSearch() {
+		const formElem = formRef.current;
+		const isError = formElements.some(formElement => formElement.isError);
+
+		if ( formElem && !isError ) {
+			fetcher.submit(formElem, {
+				method: "post",
+				action: "/api/blog/searchInput"
+			});
+
+			const inputElem = formElem.children[0] as HTMLInputElement;
+			inputElem.value = "";
+		}
+	}
+
 	return (
-		<form method="post" className="mainBlog_column__search" onClick={clickForm} onSubmit={submitForm}>
+		<fetcher.Form
+			ref={formRef}
+			className="mainBlog_column__search"
+			onClick={clickForm}
+			onSubmit={submitForm}
+		>
 			<input
-			ref={inputRef}
 			list="search-input"
 			type="text"
 			name="searchInput"
@@ -46,6 +63,6 @@ export default function TheMainBlogColumnSearch() {
 			/>
 			<IonIcon name="search-outline" className="mainBlog_column__search___icon" onClick={clickIcon} />
 			{ datalist }
-		</form>
+		</fetcher.Form>
 	)
 }

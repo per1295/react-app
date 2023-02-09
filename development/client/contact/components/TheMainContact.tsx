@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainContact.scss";
+
 import TheMainContactConteiner from "./TheMainContactConteiner";
 import TheMainThirdGroup from "../../globalComponents/TheMainThirdGroup";
+
+import "../styles/TheMainContact.scss";
 
 export default function TheMainContact() {
     return(

@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../globalStyles/TheConteinerTitle.scss";
 
 export default function TheConteinerTitle() {

@@ -1,5 +1,7 @@
 import React, { FunctionComponent, MouseEventHandler, useEffect, useRef, useState } from "react";
+
 import IonIcon from "@reacticons/ionicons";
+
 import "../styles/TheMobileChanger.scss";
 
 interface TheMobileChangerProps {
@@ -63,16 +65,16 @@ const TheMobileChanger: FunctionComponent<TheMobileChangerProps> = ({ isShow }) 
     return(
         <div className="mobileChanger mobileChangerActive" ref={mobileChangerRef}>
             <IonIcon
-            data-mobile-active="blog"
-            name="arrow-back-circle-outline"
-            className="mobileChanger_blogArrow"
-            onClick={clickArrow}
+                data-mobile-active="blog"
+                name="arrow-back-circle-outline"
+                className="mobileChanger_blogArrow"
+                onClick={clickArrow}
             />
             <IonIcon
-            data-mobile-active="column"
-            name="arrow-forward-circle-outline"
-            className="mobileChanger_columnArrow mobileChanger_activeArrow"
-            onClick={clickArrow}
+                data-mobile-active="column"
+                name="arrow-forward-circle-outline"
+                className="mobileChanger_columnArrow mobileChanger_activeArrow"
+                onClick={clickArrow}
             />
         </div>
     )

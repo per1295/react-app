@@ -1,7 +1,7 @@
 import { Router, json } from "express";
 import { IContactData } from "../../types/contact";
 import { ContactData } from "../mongoose/contact";
-import { createRandomId, setCookies, wrappedHandlers } from "../functions";
+import { setCookies, wrappedHandlers } from "../functions";
 
 const jsonParser = json();
 const contact = Router();
@@ -12,7 +12,7 @@ contact.post("/user", jsonParser, ...wrappedHandlers(
         let existUser = await ContactData.findOne({ email });
 
         if ( existUser ) {
-            return res.type("plain").send("This email already use");
+            return res.send("This email already use");
         }
 
         const newUser = new ContactData({ name, email, object, message });

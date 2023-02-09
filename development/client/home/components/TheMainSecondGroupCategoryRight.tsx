@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainSecondGroupCategoryRight.scss";
+
 import TheMainSecondGroupCategoryRightItem from "./TheMainSecondGroupCategoryRightItem";
+
+import "../styles/TheMainSecondGroupCategoryRight.scss";
 
 import category_item__1 from "../images/category_item__1.png";
 import category_item__2 from "../images/category_item__2.png";

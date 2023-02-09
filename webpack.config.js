@@ -1,14 +1,18 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
+const webpack = require("webpack");
 
 const { join } = require("path");
 
 const dev = join(process.cwd(), "development");
 const dist = join(process.cwd(), "dist");
+const publicDir = join(dev, "public");
+const publicOutput = join(dist, "public");
 
 const frontendConfig = (env) => ({
-    name: "frontentd",
+    name: "frontend",
     entry: {
         client: join(dev, "client", "index.tsx")
     },
@@ -53,35 +57,48 @@ const frontendConfig = (env) => ({
     optimization: {
         runtimeChunk: true,
         splitChunks: {
-            chunks: "all",
-            cacheGroups: {
-                libraries: {
-                    name: "client-libraries",
-                    filename: "[name].bundle.js",
-                    test: /[\\/]node_modules[\\/]/
-                }
-            }
+            chunks: "all"
         }
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "index.css"
-        }),
+        new MiniCssExtractPlugin(),
         new CleanWebpackPlugin(),
+        new WebpackManifestPlugin({
+            fileName: "webpack-manifest.json",
+            filter: (fileDescriptor) => {
+                return !/\.(json|png|gif|jpeg)$/.test(fileDescriptor.path)
+            }
+        }),
         new CopyPlugin({
             patterns: [
                 {
-                    from: "./icon.png",
-                    to: "."
+                    from: join(publicDir, "icon_1.png"),
+                    to: publicOutput
                 },
                 {
-                    from: "./manifest.json",
-                    to: "."
+                    from: join(publicDir, "icon_2.png"),
+                    to: publicOutput
+                },
+                {
+                    from: join(publicDir, "icon_3.png"),
+                    to: publicOutput
+                },
+                {
+                    from: join(publicDir, "online.png"),
+                    to: publicOutput
+                },
+                {
+                    from: join(publicDir, "offline.png"),
+                    to: publicOutput
+                },
+                {
+                    from: join(publicDir, "manifest.json"),
+                    to: publicOutput
                 }
             ]
         })
     ],
-    mode: env.NODE_ENV || "development",
+    mode: env.NODE_ENV,
     target: "web"
 });
 
@@ -92,7 +109,7 @@ const serverConfig = (env) => ({
     },
     output: {
         path: join(dist, "server"),
-        filename: "[name].cjs"
+        filename: "[name].js"
     },
     resolve: {
         extensions: [ ".tsx", ".ts", ".js", ".jsm" ]
@@ -132,7 +149,7 @@ const serverConfig = (env) => ({
             cacheGroups: {
                 libraries: {
                     name: "server-libraries",
-                    filename: "[name].bundle.cjs",
+                    filename: "[name].bundle.js",
                     test: /[\\/]node_modules[\\/]/
                 }
             }
@@ -143,13 +160,16 @@ const serverConfig = (env) => ({
         new CopyPlugin({
             patterns: [
                 {
-                    from: join(dev, "server", "index.html"),
-                    to: "."
+                    from: join(dev, "index.html"),
+                    to: ".."
                 }
             ]
+        }),
+        new webpack.IgnorePlugin({
+            resourceRegExp: /^\.\/devWebpack/
         })
     ],
-    mode: env.NODE_ENV || "development",
+    mode: env.NODE_ENV,
     target: "node"
 });
 
@@ -184,23 +204,10 @@ const serviceWorkerConfig = (env) => ({
             }
         ]
     },
-    optimization: {
-        runtimeChunk: true,
-        splitChunks: {
-            chunks: "all",
-            cacheGroups: {
-                libraries: {
-                    name: "sw-libraries",
-                    filename: "[name].bundle.js",
-                    test: /[\\/]node_modules[\\/]/
-                }
-            }
-        }
-    },
     plugins: [
         new CleanWebpackPlugin()
     ],
-    mode: env.NODE_ENV || "development",
+    mode: env.NODE_ENV,
     target: "webworker"
 })
 

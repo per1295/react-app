@@ -7,6 +7,15 @@
     justify-content: flex-start;
 
     .information {
-        @include m.information(719px, 29px 0 0 0, $font-size: 14px)
+        @include m.information(719px, 29px 0 0 0, $font-size: 14px);
+
+        @media screen and ( max-width: 750px ) {
+            width: 95%;
+        }
+    
+        @media screen and ( min-width: 750px ) and ( max-width: 1024px ) {
+            width: 95%;
+            max-width: 719px;
+        }
     }
 }

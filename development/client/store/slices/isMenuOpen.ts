@@ -4,11 +4,11 @@ const isMenuOpenSlice = createSlice({
     name: "isMenuOpen",
     initialState: false,
     reducers: {
-        setMenuOpen(state: boolean) {
-            return state = true;
+        setMenuOpen() {
+            return true;
         },
-        setMenuClose(state: boolean) {
-            return state = false;
+        setMenuClose() {
+            return false;
         }
     }
 });

@@ -4,13 +4,13 @@ export interface ISearchInput{
     value: string;
 }
 
-export interface ISearchInputSchema {
-    id: number;
+export interface ISearchInput {
+    id: string;
     values: string[];
 }
 
-export interface IColumnPostSchema {
-    id: number;
+export interface IColumnPost {
+    id: string;
     title: string;
     dateOfCreation: string;
     img: string;
@@ -22,7 +22,7 @@ export interface IEmailDataComment {
 }
 
 export interface IBlog {
-    id: number;
+    id: string;
     img: string;
     countComments: number;
     countLikes: number;
@@ -34,10 +34,20 @@ export interface IBlog {
 }
 
 export interface IGetBlogsQuery {
-    lastId: string;
+    lastID: string;
 }
 
 export interface IPutBlogsQuery {
     id: string;
     typeUpdate: "comments" | "likes";
+}
+
+export interface BlogsResponse {
+    content: IBlog[];
+    lastID: string;
+}
+
+export interface BlogLoaderReturn {
+    blogs: BlogsResponse;
+    columnPosts: IColumnPost[];
 }

@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from "react";
+
 import Img from "./Img";
 import ItemOfGroupTitle from "./ItemOfGroupTitle";
 import ItemOfGroupInf from "./ItemOfGroupInf";
+
 import "../globalStyles/ItemOfGroup.scss";
 
 interface ItemOfGroupProps {

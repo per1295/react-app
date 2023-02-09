@@ -1,6 +1,8 @@
 import React from "react";
+
 import Information from "../../globalComponents/Information";
 import TheFooterConteinerIcons from "../../globalComponents/TheFooterConteinerIcons";
+
 import "../styles/TheMainContactConteinerLeftInfo.scss";
 
 export default function TheMainContactConteinerLeftInfo() {

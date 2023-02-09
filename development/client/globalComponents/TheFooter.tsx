@@ -1,6 +1,8 @@
 import React from "react";
-import "../globalStyles/TheFooter.scss";
+
 import TheFooterConteiner from "./TheFooterConteiner";
+
+import "../globalStyles/TheFooter.scss";
 
 export default function TheFooter() {
     return(

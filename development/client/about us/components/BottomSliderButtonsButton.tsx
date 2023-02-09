@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useRef } from "react";
-import "../styles/BottomSliderButtonsButton.scss";
 import { SliderContext } from "./TheWrapSlider";
+
+import "../styles/BottomSliderButtonsButton.scss";
 
 interface BottomSliderButtonsButtonProps {
     activeSlide: number;

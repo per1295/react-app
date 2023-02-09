@@ -1,11 +1,10 @@
 import { Schema, model } from "mongoose";
 import { methodGetPOJO } from "../functions";
 
-import type { IEmailData } from "../../types";
-import type { ISearchInputSchema, IColumnPostSchema, IBlog, IEmailDataComment } from "../../types/blog";
-import type { ExtendedSchema } from "../../types";
+import type { IEmailData, ExtendedSchema } from "../../types";
+import type { ISearchInput, IColumnPost, IBlog, IEmailDataComment } from "../../types/blog";
 
-const searchInputSchema: ExtendedSchema<ISearchInputSchema> = new Schema({
+const searchInputSchema: ExtendedSchema<ISearchInput> = new Schema({
     values: {
         type: [ String ],
         required: true
@@ -19,7 +18,7 @@ const searchInputSchema: ExtendedSchema<ISearchInputSchema> = new Schema({
 
 export const SearchInput = model("searchValue", searchInputSchema);
 
-const columnPostSchema = new Schema<Omit<IColumnPostSchema, "id">>({
+const columnPostSchema: ExtendedSchema<IColumnPost> = new Schema({
     title: {
         type: String,
         required: true
@@ -33,12 +32,18 @@ const columnPostSchema = new Schema<Omit<IColumnPostSchema, "id">>({
         required: true
     }
 }, {
-    collection: "columnPosts"
+    collection: "columnPosts",
+    methods: {
+        methodGetPOJO
+    }
 });
 
 export const ColumnPost = model("columnPost", columnPostSchema);
 
-const emailDataSchema = new Schema<Omit<IEmailData, "id">>({
+const emailDataSchema = new Schema<IEmailData>({
+    id: {
+        type: String
+    },
     email: {
         type: String,
         required: true

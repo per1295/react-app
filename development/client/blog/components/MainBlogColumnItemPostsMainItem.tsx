@@ -1,27 +1,33 @@
-import React, { FunctionComponent, useEffect, useRef, useMemo, useState, UIEventHandler } from "react";
-import { CategoryType } from "./TheMainBlogColumnItemPosts";
-import "../styles/MainBlogColumnItemPostsMainItem.scss";
+import React, {
+    FunctionComponent,
+    useEffect,
+    useRef,
+    useMemo,
+    useContext,
+    UIEventHandler,
+    useState
+} from "react";
+import { blogLoaderDataContext } from "./TheMainBlog";
+
 import MainBlogColumnItemPostsMainItemPost from "./MainBlogColumnItemPostsMainItemPost";
 import MainBlogColumnItemPostsMainItemComments from "./MainBlogColumnItemPostsMainItemComments";
-import { useFetch } from "../../customHooks";
+import type { CategoryType } from "./TheMainBlogColumnItemPosts";
+import type { IColumnPost } from "../../../types/blog";
+
+import MainBlogColumnItemPostsMainItemLoadings from "./MainBlogColumnItemPostsMainItemLoadings";
+
+import "../styles/MainBlogColumnItemPostsMainItem.scss";
 
 export interface MainBlogColumnItemPostsMainItemProps {
     category: CategoryType;
     ownCategory: CategoryType;
 }
 
-export interface PostData {
-    id: number;
-    title: string;
-    dateCreation: string;
-    img: string;
-}
-
-const MainBlogColumnItemPostsMainItem: FunctionComponent<MainBlogColumnItemPostsMainItemProps> = ({ category, ownCategory }) => {
-    const path = encodeURI("/blog/columnPosts");
-
-    const fetch = useFetch<PostData[]>(path, "json");
-    const [ columnPosts, setColumnPosts ] = useState<PostData[]>([]);
+const MainBlogColumnItemPostsMainItem: FunctionComponent<MainBlogColumnItemPostsMainItemProps> =
+({ category, ownCategory }) =>
+{
+    const blogLoaderData = useContext(blogLoaderDataContext);
+    const [ columnPosts, setColumnPosts ] = useState<IColumnPost[] | null>(null);
     const postsItemRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -41,38 +47,41 @@ const MainBlogColumnItemPostsMainItem: FunctionComponent<MainBlogColumnItemPosts
         }
     }, [ category ]);
 
-    async function getColumnPosts() {
-        if ( ownCategory !== "comments" && category === ownCategory ) {
-            const response = await fetch();
-            if ( typeof response !== "string" ) setColumnPosts(response.concat(response));
-        }
-    }
-
     useEffect(() => {
-        if ( columnPosts.length === 0 ) getColumnPosts();
-    }, [ category ]);
+        if ( blogLoaderData ) {
+            const { columnPosts } = blogLoaderData;
+            if ( columnPosts && typeof columnPosts !== "string" && ownCategory !== "comments" ) {
+                setColumnPosts(columnPosts.concat(columnPosts));
+            }
+        }
+    }, [ blogLoaderData ]);
 
     const scrollColumnPosts: UIEventHandler<HTMLDivElement> = (event) => {
         const elemOfPosts = event.currentTarget as HTMLDivElement;
         const { scrollTop, clientHeight, scrollHeight } = elemOfPosts;
         const restToScroll = Math.floor(scrollHeight - clientHeight - scrollTop);
-        if ( restToScroll < 20 ) setColumnPosts(state => state.concat(state));
+        if ( restToScroll < 20 ) {
+            setColumnPosts(posts => {
+                return posts ? posts.concat(posts) : posts
+            });
+        }
     }
 
     const posts = useMemo(() => (
         <div ref={postsItemRef} className="mainBlog_column__item___posts____main_____item" onScroll={scrollColumnPosts}>
             {
-                columnPosts.map((item, index) => (
-                    <MainBlogColumnItemPostsMainItemPost
-                    key={index}
-                    postData={item}
-                    />
+                columnPosts
+                ?
+                columnPosts.map((postData, index) => (
+                    <MainBlogColumnItemPostsMainItemPost key={`${postData.id}-${index}`} postData={postData} />
                 ))
+                :
+                <MainBlogColumnItemPostsMainItemLoadings />
             }
         </div>
     ), [ columnPosts ]);
 
-    return ownCategory === "comments" ? <MainBlogColumnItemPostsMainItemComments ref={postsItemRef}/> : posts;
+    return ownCategory === "comments" ? <MainBlogColumnItemPostsMainItemComments ref={postsItemRef} /> : posts;
 }
 
 export default MainBlogColumnItemPostsMainItem;

@@ -1,3 +1,5 @@
+@use "../mixins.scss" as m;
+
 .error {
     height: 100%;
     width: 100%;
@@ -30,5 +32,12 @@
             color: #60606e;
             text-align: center;
         }
+    }
+
+    .error_button {
+        @include m.button(
+            $align-self: unset
+        );
+        margin-top: 40px;
     }
 }

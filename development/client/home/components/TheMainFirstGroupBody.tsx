@@ -1,9 +1,12 @@
 import React from "react";
-import "../styles/TheMainFirstGroupBody.scss";
+
 import TheMainFirstGroupBodyLeft from "./TheMainFirstGroupBodyLeft";
 import Img from "../../globalComponents/Img";
-import main_firstGroup__body___rightImg from "../images/main_firstGroup__body___rightImg.png";
+
+import "../styles/TheMainFirstGroupBody.scss";
 import "../styles/TheMainFirstGroupBodyRightImg.scss";
+
+import main_firstGroup__body___rightImg from "../images/main_firstGroup__body___rightImg.png";
 
 export default function TheMainFirstGroupBody() {
     return(

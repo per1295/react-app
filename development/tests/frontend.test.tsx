@@ -1,6 +1,11 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import React, { MouseEventHandler, createRef } from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
+import { formDataToJSON } from "../client/functions";
 
 import Button from "../client/globalComponents/Button";
 import Img from "../client/globalComponents/Img";
@@ -25,51 +30,73 @@ afterEach(() => {
     }
 });
 
-test("Button", () => {
-    const onClick: MouseEventHandler<HTMLButtonElement> = (event) => event.currentTarget;
-    const mockOnClick = jest.fn(onClick);
-
-    act(() => {
-        render(
-        <Button startColor="green" onClick={mockOnClick}>
-            Click me
-        </Button>,
-        conteiner);
+describe("Components", () => {
+    test("Button", () => {
+        const onClick: MouseEventHandler<HTMLButtonElement> = (event) => event.currentTarget;
+        const mockOnClick = jest.fn(onClick);
+    
+        act(() => {
+            render(
+            <Button startColor="green" onClick={mockOnClick}>
+                Click me
+            </Button>,
+            conteiner);
+        });
+    
+        const button = document.querySelector("button") as HTMLButtonElement;
+        expect(button.textContent).toBe("Click me");
+        expect(button.classList.contains("green")).toBeTruthy();
+    
+        const mouseEvent = new MouseEvent("click", { bubbles: true });
+    
+        act(() => {
+            button.dispatchEvent(mouseEvent);
+        });
+    
+        expect(mockOnClick).toBeCalledTimes(1);
+        expect(mockOnClick.mock.results[0].value).toEqual(button);
+    
+        act(() => {
+            Array.from({length: 3}).forEach(() => button.dispatchEvent(mouseEvent));
+        });
+    
+        expect(mockOnClick).toBeCalledTimes(4);
+        expect(mockOnClick.mock.results[3].value).toEqual(button);
     });
-
-    const button = document.querySelector("button") as HTMLButtonElement;
-    expect(button.textContent).toBe("Click me");
-    expect(button.classList.contains("green")).toBeTruthy();
-
-    const mouseEvent = new MouseEvent("click", { bubbles: true });
-
-    act(() => {
-        button.dispatchEvent(mouseEvent);
+    
+    test("Img", () => {
+        const imgRef = createRef<HTMLImageElement>();
+    
+        act(() => {
+            render(
+                <Img ref={imgRef} src="/image" alt="image"/>,
+                conteiner
+            );
+        });
+    
+        const img = document.querySelector("img") as HTMLImageElement;
+    
+        expect(img.alt).toBe("image");
+        expect(img.src).toMatch(/\/image/);
     });
-
-    expect(mockOnClick).toBeCalledTimes(1);
-    expect(mockOnClick.mock.results.at(0)?.value).toEqual(button);
-
-    act(() => {
-        Array.from({length: 3}).forEach(() => button.dispatchEvent(mouseEvent));
-    });
-
-    expect(mockOnClick).toBeCalledTimes(4);
-    expect(mockOnClick.mock.results.at(3)?.value).toEqual(button);
 });
 
-test("Img", () => {
-    const imgRef = createRef<HTMLImageElement>();
+describe("functions", () => {
+    test("formDataToJSON", () => {
+        const mockFormDataToJSON = jest.fn(formDataToJSON);
 
-    act(() => {
-        render(
-            <Img ref={imgRef} src="/image" alt="image"/>,
-            conteiner
-        );
+        const arg = new FormData();
+
+        arg.set("username", "1");
+        arg.set("email", "2");
+
+        const result = {
+            username: "1",
+            email: "2"
+        };
+
+        mockFormDataToJSON(arg);
+
+        expect(JSON.parse(mockFormDataToJSON.mock.results[0].value)).toEqual(result);
     });
-
-    const img = document.querySelector("img") as HTMLImageElement;
-
-    expect(img.alt).toBe("image");
-    expect(img.src).toMatch(/\/image/);
 });

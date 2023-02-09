@@ -1,10 +1,12 @@
 import React from "react";
-import "../styles/TheMainBlogColumn.scss";
+
 import TheMainBlogColumnSearch from "./TheMainBlogColumnSearch";
 import MainBlogColumnItem from "./MainBlogColumnItem";
 import TheMainBlogColumnItemPosts from "./TheMainBlogColumnItemPosts";
 import MainBlogColumnItemList from "./MainBlogColumnItemList";
 import TheMainBlogColumnItemTags from "./TheMainBlogColumnItemTags";
+
+import "../styles/TheMainBlogColumn.scss";
 
 export default function TheMainBlogColumn() {
 	const titleList = [ "Business", "Photography", "Journal", "Web devlopment" ];

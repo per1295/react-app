@@ -1,6 +1,9 @@
 import React from "react";
-import "../styles/TheMainServicesFirstGroupUnder.scss";
+import IconList from "@reacticons/ionicons/lib/components/iconList.json";
+
 import MainServicesFirstGroupUnderItem from "./MainServicesFirstGroupUnderItem";
+
+import "../styles/TheMainServicesFirstGroupUnder.scss";
 
 export default function TheMainServicesFirstGroupUnder() {
     const titles = [
@@ -9,7 +12,7 @@ export default function TheMainServicesFirstGroupUnder() {
 
     const icons = [
         "analytics-outline", "infinite-outline", "flash-outline", "options-outline"
-    ];
+    ] as unknown as (keyof typeof IconList)[];
 
     return(
         <div className="mainServices_firstGroup__under">

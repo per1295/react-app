@@ -1,8 +1,10 @@
 import React from "react";
 import { useBlogData, useIdOfBlog } from "../../customHooks";
-import "../styles/MainBlogBodyItemComments.scss";
+
 import MainBlogBodyItemCommentsComment from "./MainBlogBodyItemCommentsComment";
 import MainBlogBodyItemCommentsNoComments from "./MainBlogBodyItemCommentsNoComments";
+
+import "../styles/MainBlogBodyItemComments.scss";
 
 export default function MainBlogBodyItemComments() {
     const id = useIdOfBlog();
@@ -18,10 +20,10 @@ export default function MainBlogBodyItemComments() {
                 :
                 comments.map((item, index) => (
                     <MainBlogBodyItemCommentsComment
-                    key={index}
-                    email={item.email}
-                    comment={item.comment}
-                    timeoutMs={index * 250}
+                        key={index}
+                        email={item.email}
+                        comment={item.comment}
+                        timeoutMs={index * 250}
                     />
                 ))
             }

@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
+
 import Title from "./Title";
 import Information from "./Information";
+
 import "../globalStyles/TitleOfGroup.scss";
 
 interface TitleOfGroupProps {

@@ -1,14 +1,16 @@
 import React, { FunctionComponent } from "react";
-import "../styles/MainBlogColumnItemPostsMainItemPost.scss";
+import type { IColumnPost } from "../../../types/blog";
+
 import Img from "../../globalComponents/Img";
-import { PostData } from "./MainBlogColumnItemPostsMainItem";
+
+import "../styles/MainBlogColumnItemPostsMainItemPost.scss";
 
 interface MainBlogColumnItemPostsMainItemPostProps {
-    postData: PostData;
+    postData: IColumnPost;
 }
 
 const MainBlogColumnItemPostsMainItemPost: FunctionComponent<MainBlogColumnItemPostsMainItemPostProps> = ({ postData }) => {
-    const { title, dateCreation, img } = postData;
+    const { title, dateOfCreation, img } = postData;
 
     return(
         <div className="item_post">
@@ -18,7 +20,7 @@ const MainBlogColumnItemPostsMainItemPost: FunctionComponent<MainBlogColumnItemP
                     { title }
                 </span>
                 <span className="item_post__data___dateCreation">
-                    { dateCreation }
+                    { dateOfCreation }
                 </span>
             </div>
         </div>

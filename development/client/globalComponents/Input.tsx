@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, FocusEvent } from "react";
+import React, { FunctionComponent, useRef, FocusEvent, FormEventHandler } from "react";
 
 interface InputProps {
     type: string;
@@ -9,10 +9,11 @@ interface InputProps {
     required?: boolean;
     minLength?: number;
     maxLength?: number;
+    onInput?: FormEventHandler
 }
 
 const Input: FunctionComponent<InputProps> =
-({ type, name, id, placeholder, className, required, minLength, maxLength }) => {
+({ type, name, id, placeholder, className, required, minLength, maxLength, onInput }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const changePlaceholder = (event: FocusEvent) => {
@@ -46,6 +47,7 @@ const Input: FunctionComponent<InputProps> =
             autoComplete="on"
             onFocus={changePlaceholder}
             onBlur={changePlaceholder}
+            onInput={onInput}
         />
     )
 }

@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+
 import "../globalStyles/TheHeaderMain.scss";
 
 interface TheHeaderMainProps {

@@ -1,7 +1,7 @@
 .mainContact_conteiner__left___form____textarea {
-    width: 534px;
+    width: 513px;
     height: 200px;
-    padding-left: 21px;
+    padding: 0 21px;
     background-color: #fefcf9;
     border: 1px solid rgba(0,0,0,0.09);
     outline: none;
@@ -14,7 +14,7 @@
     resize: none;
 
     @media screen and ( max-width: 750px ) {
-        width: calc(100% - 21px);
+        width: calc(100% - 42px);
     }
 
     &::placeholder {

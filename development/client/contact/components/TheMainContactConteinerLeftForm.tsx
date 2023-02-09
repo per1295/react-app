@@ -1,8 +1,9 @@
 import React, { useMemo, useRef, FormEventHandler, useState, AnimationEventHandler, useEffect } from "react";
-import { useDispatch, useTypedSelector } from "../../customHooks";
-import { useFormValidation, useFetch } from "../../customHooks";
+import { useDispatch, useTypedSelector, useFormValidation } from "../../customHooks";
 import { setUserData } from "../../store/slices/userData";
 import type { IContactData } from "../../../types/contact";
+import { checkFields } from "../../../functions";
+import { useFetcher } from "react-router-dom";
 
 import TheMainContactConteinerLeftFormTextarea from "./TheMainContactConteinerLeftFormTextarea";
 import Button from "../../globalComponents/Button";
@@ -14,37 +15,53 @@ import "../styles/TheMainContactConteinerLeftForm.scss";
 export default function TheMainContactConteinerLeftForm() {
     const formRef = useRef<HTMLFormElement>(null);
     const messageRef = useRef<HTMLDivElement>(null);
-    const { formData, formElements } = useFormValidation(formRef);
+    const { formElements } = useFormValidation(formRef);
     const [ message, setMessage ] = useState<string | null>(null);
     const userData = useTypedSelector<"userData">(state => state.userData);
-
-    const path = encodeURI("/contact us/user");
-    const fetch = useFetch<IContactData>(path, "json", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-    });
-
     const dispatch = useDispatch();
+    const fetcher = useFetcher<IContactData | string>();
+
+    useEffect(() => {
+        const formElem = formRef.current;
+
+        if ( formElem ) {
+            const formElemChildren = Array.from(formElem.children) as (HTMLInputElement | HTMLTextAreaElement)[];
+            formElemChildren.forEach(formElem => {
+                const userDataValue = localStorage.getItem(formElem.name);
+                formElem.value = userDataValue ?? formElem.value;
+            });
+        }
+    }, []);
+
+    useEffect(() => {
+        if ( fetcher.data ) {
+            setMessage(
+                fetcher.data instanceof Object ? "Your email was saved" : fetcher.data
+            );
+
+            if ( fetcher.data instanceof Object ) {
+                dispatch(
+                    setUserData(fetcher.data)
+                );
+            }
+        }
+    }, [ fetcher.data ]);
 
     useEffect(() => {
         if ( userData ) {
-            const form = formRef.current as HTMLFormElement;
+            const formElem = formRef.current;
 
-            if ( Object.entries(userData).length >= 5 ) {
-
+            if ( formElem && checkFields(userData, "id", "name", "email", "object", "message") ) {
                 setMessage(state => state ? state : "You already registred");
-
-                form.classList.add("isFetched");
+                formElem.classList.add("isFetched");
             }
         }
     }, [ userData ]);
 
-    const onSubmitForm: FormEventHandler<HTMLFormElement> = async (event) => {
+    const onSubmitForm: FormEventHandler<HTMLFormElement> = async event => {
         event.preventDefault();
 
+        const formElem = formRef.current;
         const errorFormElem = formElements.find((formElem) => formElem.isError === true);
 
         if ( errorFormElem ) {
@@ -54,22 +71,15 @@ export default function TheMainContactConteinerLeftForm() {
                 top: errorY,
                 behavior: "smooth"
             });
-        } else {
-            const response = await fetch();
-
-            if ( response instanceof Object ) {
-                setMessage(
-                    typeof response !== "string" ? "Your email was saved" : response
-                );
-
-                dispatch(
-                    setUserData(response)
-                );
-            }
+        } else if ( formElem ) {
+            fetcher.submit(formElem, {
+                method: "post",
+                action: "/api/contact us/user"
+            });
         }
     }
 
-    const onAnimationEnd: AnimationEventHandler<HTMLFormElement> = (event) => {
+    const onAnimationEnd: AnimationEventHandler<HTMLFormElement> = event => {
         const form = event.currentTarget as HTMLFormElement;
         form.remove();
         
@@ -77,6 +87,12 @@ export default function TheMainContactConteinerLeftForm() {
         message.classList.add("messageActive");
 
         setTimeout(() => message.classList.add("messageStart"));
+    }
+
+    const onInput: FormEventHandler = event => {
+        const formElem = event.currentTarget as HTMLInputElement | HTMLTextAreaElement;
+        const { name, value } = formElem;
+        localStorage.setItem(name, value);
     }
 
     const inputs = useMemo(() => (
@@ -116,7 +132,7 @@ export default function TheMainContactConteinerLeftForm() {
 
     return(
         <>
-                <form
+                <fetcher.Form
                     ref={formRef}
                     onSubmit={onSubmitForm}
                     onAnimationEnd={onAnimationEnd}
@@ -125,14 +141,14 @@ export default function TheMainContactConteinerLeftForm() {
                 >
                     {
                         inputs.map(input => (
-                            <Input key={input.id} {...input} />
+                            <Input key={input.id} onInput={onInput} {...input} />
                         ))
                     }
-                    <TheMainContactConteinerLeftFormTextarea/>
+                    <TheMainContactConteinerLeftFormTextarea onInput={onInput} />
                     <Button startColor="green" type="submit" className="mainContact_conteiner__left___form____button">
                         send
                     </Button>
-            </form>
+            </fetcher.Form>
             <EmailMessage ref={messageRef} appendedClassName="contact">
                 { message ?? "" }
             </EmailMessage>

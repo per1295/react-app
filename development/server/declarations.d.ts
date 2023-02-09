@@ -13,6 +13,13 @@ declare module "*.json"{
     export default string;
 }
 
+declare module "*.scss";
+
 declare module globalThis {
-    export var __NODE_ENV__: "development" | "production";
+    interface DevelopmentMiddlewareApi {
+        waitUntilValid: (fn: (arg: any) => any | void) => void;
+    }
+
+    export var __NODE_ENV__: "development" | "production" | "test";
+    export var __DEVELOPMENT_MIDDLEWARE_API__: DevelopmentMiddlewareApi;
 }

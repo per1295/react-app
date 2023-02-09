@@ -1,5 +1,7 @@
 import React from "react";
+
 import ItemOfGroup from "../../globalComponents/ItemOfGroup";
+
 import "../styles/TheMainFirstGroupBodyLeft.scss";
 import "../styles/LeftItemOfGroupImg.scss";
 

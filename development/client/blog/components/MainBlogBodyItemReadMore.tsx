@@ -1,9 +1,11 @@
 import React, { PointerEventHandler, useEffect, useRef, FunctionComponent, Dispatch, SetStateAction, MouseEventHandler } from "react";
 import IonIcon from "@reacticons/ionicons";
-import "../styles/MainBlogBodyItemReadMore.scss";
+
 import { useTypedSelector } from "../../customHooks";
 import store from "../../store/store";
 import { setIsOnDocumentFalse } from "../../store/slices/isOnDocument";
+
+import "../styles/MainBlogBodyItemReadMore.scss";
 
 interface MainBlogBodyItemCommentsProps {
     isReadMore: boolean;

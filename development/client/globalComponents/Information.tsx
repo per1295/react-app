@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import "../globalStyles/Information.scss";
 
 interface InformationProps {
     children: JSX.Element | string;

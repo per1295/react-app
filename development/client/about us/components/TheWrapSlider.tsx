@@ -1,6 +1,8 @@
 import React, { createContext, Dispatch, SetStateAction, useState } from "react";
+
 import TheMainAboutUsThirdGroupBottomSlider from "./TheMainAboutUsThirdGroupBottomSlider";
 import TheMainAboutUsThirdGroupBottomSliderButtons from "./TheMainAboutUsThirdGroupBottomSliderButtons";
+
 import "../styles/TheWrapSlider.scss";
 
 interface NowSliderContext {

@@ -4,11 +4,11 @@ const isOnDocumentSlice = createSlice({
     name: "isOnDocument",
     initialState: true,
     reducers: {
-        setIsOnDocumentTrue(state: boolean) {
-            return state = true;
+        setIsOnDocumentTrue() {
+            return true;
         },
-        setIsOnDocumentFalse(state: boolean) {
-            return state = false;
+        setIsOnDocumentFalse() {
+            return false;
         }
     }
 });

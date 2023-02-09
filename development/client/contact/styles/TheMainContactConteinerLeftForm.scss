@@ -15,8 +15,8 @@
     }
 
     .mainContact_conteiner__left___input {
-        padding-left: 19px;
-        width: 244px;
+        padding: 0 19px;
+        width: 225px;
         height: 49px;
         background-color: #fefcf9;
         border: 1px solid rgba(0,0,0,0.09);
@@ -29,7 +29,7 @@
         color: #cdcdcd;
     
         @media screen and ( max-width: 750px ) {
-            width: calc(100% - 19px);
+            width: calc(100% - 38px);
         }
     
         &::placeholder {
@@ -43,11 +43,11 @@
     }
     
     .mainContact_conteiner__left___inputLarge {
-        width: 535px;
-        padding-left: 20px;
+        width: 515px;
+        padding: 0 20px;
     
         @media screen and ( max-width: 750px ) {
-            width: calc(100% - 20px);
+            width: calc(100% - 40px);
         }
     }
 

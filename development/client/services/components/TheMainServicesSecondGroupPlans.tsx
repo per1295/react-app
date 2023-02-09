@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainServicesSecondGroupPlans.scss";
+
 import MainServicesSecondGroupPlansPlan from "./MainServicesSecondGroupPlansPlan";
+
+import "../styles/TheMainServicesSecondGroupPlans.scss";
 
 export default function TheMainServicesSecondGroupPlans() {
     const planTitles = [

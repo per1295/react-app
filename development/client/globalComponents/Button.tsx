@@ -1,8 +1,9 @@
 import React, { FunctionComponent, MouseEventHandler, PointerEventHandler, TransitionEventHandler, useEffect, useRef } from "react";
-import "../globalStyles/Button.scss";
 import { useTypedSelector } from "../customHooks";
 import { setIsOnDocumentFalse } from "../store/slices/isOnDocument";
 import store from "../store/store";
+
+import "../globalStyles/Button.scss";
 
 interface ButtonProps {
     children: JSX.Element | string;

@@ -1,67 +1,26 @@
-import React, { PointerEventHandler, useEffect, useRef } from "react";
+import React, { PointerEventHandler, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { useTypedSelector } from "../customHooks";
+import { useTypedSelector, useNavigationAnimation } from "../customHooks";
 
 import "../globalStyles/TheHeaderTopNavLinks.scss";
 
 export default function TheHeaderTopMenuNavLinks() {
     const isMenuOpen = useTypedSelector((state) => state.isMenuOpen) as boolean;
     const navLinksRef = useRef<HTMLDivElement>(null);
+    const navLinksArray = [ "home", "about us", "services", "blog", "contact us" ];
 
-    const navLinksArray = [ "Home", "about us", "services", "blog", "contact us" ];
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            const navLinksElem = navLinksRef.current as HTMLDivElement;
-            const navLinksChildren = Array.from(navLinksElem.children) as HTMLAnchorElement[];
-
-            if ( isMenuOpen ) {
-                navLinksChildren.forEach((navLink, index) => {
-                    const navLinkAnimation = navLink.animate([
-                        {
-                            opacity: "0",
-                            transform: "translateX(-20px)"
-                        },
-                        {
-                            opacity: "1",
-                            transform: "translateX(0)"
-                        }
-                    ], {
-                        duration: 300,
-                        delay: 300 * index,
-                        fill: "forwards",
-                        easing: "ease"
-                    });
-
-                    if ( !navLink.getAnimations().length ) navLinkAnimation.persist();
-                });
-            } else {
-                navLinksChildren.reverse().forEach((navLink, index) => {
-                    if ( !navLink.getAnimations().length ) return;
-
-                    navLink.animate([
-                        {
-                            opacity: "1",
-                            transform: "translateX(0)"
-                        },
-                        {
-                            opacity: "0",
-                            transform: "translateX(20px)"
-                        }
-                    ], {
-                        duration: 300,
-                        delay: 300 * index,
-                        fill: "forwards",
-                        easing: "ease"
-                    });
-                });
-            }
-        });
-
-        return () => {
-            clearTimeout(timeout);
+    useNavigationAnimation({
+        navigationConteinerRef: navLinksRef,
+        condition: isMenuOpen,
+        appearChildFrame: {
+            opacity: "1",
+            transform: "translateX(0)"
+        },
+        disappearChildFrame: {
+            opacity: "0",
+            transform: "translateX(20px)"
         }
-    }, [ isMenuOpen ]);
+    });
 
     const pointerHandler: PointerEventHandler = event => {
         const navLink = event.currentTarget;
@@ -85,7 +44,7 @@ export default function TheHeaderTopMenuNavLinks() {
                 navLinksArray.map((item, index) => (
                     <NavLink
                         key={index}
-                        to={encodeURI(`/${item.toLowerCase()}`)}
+                        to={encodeURIComponent(item.toLowerCase())}
                         className={
                             ({ isActive }) => (
                                 isActive

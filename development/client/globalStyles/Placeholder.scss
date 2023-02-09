@@ -1,0 +1,15 @@
+.placeholder {
+    background: linear-gradient(45deg, rgba(236,236,236,1) 0, rgba(123,238,199,1) 0, rgba(236,236,236,1) 0);
+    max-width: 750px;
+    max-height: 734px;
+    height: 734px;
+    width: 100%;
+    border-radius: 20px;
+
+    @media screen and ( max-width: 750px ) {
+        min-height: 100vh;
+        min-width: 90%;
+        width: 90%;
+        height: 100vh;
+    }
+}

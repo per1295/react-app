@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../store/slices/userData";
 import cookie from "cookiejs";
+import { checkFields } from "../../functions";
 import type { IContactData } from "../../types/contact";
 
 export default function SetUserData() {
@@ -10,7 +11,7 @@ export default function SetUserData() {
     useEffect(() => {
         const cookieUserData = cookie.all() as unknown as IContactData;
         
-        if ( Object.entries(cookieUserData).length >= 2 ) {
+        if ( checkFields(cookieUserData, "id", "email") ) {
             dispatch(
                 setUserData(cookieUserData)
             );

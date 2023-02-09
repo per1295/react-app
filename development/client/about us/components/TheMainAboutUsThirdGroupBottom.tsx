@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainAboutUsThirdGroupBottom.scss";
+
 import TheWrapSlider from "./TheWrapSlider";
 import TheMainAboutUsThirdGroupBottomImages from "./TheMainAboutUsThirdGroupBottomImages";
+
+import "../styles/TheMainAboutUsThirdGroupBottom.scss";
 
 export default function TheMainAboutUsThirdGroupBottom() {
     return(

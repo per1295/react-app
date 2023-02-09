@@ -1,0 +1,4 @@
+{
+    "watch": [ "./development/server/*", "./development/functions.ts" ],
+    "ext": "json, ts, tsx"
+}

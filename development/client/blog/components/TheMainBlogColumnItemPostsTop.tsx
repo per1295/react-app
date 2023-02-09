@@ -1,5 +1,7 @@
 import React, { FunctionComponent, MouseEventHandler } from "react";
+
 import { CategoryType, SetCategoryType } from "./TheMainBlogColumnItemPosts";
+
 import "../styles/TheMainBlogColumnItemPostsTop.scss";
 
 interface TheMainBlogColumnItemPostsTopProps {

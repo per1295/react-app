@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useRef, useEffect, useContext } from "react";
+
 import Img from "../../globalComponents/Img";
 import { CategoryContext } from "./TheMainSecondGroupCaterory";
 

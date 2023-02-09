@@ -1,6 +1,8 @@
 import React from "react";
 import { useRouteError, isRouteErrorResponse } from "react-router-dom";
 
+import Button from "./Button";
+
 import "../globalStyles/ErrorElement.scss";
 
 export default function ErrorElement() {
@@ -34,6 +36,9 @@ export default function ErrorElement() {
                     </>
                 }
             </ul>
+            <Button startColor="white" className="error_button" onClick={() => location.reload()}>
+                Reload the page
+            </Button>
         </div>
     )
 }

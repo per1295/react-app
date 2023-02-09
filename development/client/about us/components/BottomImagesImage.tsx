@@ -1,8 +1,10 @@
 import React, { FunctionComponent, PointerEventHandler, useEffect, useRef } from "react";
-import Img from "../../globalComponents/Img";
-import "../styles/BottomImagesImage.scss";
 import { useTypedSelector, useDispatch } from "../../customHooks";
 import { setIsOnDocumentFalse } from "../../store/slices/isOnDocument";
+
+import Img from "../../globalComponents/Img";
+
+import "../styles/BottomImagesImage.scss";
 
 interface BottomImagesImageProps {
     img: string;

@@ -1,8 +1,10 @@
 import React from "react";
-import "../styles/TheMainAboutUsThirdGroupUnderTeam.scss";
+import { useNavigate } from "react-router-dom";
+
 import TheMainAboutUsThirdGroupUnderTeamText from "./TheMainAboutUsThirdGroupUnderTeamText";
 import Button from "../../globalComponents/Button";
-import { useNavigate } from "react-router-dom";
+
+import "../styles/TheMainAboutUsThirdGroupUnderTeam.scss";
 
 export default function TheMainAboutUsThirdGroupUnderTeam() {
     const navigate = useNavigate();

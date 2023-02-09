@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../styles/TheMainBlogBodyAllBlogs.scss";
 
 export default function TheMainBlogBodyAllBlogs() {

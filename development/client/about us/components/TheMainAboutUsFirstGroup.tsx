@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainAboutUsFirstGroup.scss";
+
 import MainAboutUsFirstGroupItem from "./MainAboutUsFirstGroupItem";
+
+import "../styles/TheMainAboutUsFirstGroup.scss";
 
 export default function TheMainAboutUsFirstGroup() {
     return(

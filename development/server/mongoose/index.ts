@@ -1,7 +1,8 @@
 import { Schema, model } from "mongoose";
-import type { IEmailData } from "../../types";
+import { methodGetPOJO } from "../functions";
+import type { IEmailData, ExtendedSchema } from "../../types";
 
-const emailSchema = new Schema<Omit<IEmailData, "id">>({
+const emailSchema: ExtendedSchema<IEmailData> = new Schema({
     email: {
         type: String,
         required: true,
@@ -10,7 +11,10 @@ const emailSchema = new Schema<Omit<IEmailData, "id">>({
         maxlength: 40
     }
 }, {
-    collection: "emails"
+    collection: "emails",
+    methods: {
+        methodGetPOJO
+    }
 });
 
 export const Email = model("email", emailSchema);

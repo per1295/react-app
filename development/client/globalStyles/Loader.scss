@@ -1,0 +1,16 @@
+.loader {
+    position: relative;
+    background: #ececec;
+    height: 20px;
+    width: 80%;
+    margin: 40px 0;
+    border-radius: 20px;
+    left: 10%;
+
+    .loader_bar {
+        background: #7beec7;
+        height: 100%;
+        width: 20%;
+        border-radius: 20px;
+    }
+}

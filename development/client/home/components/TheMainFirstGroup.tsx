@@ -1,7 +1,9 @@
 import React from "react";
+
 import TitleOfGroup from "../../globalComponents/TitleOfGroup";
-import "../styles/TheMainFirstGroup.scss";
 import TheMainFirstGroupBody from "./TheMainFirstGroupBody";
+
+import "../styles/TheMainFirstGroup.scss";
 
 export default function TheMainFirstGroup() {
     return(

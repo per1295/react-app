@@ -1,9 +1,11 @@
 import React from "react";
-import "../globalStyles/TheHeaderTop.scss";
 import { Link } from "react-router-dom";
+import { useTypedSelector } from "../customHooks";
+
 import TheHeaderTopMenu from "./TheHeaderTopMenu";
 import TheHeaderTopMenuNavLinks from "./TheHeaderTopNavLinks";
-import { useTypedSelector } from "../customHooks";
+
+import "../globalStyles/TheHeaderTop.scss";
 
 const TheHeaderTop = () => {
     const isMobile = useTypedSelector<"isMobile">((state) => state.isMobile);

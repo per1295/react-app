@@ -1,8 +1,9 @@
 import React, { FunctionComponent, PointerEventHandler, useEffect, useRef } from "react";
-import "../styles/MainBlogColumnItemListItem.scss";
 import { useTypedSelector } from "../../customHooks";
 import store from "../../store/store";
-import { setIsOnDocumentFalse } from "../../store/slices/isOnDocument";
+import { setIsOnDocumentFalse } from "../../store/slices/isOnDocument"
+
+import "../styles/MainBlogColumnItemListItem.scss";
 
 interface MainBlogColumnItemListItemProps {
     title: string;

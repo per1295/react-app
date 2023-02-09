@@ -4,11 +4,11 @@ const isTabletSlice = createSlice({
     name: "isTablet",
     initialState: false,
     reducers: {
-        setIsTabletTrue(state: boolean) {
-            return state = true;
+        setIsTabletTrue() {
+            return true;
         },
-        setIsTabletFalse(state: boolean) {
-            return state = false;
+        setIsTabletFalse() {
+            return false;
         }
     }
 });

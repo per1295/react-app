@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useMemo } from "react";
+
 import "../globalStyles/ItemOfGroupInf.scss";
 
 interface ItemOfGroupInfProps {

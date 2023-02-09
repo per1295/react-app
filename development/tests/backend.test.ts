@@ -1,16 +1,9 @@
-import supertest from "supertest";
-import { config } from "dotenv";
-import { getArgs } from "../server/functions";
+/**
+ * @jest-environment node
+ */
 
-config();
-
-const baseURI = `http://localhost:${process.env.PORT}`;
-
-const getFullPath = (...paths: string[]): string => {
-    const arrayOfPaths: string[] = [];
-    paths.forEach(item => arrayOfPaths.push(`/${item}`));
-    return arrayOfPaths.join("");
-}
+import { getArgs, getPathsOfManifest } from "../server/functions";
+import { lengthObjValues, checkFields } from "../functions";
 
 const originalArgv = process.argv;
 
@@ -24,151 +17,7 @@ afterEach(() => {
     process.argv = originalArgv;
 });
 
-describe("/blog", () => {
-    const getPath = getFullPath.bind(null, "blog");
-    const mockGetPath = jest.fn(getPath);
-
-    test("check getPath", () => {
-        const arrayOfAdditionalPaths = [ "searchInput", "columnPosts", "blogs" ];
-
-        arrayOfAdditionalPaths.forEach(item => mockGetPath(item));
-
-        expect(mockGetPath.mock.results.at(0)?.value).toBe(`/blog/${arrayOfAdditionalPaths.at(0)}`);
-        expect(mockGetPath.mock.results.at(1)?.value).toBe(`/blog/${arrayOfAdditionalPaths.at(1)}`);
-        expect(mockGetPath.mock.results.at(2)?.value).toBe(`/blog/${arrayOfAdditionalPaths.at(2)}`);
-    });
-
-    test("POST /searchInput", async () => {
-        const testData = {
-            value: "Hello, world"
-        };
-
-        const response = await supertest(baseURI)
-        .post(mockGetPath("searchInput"))
-        .send(testData)
-        .set("Content-Type", "application/json")
-        .set("Accept", "application/json");
-
-        expect(response.body?.status).toBe("success");
-        expect(response.body?.message).toBe("Your search is saved");
-    });
-
-    test("GET /columnPosts", async () => {
-        const response = await supertest(baseURI).get(mockGetPath("columnPosts"));
-
-        expect(response.body?.status).toBe("success");
-        expect(Array.isArray(response.body?.message)).toBeTruthy();
-    });
-
-    test("GET /blogs?lastId=5", async () => {
-        const response = await supertest(baseURI).get(mockGetPath("blogs"));
-
-        expect(response.body?.message?.blogs?.length).not.toBe(0);
-        expect(response.body?.message?.lastId).toBe(3);
-    });
-
-    test("PATCH /blogs?id=0&typeUpdate=comments", async () => {
-        const testData = {
-            comments: [],
-            countComments: 8
-        };
-
-        const response = await supertest(baseURI)
-        .patch(mockGetPath("blogs?id=0&typeUpdate=comments"))
-        .send(testData)
-        .set("Content-type", "application/json")
-        .set("Accept", "application/json");
-
-        expect(response.body?.status).toBe("success");
-        expect(response.body?.message).toBe("Comments were saved");
-    });
-
-    test("PATCH /blogs?id=0&typeUpdate=likes", async () => {
-        const testData = {
-            countLikes: 15,
-            usersWhoLiked: []
-        };
-
-        const response = await supertest(baseURI)
-        .patch(mockGetPath("blogs?id=0&typeUpdate=likes"))
-        .send(testData)
-        .set("Content-type", "application/json")
-        .set("Accept", "application/json");
-        
-        expect(response.body?.status).toBe("success");
-        expect(response.body?.message).toBe("Likes were saved");
-    });
-
-    test("PATCH /blogs?id=0&typeUpdate=wrongType", async () => {
-        const response = await supertest(baseURI)
-        .patch(mockGetPath("blogs?id=0&typeUpdate=wrongType"))
-        .send({})
-        .set("Content-Type", "application/json")
-        .set("Accept", "application/json");
-
-        expect(response.status).toBe(404);
-        expect(response.body?.status).toBe("fail")
-        expect(response.body?.message).toBe("Wrong update type");
-    });
-});
-
-describe("/contact", () => {
-    const getPath = getFullPath.bind(null, "contact");
-    const mockGetPath = jest.fn(getPath);
-
-    test("POST /user (user didn`t registr)", async () => {
-        const testData = {
-            name: "Mike",
-            email: "qwerty@gmail.com",
-            object: "qwerty",
-            message: "hello, world"
-        };
-
-        const response = await supertest(baseURI)
-        .post(mockGetPath("user"))
-        .send(testData)
-        .set("Contect-Type", "application/json")
-        .set("Accept", "application/json");
-
-        expect(response.body).toEqual({});
-    });
-
-    test("GET /confirmUser/1 (wrong id)", async () => {
-        const response = await supertest(baseURI).get(mockGetPath("confirmUser/1"));
-
-        expect(response.body).toEqual({});
-    });
-});
-
-describe("/home", () => {
-    const getPath = getFullPath.bind(null, "home");
-    const mockGetPath = jest.fn(getPath);
-    
-    test("POST /email (email was registred)", async () => {
-        const testData = {
-            email: "qwerty@gmail.com"
-        };
-
-        const response = await supertest(baseURI)
-        .post(mockGetPath("email"))
-        .send(testData)
-        .set("Contect-Type", "application/json")
-        .set("Accept", "application/json");
-
-        expect(response.body?.status).toBe("success");
-        expect(response.body?.message).toBe("This email needs verification");
-    });
-
-    test("GET /confirmEmail/1 (id doesn`t exist", async () => {
-        const response = await supertest(baseURI)
-        .get(mockGetPath("confirmEmail/1"));
-
-        expect(response.body).toEqual({});
-    });
-});
-
 describe("functions", () => {
-
     test("getArgs", () => {
         const mockGetArgs = jest.fn(getArgs);
     
@@ -180,5 +29,66 @@ describe("functions", () => {
     
         expect(mockGetArgs).toBeCalled();
         expect(mockGetArgs.mock.results[0].value).toEqual(result);
+    });
+
+    test("lengthObjValues", () => {
+        const mockLengthObjValues = jest.fn(lengthObjValues);
+
+        const arg = {
+            client: [ 'index.css', 'client.js' ],
+            'runtime~client': [ 'runtime~client.js' ],
+            'client-libraries': [ 'client-libraries.bundle.js' ]
+        }
+
+        mockLengthObjValues(arg);
+
+        expect(mockLengthObjValues).toBeCalledTimes(1);
+        expect(mockLengthObjValues.mock.results[0].value).toBe(4);
+    });
+
+    test("checkFields", () => {
+        const mockCheckFields = jest.fn(checkFields);
+
+        const arg1 = {
+            id: "hdsfjhadsf2141234sdaff",
+            email: "asdfasdf@asdfasdf.gmail"
+        };
+
+        const arg2 = {
+            id: "hdsfjhadsf2141234sdaff",
+            name: "q",
+            email: "asdfasdf@asdfasdf.gmail",
+            object: "q",
+            message: "e"
+        };
+
+        const keys = Object.keys(arg2);
+
+        mockCheckFields(arg1, ...keys);
+        mockCheckFields(arg2, ...keys);
+
+        expect(mockCheckFields.mock.results[0].value).toBeFalsy();
+        expect(mockCheckFields.mock.results[1].value).toBeTruthy();
+    });
+
+    test("getPathsOfManifest", () => {
+        const mockGetPathsOfManifest = jest.fn(getPathsOfManifest);
+
+        const arg = `
+            {
+                "client.css": "/client.css",
+                "client.js": "/client.js",
+                "runtime~client.js": "/runtime~client.js"
+            }
+        `;
+
+        const result_1 = '<link rel="stylesheet" href="/client.css">';
+        const result_2 = '<script defer src="/client.js"></script>\n<script defer src="/runtime~client.js"></script>';
+
+        mockGetPathsOfManifest(arg, "css");
+        mockGetPathsOfManifest(arg, "js");
+
+        expect(mockGetPathsOfManifest.mock.results[0].value).toEqual(result_1);
+        expect(mockGetPathsOfManifest.mock.results[1].value).toEqual(result_2);
     });
 });

@@ -1,5 +1,5 @@
-import React, { useMemo, useEffect } from "react";
-import { useMatch, useLocation, Outlet } from "react-router-dom";
+import React, { useMemo, useEffect, Suspense } from "react";
+import { useMatch, useLocation, Outlet, ScrollRestoration } from "react-router-dom";
 import { setMenuClose } from "../store/slices/isMenuOpen";
 import { useDispatch } from "react-redux";
 
@@ -8,6 +8,7 @@ import TheHomeHeader from "./TheHomeHeader";
 import ChangeTitle from "./ChangeTitle";
 import TheFooter from "./TheFooter";
 import SetUserData from "./SetUserData";
+import Loader from "./Loader";
 
 export default function Layout() {
     const match = useMatch("/home");
@@ -62,10 +63,13 @@ export default function Layout() {
 
     return(
         <>
+            <ScrollRestoration getKey={location => location.pathname} />
             <SetUserData />
             <ChangeTitle />
             { Boolean(match) ? <TheHomeHeader /> : <TheHeader title={title ?? ""} underTitle={underTitle ?? ""} /> }
-            <Outlet />
+            <Suspense fallback={<Loader />}>
+                <Outlet />
+            </Suspense>
             <TheFooter />
         </>
     )

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+
 import Title from "./Title";
 import Information from "./Information";
 import Button from "./Button";

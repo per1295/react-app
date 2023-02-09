@@ -12,10 +12,10 @@ import MainBlogBodyItemComments from "./MainBlogBodyItemComments";
 import "../styles/MainBlogBodyItem.scss"
 
 interface IBlogItems {
-    id: number;
+    id: string;
 }
 
-export const IdContext = createContext<number>(0);
+export const IdContext = createContext<string>("");
 
 interface ICommentContext {
     comment: string;

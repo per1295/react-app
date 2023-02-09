@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from "react";
-import TheHeaderTop from "./TheHeaderTop";
-import "../globalStyles/TheHeader.scss";
-import TheHeaderMain from "./TheHeaderMain";
 import { useTypedSelector } from "../customHooks";
+
+import TheHeaderTop from "./TheHeaderTop";
+import TheHeaderMain from "./TheHeaderMain";
 import TheHeaderNavLinksMobile from "./TheHeaderNavLinksMobile";
+
+import "../globalStyles/TheHeader.scss";
 
 interface TheHeaderProps {
     title: string;

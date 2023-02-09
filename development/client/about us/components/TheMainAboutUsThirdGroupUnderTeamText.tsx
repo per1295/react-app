@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../styles/TheMainAboutUsThirdGroupUnderTeamText.scss";
 
 export default function TheMainAboutUsThirdGroupUnderTeamText() {

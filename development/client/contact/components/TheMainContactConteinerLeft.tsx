@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainContactConteinerLeft.scss";
+
 import TheMainContactConteinerLeftForm from "./TheMainContactConteinerLeftForm";
 import TheMainContactConteinerLeftInfo from "./TheMainContactConteinerLeftInfo";
+
+import "../styles/TheMainContactConteinerLeft.scss";
 
 export default function TheMainContactConteinerLeft() {
     return(

@@ -1,8 +1,10 @@
 import React, { useContext, useRef, useEffect, useState, PointerEventHandler } from "react";
-import "../styles/TheMainAboutUsThirdGroupBottomSlider.scss";
+
 import BottomSliderSlide from "./BottomSliderSlide";
 import { SliderContext } from "./TheWrapSlider";
 import { useTypedSelector } from "../../customHooks";
+
+import "../styles/TheMainAboutUsThirdGroupBottomSlider.scss";
 
 interface SliderXCoords {
     startX: number;

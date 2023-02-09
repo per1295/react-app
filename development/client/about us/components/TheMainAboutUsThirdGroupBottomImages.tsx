@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
-import "../styles/TheMainAboutUsThirdGroupBottomImages.scss";
+
 import BottomImagesImage from "./BottomImagesImage";
+
+import "../styles/TheMainAboutUsThirdGroupBottomImages.scss";
 
 import bottomImage_1 from "../images/bottomImage_1.png";
 import bottomImage_2 from "../images/bottomImage_2.png";

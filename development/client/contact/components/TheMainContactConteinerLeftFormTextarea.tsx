@@ -1,7 +1,14 @@
-import React from "react";
+import React, { FunctionComponent, FormEventHandler } from "react";
+
 import "../styles/TheMainContactConteinerLeftFormTextarea.scss";
 
-export default function TheMainContactConteinerLeftFormTextarea() {
+interface TheMainContactConteinerLeftFormTextareaProps {
+    onInput?: FormEventHandler
+}
+
+const TheMainContactConteinerLeftFormTextarea: FunctionComponent<TheMainContactConteinerLeftFormTextareaProps> =
+({ onInput }) =>
+{
     return(
         <textarea
             name="message"
@@ -10,6 +17,9 @@ export default function TheMainContactConteinerLeftFormTextarea() {
             minLength={10}
             maxLength={50}
             autoComplete="on"
+            onInput={onInput}
         />
     )
 }
+
+export default TheMainContactConteinerLeftFormTextarea;

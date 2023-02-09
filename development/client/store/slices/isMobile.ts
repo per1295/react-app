@@ -4,11 +4,11 @@ const isMobileSlice = createSlice({
     name: "isMobile",
     initialState: false,
     reducers: {
-        setIsMobileTrue(state: boolean) {
-            return state = true;
+        setIsMobileTrue() {
+            return true;
         },
-        setIsMobileFalse(state: boolean) {
-            return state = false;
+        setIsMobileFalse() {
+            return false;
         }
     }
 });

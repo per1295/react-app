@@ -1,9 +1,11 @@
 import React from "react";
-import "../styles/TheMainAboutUs.scss";
+
 import TheMainAboutUsFirstGroup from "./TheMainAboutUsFirstGroup";
 import TheMainAboutUsSecondGroup from "./TheMainAboutUsSecondGroup";
 import TheMainAboutUsThirdGroup from "./TheMainAboutUsThirdGroup";
 import TheMainThirdGroup from "../../globalComponents/TheMainThirdGroup";
+
+import "../styles/TheMainAboutUs.scss";
 
 export default function TheMainAboutUs() {
     return(

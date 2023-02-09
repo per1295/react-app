@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainServicesFirstGroupMain.scss";
+
 import TheMainServicesFirstGroupMainLeft from "./TheMainServicesFirstGroupMainLeft";
 import Img from "../../globalComponents/Img";
+
+import "../styles/TheMainServicesFirstGroupMain.scss";
 
 import mainServices_image from "../images/mainServices_image.png";
 

@@ -1,8 +1,10 @@
 import React from "react";
-import "../globalStyles/TheFooterConteiner.scss";
+
 import TheFooterConteinerHrefs from "./TheFooterConteinerHrefs";
 import TheFooterConteinerCopyRight from "./TheFooterConteinerCopyRight";
 import TheFooterConteinerIcons from "./TheFooterConteinerIcons";
+
+import "../globalStyles/TheFooterConteiner.scss";
 
 export default function TheFooterConteiner() {
     return(

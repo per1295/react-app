@@ -1,7 +1,9 @@
 import React, { useState, createContext, Dispatch, SetStateAction } from "react";
-import "../styles/TheMainSecondGroupCategory.scss";
+
 import TheMainSecondGroupCategoryLeft from "./TheMainSecondGroupCategoryLeft";
 import TheMainSecondGroupCategoryRight from "./TheMainSecondGroupCategoryRight";
+
+import "../styles/TheMainSecondGroupCategory.scss";
 
 interface CategoryContext {
     category: string;

@@ -41,3 +41,7 @@ body::-webkit-scrollbar-thumb {
 .isFetched {
     animation: .25s ease forwards isFetched;
 }
+
+* {
+    user-select: none;
+}

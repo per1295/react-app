@@ -1,5 +1,6 @@
 import React from "react";
 import { useBlogData, useIdOfBlog } from "../../customHooks";
+
 import "../styles/MainBlogBodyItemDescription.scss";
 
 export default function MainBlogBodyItemDescription() {

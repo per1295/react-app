@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainServicesFirstGroupMainLeft.scss";
+
 import Information from "../../globalComponents/Information";
-import MainServicesFirstGroupMainLeftCheckboxes from "./MainServicesFirstGroupMainLeftCheckboxes"
+import MainServicesFirstGroupMainLeftCheckboxes from "./MainServicesFirstGroupMainLeftCheckboxes";
+
+import "../styles/TheMainServicesFirstGroupMainLeft.scss";
 
 export default function TheMainServicesFirstGroupMainLeft() {
     const firstTitles = [

@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainAboutUsSecondGroup.scss";
+
 import TitleOfGroup from "../../globalComponents/TitleOfGroup";
 import TheMainAboutUsSecondGroupOptions from "./TheMainAboutUsSecondGroupOptions";
+
+import "../styles/TheMainAboutUsSecondGroup.scss";
 
 export default function TheMainAboutUsSecondGroup() {
     return(

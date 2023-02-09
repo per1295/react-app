@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
+
 import IonIcon from "@reacticons/ionicons";
+
 import "../styles/CheckboxLine.scss";
 
 interface CheckboxLineProps {

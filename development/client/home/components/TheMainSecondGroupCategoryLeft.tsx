@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainSecondGroupCategoryLeft.scss";
+
 import TheMainSecondGroupCategoryLeftOptions from "./TheMainSecondGroupCategoryLeftOptions";
+
+import "../styles/TheMainSecondGroupCategoryLeft.scss";
 
 export default function TheMainSecondGroupCategoryLeft() {
     return(

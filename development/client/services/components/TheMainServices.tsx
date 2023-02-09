@@ -1,7 +1,9 @@
 import React from "react";
+
 import TheMainServicesFirstGroup from "./TheMainServicesFirstGroup";
-import "../styles/TheMainServices.scss";
 import TheMainServicesSecondGroup from "./TheMainServicesSecondGroup";
+
+import "../styles/TheMainServices.scss";
 
 export default function TheMainServices() {
     return(

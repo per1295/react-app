@@ -1,6 +1,10 @@
 import React, { FormEventHandler, useRef, useState, AnimationEventHandler, useEffect } from "react";
-import { useInputValidation, useFetch } from "../customHooks";
-import { useTypedSelector } from "../customHooks";
+import { useTypedSelector, useDispatch, useFormValidation } from "../customHooks";
+import { useFetcher } from "react-router-dom";
+import { checkFields } from "../../functions";
+import cookie from "cookiejs";
+import { setUserData } from "../store/slices/userData";
+import type { IContactData } from "../../types/contact";
 
 import TheConteinerEmailInput from "./TheConteinerEmailInput";
 import Button from "./Button";
@@ -10,45 +14,54 @@ import "../globalStyles/TheConteinerEmail.scss";
 import "../globalStyles/TheConteinerEmailSubmit.scss";
 
 export default function TheConteinerEmail() {
-    const emailElem = useRef<HTMLInputElement>(null);
-    const formElem = useRef<HTMLFormElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
     const messageRef = useRef<HTMLSpanElement>(null);
-
     const [ message, setMessage ] = useState<string | null>(null);
-    const { value, error } = useInputValidation(emailElem);
-    const fetch = useFetch<string>("/email", "text", {
-        method: "post",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ "email": value })
-    });
+    const { formElements } = useFormValidation(formRef);
     const userData = useTypedSelector<"userData">(state => state.userData);
+    const fetcher = useFetcher<string>();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const form = formElem.current as HTMLFormElement;
-
         if ( userData ) {
-            if ( Object.entries(userData).length >= 2) {
+            const formElem = formRef.current;
 
-                setMessage("You already sent email");
-                
-                form.classList.add("isFetched");
+            if ( formElem && checkFields(userData, "id", "email") ) {
+                setMessage(message => message ? message : "You already sent email");
+                formElem.classList.add("isFetched");
             }
         }
     }, [ userData ]);
 
+    useEffect(() => {
+        const formElem = formRef.current;
+        
+        if ( formElem && fetcher.data ) {
+            setMessage(fetcher.data);
+            formElem.classList.add("isFetched");
+
+            const { id, name, email, object, message } = cookie.all();
+            const cookies = { id, name, email, object, message } as IContactData;
+            
+            if ( checkFields(cookies, "id", "email") ) {
+                dispatch(
+                    setUserData(cookies)
+                );
+            }
+        }
+    }, [ fetcher.data ]);
+
     const onSubmit: FormEventHandler = async ( event ) => {
         event.preventDefault();
 
-        const form = formElem.current as HTMLFormElement;
+        const formElem = formRef.current;
+        const isError = formElements.some(formElem => formElem.isError);
 
-        if ( !error && !userData) {
-            const response = await fetch();
-            
-            setMessage(response);
-            
-            form.classList.add("isFetched");
+        if ( formElem && !isError ) {
+            fetcher.submit(formElem, {
+                method: "post",
+                action: "/api/email"
+            });
         };
     };
 
@@ -64,17 +77,17 @@ export default function TheConteinerEmail() {
 
     return(
         <>
-            <form
-                ref={formElem}
+            <fetcher.Form
+                ref={formRef}
                 className="conteiner_email"
                 onSubmit={onSubmit}
                 onAnimationEnd={onAnimationEnd}
             >
-                <TheConteinerEmailInput ref={emailElem}/>
+                <TheConteinerEmailInput />
                 <Button className="conteiner_email__submit" startColor="green" type="submit">
                     send
                 </Button>
-            </form>
+            </fetcher.Form>
             <EmailMessage ref={messageRef}>
                 { message ?? "" }
             </EmailMessage>

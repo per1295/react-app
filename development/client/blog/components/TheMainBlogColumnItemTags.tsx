@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainBlogColumnItemTags.scss";
+
 import MainBlogColumnItemTagsTag from "./MainBlogColumnItemTagsTag";
+
+import "../styles/TheMainBlogColumnItemTags.scss";
 
 export default function TheMainBlogColumnItemTags() {
     const tags = [

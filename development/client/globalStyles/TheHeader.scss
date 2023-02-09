@@ -10,7 +10,8 @@
     background-size: cover;
 
     @media screen and ( max-width: 750px ) {
-        height: auto;
+        height: unset;
         padding-bottom: 90px;
+        background-position: center;
     }
 }

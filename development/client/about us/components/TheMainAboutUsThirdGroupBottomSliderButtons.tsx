@@ -1,6 +1,8 @@
 import React from "react";
-import "../styles/TheMainAboutUsThirdGroupBottomSliderButtons.scss";
+
 import BottomSliderButtonsButton from "./BottomSliderButtonsButton";
+
+import "../styles/TheMainAboutUsThirdGroupBottomSliderButtons.scss";
 
 export default function TheMainAboutUsThirdGroupBottomSliderButtons() {
     return(

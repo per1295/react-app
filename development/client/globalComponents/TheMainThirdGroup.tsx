@@ -1,11 +1,13 @@
 import React from "react";
-import "../globalStyles/TheMainThirdGroup.scss";
+
 import TheMainThirdGroupConteiner from "./TheMainThirdGroupConteiner";
+
+import "../globalStyles/TheMainThirdGroup.scss";
 
 export default function TheMainThirdGroup() {
     return(
         <div className="main_thirdGroup">
-            <TheMainThirdGroupConteiner/>
+            <TheMainThirdGroupConteiner />
         </div>
     )
 }

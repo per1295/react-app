@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+
 import "../styles/MainBlogColumnItem.scss";
 
 interface MainBlogColumnItemProps {

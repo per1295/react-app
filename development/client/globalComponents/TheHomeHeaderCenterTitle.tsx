@@ -1,4 +1,5 @@
 import React from "react";
+
 import "../globalStyles/TheHomeHeaderCenterTitle.scss";
 
 export default function TheHeaderCenterTitle() {

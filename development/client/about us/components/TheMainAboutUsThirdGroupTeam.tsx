@@ -1,6 +1,8 @@
 import React, { useMemo } from "react";
-import "../styles/TheMainAboutUsThirdGroupTeam.scss";
+
 import MainAboutUsThirdGroupTeamItem from "./MainAboutUsThirdGroupTeamItem";
+
+import "../styles/TheMainAboutUsThirdGroupTeam.scss";
 
 import teamItem_1 from "../images/teamItem_1.png";
 import teamItem_2 from "../images/teamItem_2.png";

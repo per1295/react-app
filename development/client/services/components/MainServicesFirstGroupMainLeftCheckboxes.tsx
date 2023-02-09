@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
-import "../styles/MainServicesFirstGroupMainLeftCheckboxes.scss";
+
 import CheckboxLine from "./CheckboxLine";
+
+import "../styles/MainServicesFirstGroupMainLeftCheckboxes.scss";
 
 interface TheMainServicesFirstGroupMainLeftCheckboxesProps {
     titles: string[];

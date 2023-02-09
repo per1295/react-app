@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef } from "react";
+
 import { CategoryType } from "./TheMainBlogColumnItemPosts";
+
 import "../styles/TheMainBlogColumnItemPostsLine.scss";
 
 interface TheMainBlogColumnItemPostsLineProps {

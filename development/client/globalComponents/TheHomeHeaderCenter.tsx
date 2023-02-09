@@ -1,11 +1,12 @@
 import React from "react";
-import "../globalStyles/TheHomeHeaderCenter.scss";
-import "../globalStyles/TheHomeHeaderCenterGreenBlock.scss";
-import "../globalStyles/TheHomeHeaderCenterInformation.scss";
 
 import GreenBlock from "./GreenBlock";
 import TheHeaderCenterTitle from "./TheHomeHeaderCenterTitle";
 import Information from "./Information";
+
+import "../globalStyles/TheHomeHeaderCenter.scss";
+import "../globalStyles/TheHomeHeaderCenterGreenBlock.scss";
+import "../globalStyles/TheHomeHeaderCenterInformation.scss";
 
 export default function TheHeaderCenter() {
     return(

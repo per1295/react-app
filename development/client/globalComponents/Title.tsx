@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
+
 import GreenBlock from "./GreenBlock";
+
 import "../globalStyles/Title.scss";
 
 interface TitleProps {

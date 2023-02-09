@@ -1,7 +1,9 @@
 import React from "react";
-import "../styles/TheMainContactConteiner.scss";
+
 import TheMainContactConteinerLeft from "./TheMainContactConteinerLeft";
 import Img from "../../globalComponents/Img";
+
+import "../styles/TheMainContactConteiner.scss";
 
 import mainContact_map from "../images/mainContact_map.png";
 

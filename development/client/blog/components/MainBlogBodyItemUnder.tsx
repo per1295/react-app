@@ -1,8 +1,10 @@
 import React from "react";
-import "../styles/MainBlogBodyItemUnder.scss";
+
 import MainBlogBodyItemUnderDate from "./MainBlogBodyItemUnderDate";
 import MainBlogBodyItemUnderComments from "./MainBlogBodyItemUnderComments";
 import MainBlogBodyItemUnderLikes from "./MainBlogBodyItemUnderLikes";
+
+import "../styles/MainBlogBodyItemUnder.scss";
 
 export default function MainBlogBodyItemUnder() {
     return(

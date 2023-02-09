@@ -1,8 +1,10 @@
 import React, { FunctionComponent } from "react";
+
 import Title from "../../globalComponents/Title";
-import "../styles/MainAboutUsFirstGroupItem.scss";
 import MainAboutUsFirstGroupItemUnderTitle from "./MainAboutUsFirstGroupItemUnderTitle";
 import Information from "../../globalComponents/Information";
+
+import "../styles/MainAboutUsFirstGroupItem.scss";
 
 interface MainAboutUsFirstGroupItemProps {
     title: string;

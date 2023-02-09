@@ -1,9 +1,12 @@
 import React, { MouseEvent, PointerEventHandler, useEffect, useRef } from "react";
-import IonIcon from "@reacticons/ionicons";
-import "../globalStyles/TheFooterConteinerIcons.scss";
 import { useTypedSelector } from "../customHooks";
 import store from "../store/store";
 import { setIsOnDocumentFalse } from "../store/slices/isOnDocument";
+import IconList from "@reacticons/ionicons/lib/components/iconList.json";
+
+import IonIcon from "@reacticons/ionicons";
+
+import "../globalStyles/TheFooterConteinerIcons.scss";
 
 const TheFooterConteinerIcons = () => {
     const isMobile = useTypedSelector<"isMobile">(state => state.isMobile);
@@ -20,7 +23,7 @@ const TheFooterConteinerIcons = () => {
         "logo-linkedin",
         "logo-pinterest",
         "logo-instagram"
-    ];
+    ] as unknown as (keyof typeof IconList)[];
 
     useEffect(() => {
         if ( isMobileOrTablet ) {
@@ -56,13 +59,14 @@ const TheFooterConteinerIcons = () => {
         <div className="footer_conteiner__icons" ref={iconsConteinerRef}>
             { namesIcons.map((item, index) => (
                 <IonIcon
-                key={index}
-                name={item}
-                className="footer_conteiner__icons___icon"
-                onPointerEnter={isMobileOrTablet ? undefined : (event) => onEnter(event, item)}
-                onPointerLeave={isMobileOrTablet ? undefined : (event) => onLeave(event, item)}
-                onClick={isMobileOrTablet ? (event) => onEnter(event, item) : undefined}
-                onPointerDown={isMobileOrTablet ? onPointerDown : undefined}/>
+                    key={index}
+                    name={item}
+                    className="footer_conteiner__icons___icon"
+                    onPointerEnter={isMobileOrTablet ? undefined : (event) => onEnter(event, item)}
+                    onPointerLeave={isMobileOrTablet ? undefined : (event) => onLeave(event, item)}
+                    onClick={isMobileOrTablet ? (event) => onEnter(event, item) : undefined}
+                    onPointerDown={isMobileOrTablet ? onPointerDown : undefined}
+                />
             )) }    
         </div>
     )

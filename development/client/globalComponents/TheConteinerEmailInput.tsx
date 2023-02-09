@@ -1,15 +1,31 @@
-import React, { forwardRef } from "react";
+import React, { useEffect, useRef, FormEventHandler } from "react";
+
 import "../globalStyles/TheConteinerEmailInput.scss";
 
-const TheConteinerEmailInput = forwardRef<HTMLInputElement>((_props, ref) => (
-    <input
-        ref={ref}
-        type="email"
-        name="email"
-        className="conteiner_email__input"
-        placeholder="your email"
-        autoComplete="on"
-    />
-))
+export default function TheConteinerEmailInput() {
+    const inputRef = useRef<HTMLInputElement>(null);
 
-export default TheConteinerEmailInput;
+    useEffect(() => {
+        const inputElem = inputRef.current;
+
+        if ( inputElem ) {
+            inputElem.value = localStorage.getItem("email") ?? inputElem.value;
+        }
+    }, []);
+
+    const onInput: FormEventHandler<HTMLInputElement> = event => {
+        localStorage.setItem("email", event.currentTarget.value);
+    }
+
+    return(
+        <input
+            ref={inputRef}
+            type="email"
+            name="email"
+            className="conteiner_email__input"
+            placeholder="your email"
+            autoComplete="on"
+            onInput={onInput}
+        />
+    )
+}

@@ -1,8 +1,10 @@
 import React from "react";
+
 import TitleOfGroup from "../../globalComponents/TitleOfGroup";
-import "../styles/TheMainServicesFirstGroup.scss";
 import TheMainServicesFirstGroupMain from "./TheMainServicesFirstGroupMain";
 import TheMainServicesFirstGroupUnder from "./TheMainServicesFirstGroupUnder";
+
+import "../styles/TheMainServicesFirstGroup.scss";
 
 export default function TheMainServicesFirstGroup() {
     return(
